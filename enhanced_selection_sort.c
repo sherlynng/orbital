@@ -1,4 +1,6 @@
 // selection_sort.c
+//GIT test edit text
+
 #include <stdio.h>
 #define MAX_ELEMENTS 10
 
