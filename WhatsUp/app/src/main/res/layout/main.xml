@@ -31,7 +31,7 @@
                 android:background="@color/colorAccent">
 
                 <TextView
-                    android:id="@+id/currentScore"
+                    android:id="@+id/currentScoreText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -39,11 +39,12 @@
 
 
                 <TextView
+                    android:id="@+id/currentScore"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/currentScore"
+                    android:layout_below="@id/currentScoreText"
                     android:layout_centerInParent="true"
-                    android:text="bbb"
+                    android:text="0"
                     android:textSize="20dp"/>
             </RelativeLayout>
 
@@ -63,7 +64,7 @@
 
 
                 <TextView
-                    android:id="@+id/bestScore"
+                    android:id="@+id/bestScoreText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -71,11 +72,12 @@
 
 
                 <TextView
+                    android:id="@+id/bestScore"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/bestScore"
+                    android:layout_below="@id/bestScoreText"
                     android:layout_centerInParent="true"
-                    android:text="bbb"
+                    android:text="0"
                     android:textSize="20dp"/>
             </RelativeLayout>
 
