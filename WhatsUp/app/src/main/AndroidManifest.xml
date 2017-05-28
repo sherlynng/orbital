@@ -39,6 +39,9 @@
         <activity android:name=".GameOver"
             android:theme="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
+        <activity android:name=".TimesUp"
+            android:theme="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
     </application>
 
 </manifest>

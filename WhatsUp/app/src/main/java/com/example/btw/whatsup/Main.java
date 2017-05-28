@@ -3,6 +3,7 @@ package com.example.btw.whatsup;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 import static com.example.btw.whatsup.R.id.btn1;
+import static com.example.btw.whatsup.R.id.countdown;
 
 /**
  * Created by BTW on 5/24/2017.
@@ -30,6 +33,7 @@ public class Main extends Activity implements OnClickListener {
     private int life;
     private int current;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -45,6 +49,7 @@ public class Main extends Activity implements OnClickListener {
         //321 timer animation before game starts
         timerAnimation();
 
+        //set onClickListeners for all buttons
         View upBtn = this.findViewById(R.id.up_button);
         upBtn.setOnClickListener(this);
         View btn1 = this.findViewById(R.id.btn1);
@@ -97,158 +102,27 @@ public class Main extends Activity implements OnClickListener {
         btn24.setOnClickListener(this);
         View btn25 = this.findViewById(R.id.btn25);
         btn25.setOnClickListener(this);
+
+        new CountDownTimer(120000, 1000) {
+            TextView v = (TextView) findViewById(R.id.countdown);
+
+            public void onTick(long millisUntilFinished) {
+                v.setText("" + String.format("%02d : %02d",
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+            public void onFinish() {
+              TimesUp();
+            }
+        }.start();
     }
 
-    public boolean checkUp(){
-        return (current%UP==0) || checkDigit();
-    }
-
-    public boolean checkDigit(){
-        String cur = Integer.toString(current);
-        String upString = Integer.toString(UP);
-
-        return cur.contains(upString);
-    }
-
-    //Brute force
-    //Finds and change the digit for UP num
-    public void findCurrent(){
-        Button btn1 = (Button) findViewById(R.id.btn1);
-        if(Integer.parseInt(btn1.getText().toString()) == current) {
-            changeNo(btn1);
-            return;
-        }
-        Button btn2 = (Button) findViewById(R.id.btn2);
-        if(Integer.parseInt(btn2.getText().toString()) == current) {
-            changeNo(btn2);
-            return;
-        }
-        Button btn3 = (Button) findViewById(R.id.btn3);
-        if(Integer.parseInt(btn3.getText().toString()) == current) {
-            changeNo(btn3);
-            return;
-        }
-        Button btn4 = (Button) findViewById(R.id.btn4);
-        if(Integer.parseInt(btn4.getText().toString()) == current) {
-            changeNo(btn4);
-            return;
-        }
-        Button btn5 = (Button) findViewById(R.id.btn5);
-        if(Integer.parseInt(btn5.getText().toString()) == current) {
-            changeNo(btn5);
-            return;
-        }
-        Button btn6 = (Button) findViewById(R.id.btn6);
-        if(Integer.parseInt(btn6.getText().toString()) == current) {
-            changeNo(btn6);
-            return;
-        }
-        Button btn7 = (Button) findViewById(R.id.btn7);
-        if(Integer.parseInt(btn7.getText().toString()) == current) {
-            changeNo(btn7);
-            return;
-        }
-        Button btn8 = (Button) findViewById(R.id.btn8);
-        if(Integer.parseInt(btn8.getText().toString()) == current) {
-            changeNo(btn8);
-            return;
-        }
-        Button btn9 = (Button) findViewById(R.id.btn9);
-        if(Integer.parseInt(btn9.getText().toString()) == current) {
-            changeNo(btn9);
-            return;
-        }
-        Button btn10 = (Button) findViewById(R.id.btn10);
-        if(Integer.parseInt(btn10.getText().toString()) == current) {
-            changeNo(btn10);
-            return;
-        }
-        Button btn11 = (Button) findViewById(R.id.btn11);
-        if(Integer.parseInt(btn11.getText().toString()) == current) {
-            changeNo(btn11);
-            return;
-        }
-        Button btn12 = (Button) findViewById(R.id.btn12);
-        if(Integer.parseInt(btn12.getText().toString()) == current) {
-            changeNo(btn12);
-            return;
-        }
-        Button btn13 = (Button) findViewById(R.id.btn13);
-        if(Integer.parseInt(btn13.getText().toString()) == current) {
-            changeNo(btn13);
-            return;
-        }
-        Button btn14 = (Button) findViewById(R.id.btn14);
-        if(Integer.parseInt(btn14.getText().toString()) == current) {
-            changeNo(btn14);
-            return;
-        }
-        Button btn15 = (Button) findViewById(R.id.btn15);
-        if(Integer.parseInt(btn15.getText().toString()) == current) {
-            changeNo(btn15);
-            return;
-        }
-        Button btn16 = (Button) findViewById(R.id.btn16);
-        if(Integer.parseInt(btn16.getText().toString()) == current) {
-            changeNo(btn16);
-            return;
-        }
-        Button btn17 = (Button) findViewById(R.id.btn17);
-        if(Integer.parseInt(btn17.getText().toString()) == current) {
-            changeNo(btn17);
-            return;
-        }
-        Button btn18 = (Button) findViewById(R.id.btn18);
-        if(Integer.parseInt(btn18.getText().toString()) == current) {
-            changeNo(btn18);
-            return;
-        }
-        Button btn19 = (Button) findViewById(R.id.btn19);
-        if(Integer.parseInt(btn19.getText().toString()) == current) {
-            changeNo(btn19);
-            return;
-        }
-        Button btn20 = (Button) findViewById(R.id.btn20);
-        if(Integer.parseInt(btn20.getText().toString()) == current) {
-            changeNo(btn20);
-            return;
-        }
-        Button btn21 = (Button) findViewById(R.id.btn21);
-        if(Integer.parseInt(btn21.getText().toString()) == current) {
-            changeNo(btn21);
-            return;
-        }
-        Button btn22 = (Button) findViewById(R.id.btn22);
-        if(Integer.parseInt(btn22.getText().toString()) == current) {
-            changeNo(btn22);
-            return;
-        }
-        Button btn23 = (Button) findViewById(R.id.btn23);
-        if(Integer.parseInt(btn23.getText().toString()) == current) {
-            changeNo(btn23);
-            return;
-        }
-        Button btn24 = (Button) findViewById(R.id.btn24);
-        if(Integer.parseInt(btn24.getText().toString()) == current) {
-            changeNo(btn24);
-            return;
-        }
-        Button btn25 = (Button) findViewById(R.id.btn25);
-        if(Integer.parseInt(btn25.getText().toString()) == current) {
-            changeNo(btn25);
-            return;
-        }
-    }
-
-    public void GameOver(){
-        Intent i = new Intent(this, GameOver.class);
-        this.startActivity(i);
-    }
 
     public void Game() {
+
         boolean isUp;
         isUp = checkUp();
-
         if (isUp) {   //UP num
             if (pressedID == R.id.up_button) {  //Correct
                 score += current;
@@ -277,38 +151,157 @@ public class Main extends Activity implements OnClickListener {
         }
     }
 
-    //pseudo code
-    /*
-    public void Game() {
-        int current=1;
-        for (current==1, isAlive&&WithinTime;current++){
-            Wait for userInput;
-            boolean isUp=(current%UP==0||containsUP(current));
-            if(isUp){
-                if(userInput is Up button){
-                    changeNo(cur,button id of button with value of current);
-                }
-                else {
-                    isAlive==false;
-                }
-            }
-            else{
-                if(userInput==current){
-                    score+=current;
-                    update scoreboard
-                    changeNo(cur, button id of the button user pressed);
-                }
-                else{
-                    shakeScreenAnimation();
-                    numLives--;
-                    if(numLives==0){
-                        isAlive=false;
-                    }
-                }
-            }
+    public boolean checkUp() {
+        return (current % UP == 0) || checkDigit();
+    }
+
+    public boolean checkDigit() {
+        String cur = Integer.toString(current);
+        String upString = Integer.toString(UP);
+
+        return cur.contains(upString);
+    }
+
+    //Brute force
+    //Finds and change the digit for UP num
+    public void findCurrent() {
+        Button btn1 = (Button) findViewById(R.id.btn1);
+        if (Integer.parseInt(btn1.getText().toString()) == current) {
+            changeNo(btn1);
+            return;
+        }
+        Button btn2 = (Button) findViewById(R.id.btn2);
+        if (Integer.parseInt(btn2.getText().toString()) == current) {
+            changeNo(btn2);
+            return;
+        }
+        Button btn3 = (Button) findViewById(R.id.btn3);
+        if (Integer.parseInt(btn3.getText().toString()) == current) {
+            changeNo(btn3);
+            return;
+        }
+        Button btn4 = (Button) findViewById(R.id.btn4);
+        if (Integer.parseInt(btn4.getText().toString()) == current) {
+            changeNo(btn4);
+            return;
+        }
+        Button btn5 = (Button) findViewById(R.id.btn5);
+        if (Integer.parseInt(btn5.getText().toString()) == current) {
+            changeNo(btn5);
+            return;
+        }
+        Button btn6 = (Button) findViewById(R.id.btn6);
+        if (Integer.parseInt(btn6.getText().toString()) == current) {
+            changeNo(btn6);
+            return;
+        }
+        Button btn7 = (Button) findViewById(R.id.btn7);
+        if (Integer.parseInt(btn7.getText().toString()) == current) {
+            changeNo(btn7);
+            return;
+        }
+        Button btn8 = (Button) findViewById(R.id.btn8);
+        if (Integer.parseInt(btn8.getText().toString()) == current) {
+            changeNo(btn8);
+            return;
+        }
+        Button btn9 = (Button) findViewById(R.id.btn9);
+        if (Integer.parseInt(btn9.getText().toString()) == current) {
+            changeNo(btn9);
+            return;
+        }
+        Button btn10 = (Button) findViewById(R.id.btn10);
+        if (Integer.parseInt(btn10.getText().toString()) == current) {
+            changeNo(btn10);
+            return;
+        }
+        Button btn11 = (Button) findViewById(R.id.btn11);
+        if (Integer.parseInt(btn11.getText().toString()) == current) {
+            changeNo(btn11);
+            return;
+        }
+        Button btn12 = (Button) findViewById(R.id.btn12);
+        if (Integer.parseInt(btn12.getText().toString()) == current) {
+            changeNo(btn12);
+            return;
+        }
+        Button btn13 = (Button) findViewById(R.id.btn13);
+        if (Integer.parseInt(btn13.getText().toString()) == current) {
+            changeNo(btn13);
+            return;
+        }
+        Button btn14 = (Button) findViewById(R.id.btn14);
+        if (Integer.parseInt(btn14.getText().toString()) == current) {
+            changeNo(btn14);
+            return;
+        }
+        Button btn15 = (Button) findViewById(R.id.btn15);
+        if (Integer.parseInt(btn15.getText().toString()) == current) {
+            changeNo(btn15);
+            return;
+        }
+        Button btn16 = (Button) findViewById(R.id.btn16);
+        if (Integer.parseInt(btn16.getText().toString()) == current) {
+            changeNo(btn16);
+            return;
+        }
+        Button btn17 = (Button) findViewById(R.id.btn17);
+        if (Integer.parseInt(btn17.getText().toString()) == current) {
+            changeNo(btn17);
+            return;
+        }
+        Button btn18 = (Button) findViewById(R.id.btn18);
+        if (Integer.parseInt(btn18.getText().toString()) == current) {
+            changeNo(btn18);
+            return;
+        }
+        Button btn19 = (Button) findViewById(R.id.btn19);
+        if (Integer.parseInt(btn19.getText().toString()) == current) {
+            changeNo(btn19);
+            return;
+        }
+        Button btn20 = (Button) findViewById(R.id.btn20);
+        if (Integer.parseInt(btn20.getText().toString()) == current) {
+            changeNo(btn20);
+            return;
+        }
+        Button btn21 = (Button) findViewById(R.id.btn21);
+        if (Integer.parseInt(btn21.getText().toString()) == current) {
+            changeNo(btn21);
+            return;
+        }
+        Button btn22 = (Button) findViewById(R.id.btn22);
+        if (Integer.parseInt(btn22.getText().toString()) == current) {
+            changeNo(btn22);
+            return;
+        }
+        Button btn23 = (Button) findViewById(R.id.btn23);
+        if (Integer.parseInt(btn23.getText().toString()) == current) {
+            changeNo(btn23);
+            return;
+        }
+        Button btn24 = (Button) findViewById(R.id.btn24);
+        if (Integer.parseInt(btn24.getText().toString()) == current) {
+            changeNo(btn24);
+            return;
+        }
+        Button btn25 = (Button) findViewById(R.id.btn25);
+        if (Integer.parseInt(btn25.getText().toString()) == current) {
+            changeNo(btn25);
+            return;
         }
     }
-    */
+
+    public void GameOver() {
+        Intent i = new Intent(this, GameOver.class);
+        this.startActivity(i);
+    }
+
+    public void TimesUp(){
+        Intent i = new Intent(this, TimesUp.class);
+        this.startActivity(i);
+    }
+
     public void timerAnimation() {
 
     }
@@ -325,7 +318,7 @@ public class Main extends Activity implements OnClickListener {
 
     protected void changeNo(Button btn) {
         if (fillArr.isEmpty()) {
-            for (int i = current+25; i <= current+34; i++) {
+            for (int i = current + 25; i <= current + 34; i++) {
                 fillArr.add(i);
             }
             Collections.shuffle(fillArr);
