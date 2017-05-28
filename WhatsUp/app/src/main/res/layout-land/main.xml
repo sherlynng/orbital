@@ -19,13 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="20dp"
-           >
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            >
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorAccent">
 
@@ -40,7 +40,7 @@
                 <TextView
                     android:id="@+id/currentScore"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/currentScoreText"
                     android:layout_centerInParent="true"
                     android:text="0"
@@ -50,7 +50,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@color/background">
 
@@ -66,7 +66,7 @@
                 <TextView
                     android:id="@+id/countdown"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/countdownText"
                     android:layout_centerInParent="true"
                     android:text="00:00:00"
@@ -75,7 +75,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorAccent">
 
@@ -91,7 +91,7 @@
                 <TextView
                     android:id="@+id/bestScore"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/bestScoreText"
                     android:layout_centerInParent="true"
                     android:text="0"
@@ -106,9 +106,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
+        android:layout_weight="6"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="1dp">
 
 
         <LinearLayout
@@ -302,14 +302,14 @@
 
             <Button
                 android:id="@+id/up_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/circle_button"
                 android:text="Up!"
                 android:textColor="#fff"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 import static com.example.btw.whatsup.R.id.btn1;
 import static com.example.btw.whatsup.R.id.countdown;
@@ -103,6 +106,7 @@ public class Main extends Activity implements OnClickListener {
         View btn25 = this.findViewById(R.id.btn25);
         btn25.setOnClickListener(this);
 
+
         new CountDownTimer(120000, 1000) {
             TextView v = (TextView) findViewById(R.id.countdown);
 
@@ -112,8 +116,9 @@ public class Main extends Activity implements OnClickListener {
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
             }
+
             public void onFinish() {
-              TimesUp();
+                TimesUp();
             }
         }.start();
     }
@@ -297,7 +302,7 @@ public class Main extends Activity implements OnClickListener {
         this.startActivity(i);
     }
 
-    public void TimesUp(){
+    public void TimesUp() {
         Intent i = new Intent(this, TimesUp.class);
         this.startActivity(i);
     }

@@ -47,8 +47,8 @@ public class ChooseUp extends Activity implements AdapterView.OnItemSelectedList
     }
 
     public void onClick(View v) {
-        Intent intent= new Intent(ChooseUp.this,Main.class);
-        intent.putExtra(Main.UPDIGIT,up);
+        Intent intent= new Intent(ChooseUp.this,Onetwothree.class);
+        intent.putExtra(Onetwothree.UPDIGIT,up);
         startActivity(intent);
     }
 }
