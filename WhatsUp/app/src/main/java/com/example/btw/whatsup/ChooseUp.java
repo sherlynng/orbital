@@ -8,20 +8,42 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by BTW on 5/24/2017.
  */
 
-public class ChooseUp extends Activity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class ChooseUp extends Activity implements View.OnClickListener {
 
     public int up;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        up = ThreadLocalRandom.current().nextInt(3, 9 + 1);
         setContentView(R.layout.chooseup);
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        TextView v= (TextView) findViewById(R.id.UPdigit_display);
+        v.setText(up + "");
+        View button = this.findViewById(R.id.next_button);
+        button.setOnClickListener(this);
+
+    }
+
+    public void onClick(View v) {
+        Intent intent= new Intent(ChooseUp.this,Onetwothree.class);
+        intent.putExtra(Onetwothree.UPDIGIT,up);
+        startActivity(intent);
+    }
+}
+
+    /*  @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.chooseup);
+
+      Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
         View button = this.findViewById(R.id.next_button);
@@ -51,4 +73,6 @@ public class ChooseUp extends Activity implements AdapterView.OnItemSelectedList
         intent.putExtra(Onetwothree.UPDIGIT,up);
         startActivity(intent);
     }
+
 }
+*/

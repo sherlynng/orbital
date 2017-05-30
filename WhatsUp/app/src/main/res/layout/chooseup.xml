@@ -22,7 +22,15 @@
         android:layout_gravity="center"
         android:text="@string/chooseup_title"
         android:layout_margin="2dp"/>
-   <Spinner
+    <TextView
+        android:id="@+id/UPdigit_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:text="@string/UPdigit_dispaly"
+        android:textSize="50dp"/>
+   <!--<Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,12 +39,13 @@
         android:layout_weight="0.08"
         android:spinnerMode="dropdown"
       />
-
+-->
     <Button
         android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="20dp"
         android:text="Next" />
 
 </LinearLayout>

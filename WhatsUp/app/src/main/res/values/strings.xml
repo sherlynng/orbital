@@ -9,7 +9,8 @@
        \t  When the game begins, you will search for the smallest tile in the grid and begin tapping them in ascending order.\n\n
        \t  When you encounter a tile that contains the UP digit or is a multiple of the UP digit, you need to avoid it by tapping the UP button instead.
     </string>
-    <string name="chooseup_title">Choose your UP digit!</string>
+    <string name="chooseup_title">Your UP digit for this round is...</string>
+    <string name="UPdigit_dispaly">random</string>
     <string name="exit_label">Exit</string>
     <string name="about_text">\
    WhatsUp is a great gam

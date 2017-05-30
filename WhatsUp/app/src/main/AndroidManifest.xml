@@ -33,7 +33,7 @@
 
         <activity android:name=".Onetwothree"
             android:label="@string/main_title"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">  <!--@android means reference to android resource file-->
         </activity>
 
         <activity android:name=".Settings"
