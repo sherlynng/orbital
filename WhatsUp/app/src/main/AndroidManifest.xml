@@ -28,6 +28,7 @@
 
         <activity android:name=".Main"
             android:label="@string/main_title"
+          <!--  android:screenOrientation="portrait" -->
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
