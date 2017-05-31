@@ -43,7 +43,7 @@ public class WhatsUp extends Activity implements OnClickListener {
               //  startGame(Game.DIFFICULTY_CONTINUE);
                 break;
             case R.id.new_button:
-                Intent j = new Intent(this, ChooseUp.class);
+                Intent j = new Intent(this, ChooseUpMode.class);
                 this.startActivity(j);
                 break;
             case R.id.exit_button:
@@ -60,7 +60,7 @@ public class WhatsUp extends Activity implements OnClickListener {
     private void startGame() {
        // Log.d(TAG, "clicked on " + i);
         //Start game here
-        Intent intent= new Intent(WhatsUp.this,ChooseUp.class);
+        Intent intent= new Intent(WhatsUp.this,ChooseUpMode.class);
      //   intent.putExtra(Game.KEY_DIFFICULTY,i); //extraData is a map of key(string)/value(in this case int) pairs
         startActivity(intent);
     }

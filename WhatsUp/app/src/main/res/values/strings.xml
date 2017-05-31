@@ -13,8 +13,11 @@
     <string name="UPdigit_dispaly">random</string>
     <string name="exit_label">Exit</string>
     <string name="about_text">\
-   WhatsUp is a great gam
+   WhatsUp is a great game
         </string>
+    <string name="GameOver_Message1">Time\'s up!</string>
+    <string name="GameOver_Message2">It\'s a UP number!</string>
+    <string name="GameOver_Message3">Be more accurate!...</string>
     <string name="settings_label">Settings...</string>
     <string name="settings_title">WhatsUp settings</string>
     <string name="settings_shortcut">s</string>

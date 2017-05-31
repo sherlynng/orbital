@@ -43,7 +43,14 @@ public class Onetwothree extends Activity {
                 else {
                     TextView v= (TextView) findViewById(R.id.textView123);
                     v.setText("Start!");
-                    startGame();
+                    final Handler handler1 = new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                           // startGame();
+                        }
+                    }, 500);
                 }
             }
         };
@@ -54,6 +61,9 @@ public class Onetwothree extends Activity {
 
         Intent intent= new Intent(this,Main.class);
         intent.putExtra(Main.UPDIGIT,UP);
+        finish();
         startActivity(intent);
+
     }
+
 }

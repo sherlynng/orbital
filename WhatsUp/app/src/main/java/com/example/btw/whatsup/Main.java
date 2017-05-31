@@ -1,17 +1,21 @@
 package com.example.btw.whatsup;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,6 +39,7 @@ public class Main extends Activity implements OnClickListener {
     private int score;
     private int life;
     private int current;
+    private CountDownTimer cdt;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +54,13 @@ public class Main extends Activity implements OnClickListener {
         score = 0;
         life = 3;
         current = 1;
-        //321 timer animation before game starts
-        timerAnimation();
+
+
+        //321 animation
+        Intent intent = new Intent(this, Onetwothree.class);
+        intent.putExtra(Onetwothree.UPDIGIT, UP);
+        startActivity(intent);
+
 
         //set onClickListeners for all buttons
         View upBtn = this.findViewById(R.id.up_button);
@@ -106,23 +116,47 @@ public class Main extends Activity implements OnClickListener {
         View btn25 = this.findViewById(R.id.btn25);
         btn25.setOnClickListener(this);
 
+        TextView v = (TextView) findViewById(R.id.countdown);
+        v.setText("-- : --");
 
-        new CountDownTimer(120000, 1000) {
-            TextView v = (TextView) findViewById(R.id.countdown);
+        final Handler handler = new Handler();
+        final Runnable counter = new Runnable() {
+            @Override
+            public void run() {
+                cdt = new CountDownTimer(120000, 100) {
+                    TextView v = (TextView) findViewById(R.id.countdown);
 
-            public void onTick(long millisUntilFinished) {
-                v.setText("" + String.format("%02d : %02d",
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                    public void onTick(long millisUntilFinished) {
+                        v.setText("" + String.format("%02d : %02d",
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                    }
+
+                    public void onFinish() {
+                        v.setText("00 : 00");
+                        cdt.cancel();
+                        GameOver(1);
+                    }
+                }.start();
+
             }
-
-            public void onFinish() {
-                TimesUp();
-            }
-        }.start();
+        };
+        handler.postDelayed(counter, 5000);
     }
 
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        //save the current grid
+
+    }
+
+    public void onResume(){
+        super.onResume();
+    }
 
     public void Game() {
 
@@ -132,12 +166,12 @@ public class Main extends Activity implements OnClickListener {
             if (pressedID == R.id.up_button) {  //Correct
                 score += current;
                 findCurrent();
-
                 TextView scoreBoard = (TextView) findViewById(R.id.currentScore);
                 scoreBoard.setText(score + "");
                 current++;
-            } else {                            //Wrong
-                GameOver();
+            } else {//Wrong
+                cdt.cancel();
+                GameOver(2);
             }
         } else {   //Not UP num
             if (pressedNum == current) {      //Correct
@@ -148,10 +182,16 @@ public class Main extends Activity implements OnClickListener {
                 scoreBoard.setText(score + "");
                 current++;
             } else {                            //Wrong
-                //Shake screen
+
+
                 life--;
-                if (life <= 0)
-                    GameOver();
+                if (life <= 0) {
+                    cdt.cancel();
+                    GameOver(3);
+                    return;
+                }
+                //Shake screen
+                pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim));
             }
         }
     }
@@ -297,18 +337,10 @@ public class Main extends Activity implements OnClickListener {
         }
     }
 
-    public void GameOver() {
+    public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
+        i.putExtra(GameOver.REASON, r);
         this.startActivity(i);
-    }
-
-    public void TimesUp() {
-        Intent i = new Intent(this, TimesUp.class);
-        this.startActivity(i);
-    }
-
-    public void timerAnimation() {
-
     }
 
 
@@ -418,6 +450,7 @@ public class Main extends Activity implements OnClickListener {
     }
 
     public void onClick(View v) {
+
         Button temp;
         switch (v.getId()) {
             case R.id.up_button:
