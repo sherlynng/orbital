@@ -40,7 +40,7 @@ public class Main extends Activity implements OnClickListener {
     private int score;
     private int life;
     private int current;
-    private CountDownTimer cdt;
+    protected CountDownTimerPausable cdt;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,44 +56,46 @@ public class Main extends Activity implements OnClickListener {
         life = 3;
         current = 1;
 
-
         //321 animation
         Intent intent = new Intent(this, Onetwothree.class);
         intent.putExtra(Onetwothree.UPDIGIT, UP);
         startActivity(intent);
+        final TextView timer = (TextView) findViewById(R.id.countdown);
+        timer.setText("-- : --");
+        cdt = new CountDownTimerPausable(120000, 100, true) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timer.setText("" + String.format("%02d : %02d",
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
 
-        TextView v = (TextView) findViewById(R.id.countdown);
-        v.setText("-- : --");
+            @Override
+            public void onFinish() {
+                timer.setText("00 : 00");
+                cdt.cancel();
+                GameOver(1);
+            }
+        };
+
 
         final Handler handler = new Handler();
         final Runnable counter = new Runnable() {
             @Override
             public void run() {
-                cdt = new CountDownTimer(120000, 100) {
-                    TextView v = (TextView) findViewById(R.id.countdown);
-
-                    public void onTick(long millisUntilFinished) {
-                        v.setText("" + String.format("%02d : %02d",
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                    }
-
-                    public void onFinish() {
-                        v.setText("00 : 00");
-                        cdt.cancel();
-                        GameOver(1);
-                    }
-                }.start();
-
+                cdt.create();
             }
         };
         handler.postDelayed(counter, 5000);
+
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
+        cdt.resume();
         //set onClickListeners for all buttons
         View upBtn = this.findViewById(R.id.up_button);
         upBtn.setOnClickListener(this);
@@ -150,10 +152,10 @@ public class Main extends Activity implements OnClickListener {
     }
 
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        cdt.pause();
         TextView t;
         t = (TextView) findViewById(R.id.btn1);
         outState.putCharSequence("btn1", t.getText());
