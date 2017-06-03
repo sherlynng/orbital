@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ public class Main extends Activity implements OnClickListener {
     private int score;
     private int life;
     private int current;
+    protected CountDownTimerPausable cdt;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +55,56 @@ public class Main extends Activity implements OnClickListener {
         score = 0;
         life = 3;
         current = 1;
+<<<<<<< HEAD
 
         //321 animation
         Intent intent= new Intent(this,Onetwothree.class);
         intent.putExtra(Onetwothree.UPDIGIT,UP);
         startActivity(intent);
 
+=======
+>>>>>>> 913674706c94390ddbc5a3896ff334bc76c8872b
 
+        //321 animation
+        Intent intent = new Intent(this, Onetwothree.class);
+        intent.putExtra(Onetwothree.UPDIGIT, UP);
+        startActivity(intent);
+        final TextView timer = (TextView) findViewById(R.id.countdown);
+        timer.setText("-- : --");
+        cdt = new CountDownTimerPausable(120000, 100, true) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timer.setText("" + String.format("%02d : %02d",
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            @Override
+            public void onFinish() {
+                timer.setText("00 : 00");
+                cdt.cancel();
+                GameOver(1);
+            }
+        };
+
+
+        final Handler handler = new Handler();
+        final Runnable counter = new Runnable() {
+            @Override
+            public void run() {
+                cdt.create();
+            }
+        };
+        handler.postDelayed(counter, 5000);
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cdt.resume();
         //set onClickListeners for all buttons
         View upBtn = this.findViewById(R.id.up_button);
         upBtn.setOnClickListener(this);
@@ -112,7 +158,9 @@ public class Main extends Activity implements OnClickListener {
         btn24.setOnClickListener(this);
         View btn25 = this.findViewById(R.id.btn25);
         btn25.setOnClickListener(this);
+    }
 
+<<<<<<< HEAD
         TextView v = (TextView) findViewById(R.id.countdown);
         v.setText("" + String.format("%02d : %02d", 2, 0));
 
@@ -138,8 +186,148 @@ public class Main extends Activity implements OnClickListener {
                 }
         };
         handler.postDelayed(counter, 5000);
+=======
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        cdt.pause();
+        TextView t;
+        t = (TextView) findViewById(R.id.btn1);
+        outState.putCharSequence("btn1", t.getText());
+        t = (TextView) findViewById(R.id.btn2);
+        outState.putCharSequence("btn2", t.getText());
+        t = (TextView) findViewById(R.id.btn3);
+        outState.putCharSequence("btn3", t.getText());
+        t = (TextView) findViewById(R.id.btn4);
+        outState.putCharSequence("btn4", t.getText());
+        t = (TextView) findViewById(R.id.btn5);
+        outState.putCharSequence("btn5", t.getText());
+        t = (TextView) findViewById(R.id.btn6);
+        outState.putCharSequence("btn6", t.getText());
+        t = (TextView) findViewById(R.id.btn7);
+        outState.putCharSequence("btn7", t.getText());
+        t = (TextView) findViewById(R.id.btn8);
+        outState.putCharSequence("btn8", t.getText());
+        t = (TextView) findViewById(R.id.btn9);
+        outState.putCharSequence("btn9", t.getText());
+        t = (TextView) findViewById(R.id.btn10);
+        outState.putCharSequence("btn10", t.getText());
+        t = (TextView) findViewById(R.id.btn11);
+        outState.putCharSequence("btn11", t.getText());
+        t = (TextView) findViewById(R.id.btn12);
+        outState.putCharSequence("btn12", t.getText().toString());
+        t = (TextView) findViewById(R.id.btn13);
+        outState.putCharSequence("btn13", t.getText().toString());
+        t = (TextView) findViewById(R.id.btn14);
+        outState.putCharSequence("btn14", t.getText());
+        t = (TextView) findViewById(R.id.btn15);
+        outState.putCharSequence("btn15", t.getText());
+        t = (TextView) findViewById(R.id.btn16);
+        outState.putCharSequence("btn16", t.getText());
+        t = (TextView) findViewById(R.id.btn17);
+        outState.putCharSequence("btn17", t.getText());
+        t = (TextView) findViewById(R.id.btn18);
+        outState.putCharSequence("btn18", t.getText());
+        t = (TextView) findViewById(R.id.btn19);
+        outState.putCharSequence("btn19", t.getText());
+        t = (TextView) findViewById(R.id.btn20);
+        outState.putCharSequence("btn20", t.getText());
+        t = (TextView) findViewById(R.id.btn21);
+        outState.putCharSequence("btn21", t.getText());
+        t = (TextView) findViewById(R.id.btn22);
+        outState.putCharSequence("btn22", t.getText());
+        t = (TextView) findViewById(R.id.btn23);
+        outState.putCharSequence("btn23", t.getText());
+        t = (TextView) findViewById(R.id.btn24);
+        outState.putCharSequence("btn24", t.getText());
+        t = (TextView) findViewById(R.id.btn25);
+        outState.putCharSequence("btn25", t.getText());
+
+
+        outState.putIntegerArrayList("fillArr", fillArr);
+        outState.putInt("UP", UP);
+        //Log.d("checkstate","UP saved as "+UP);
+        outState.putInt("pressedNum", pressedNum);
+        //Log.d("checkstate","pressedNum saved as "+pressedNum);
+        outState.putInt("score", score);
+        //Log.d("checkstate","score saved as "+score);
+        outState.putInt("life", life);
+        //Log.d("checkstate","life saved as "+life);
+        outState.putInt("current", current);
+        //Log.d("checkstate","current saved as "+current);
+
+>>>>>>> 913674706c94390ddbc5a3896ff334bc76c8872b
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        TextView t;
+        t = (TextView) findViewById(R.id.btn1);
+        t.setText(savedInstanceState.getCharSequence("btn1"));
+        t = (TextView) findViewById(R.id.btn2);
+        t.setText(savedInstanceState.getCharSequence("btn2"));
+        t = (TextView) findViewById(R.id.btn3);
+        t.setText(savedInstanceState.getCharSequence("btn3"));
+        t = (TextView) findViewById(R.id.btn4);
+        t.setText(savedInstanceState.getCharSequence("btn4"));
+        t = (TextView) findViewById(R.id.btn5);
+        t.setText(savedInstanceState.getCharSequence("btn5"));
+        t = (TextView) findViewById(R.id.btn6);
+        t.setText(savedInstanceState.getCharSequence("btn6"));
+        t = (TextView) findViewById(R.id.btn7);
+        t.setText(savedInstanceState.getCharSequence("btn7"));
+        t = (TextView) findViewById(R.id.btn8);
+        t.setText(savedInstanceState.getCharSequence("btn8"));
+        t = (TextView) findViewById(R.id.btn9);
+        t.setText(savedInstanceState.getCharSequence("btn9"));
+        t = (TextView) findViewById(R.id.btn10);
+        t.setText(savedInstanceState.getCharSequence("btn10"));
+        t = (TextView) findViewById(R.id.btn11);
+        t.setText(savedInstanceState.getCharSequence("btn11"));
+        t = (TextView) findViewById(R.id.btn12);
+        t.setText(savedInstanceState.getCharSequence("btn12"));
+        t = (TextView) findViewById(R.id.btn13);
+        t.setText(savedInstanceState.getCharSequence("btn13"));
+        t = (TextView) findViewById(R.id.btn14);
+        t.setText(savedInstanceState.getCharSequence("btn14"));
+        t = (TextView) findViewById(R.id.btn15);
+        t.setText(savedInstanceState.getCharSequence("btn15"));
+        t = (TextView) findViewById(R.id.btn16);
+        t.setText(savedInstanceState.getCharSequence("btn16"));
+        t = (TextView) findViewById(R.id.btn17);
+        t.setText(savedInstanceState.getCharSequence("btn17"));
+        t = (TextView) findViewById(R.id.btn18);
+        t.setText(savedInstanceState.getCharSequence("btn18"));
+        t = (TextView) findViewById(R.id.btn19);
+        t.setText(savedInstanceState.getCharSequence("btn19"));
+        t = (TextView) findViewById(R.id.btn20);
+        t.setText(savedInstanceState.getCharSequence("btn20"));
+        t = (TextView) findViewById(R.id.btn21);
+        t.setText(savedInstanceState.getCharSequence("btn21"));
+        t = (TextView) findViewById(R.id.btn22);
+        t.setText(savedInstanceState.getCharSequence("btn22"));
+        t = (TextView) findViewById(R.id.btn23);
+        t.setText(savedInstanceState.getCharSequence("btn23"));
+        t = (TextView) findViewById(R.id.btn24);
+        t.setText(savedInstanceState.getCharSequence("btn24"));
+        t = (TextView) findViewById(R.id.btn25);
+        t.setText(savedInstanceState.getCharSequence("btn25"));
+
+        fillArr = savedInstanceState.getIntegerArrayList("fillArr");
+        UP = savedInstanceState.getInt("UP");
+        //Log.d("checkstate","UP restored as "+UP);
+        pressedNum = savedInstanceState.getInt("pressedNum");
+        //Log.d("checkstate","pressedNum restored as "+pressedNum);
+        score = savedInstanceState.getInt("score");
+        //Log.d("checkstate","score restored as "+score);
+        life = savedInstanceState.getInt("life");
+        //Log.d("checkstate","life restored as "+life);
+        current = savedInstanceState.getInt("current");
+        //Log.d("checkstate","current restored as "+current);
+    }
 
     public void Game() {
 
@@ -149,12 +337,12 @@ public class Main extends Activity implements OnClickListener {
             if (pressedID == R.id.up_button) {  //Correct
                 score += current;
                 findCurrent();
-
                 TextView scoreBoard = (TextView) findViewById(R.id.currentScore);
                 scoreBoard.setText(score + "");
                 current++;
-            } else {                            //Wrong
-                GameOver();
+            } else {//Wrong
+                cdt.cancel();
+                GameOver(2);
             }
         } else {   //Not UP num
             if (pressedNum == current) {      //Correct
@@ -165,10 +353,16 @@ public class Main extends Activity implements OnClickListener {
                 scoreBoard.setText(score + "");
                 current++;
             } else {                            //Wrong
-                //Shake screen
+
+
                 life--;
-                if (life <= 0)
-                    GameOver();
+                if (life <= 0) {
+                    cdt.cancel();
+                    GameOver(3);
+                    return;
+                }
+                //Shake screen
+                pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim));
             }
         }
     }
@@ -314,18 +508,10 @@ public class Main extends Activity implements OnClickListener {
         }
     }
 
-    public void GameOver() {
+    public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
+        i.putExtra(GameOver.REASON, r);
         this.startActivity(i);
-    }
-
-    public void TimesUp() {
-        Intent i = new Intent(this, TimesUp.class);
-        this.startActivity(i);
-    }
-
-    public void timerAnimation() {
-
     }
 
 
@@ -435,6 +621,7 @@ public class Main extends Activity implements OnClickListener {
     }
 
     public void onClick(View v) {
+
         Button temp;
         switch (v.getId()) {
             case R.id.up_button:

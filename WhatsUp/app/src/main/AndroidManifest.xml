@@ -21,10 +21,20 @@
             android:theme="@android:style/Theme.Holo.Dialog">  <!--@android means reference to android resource file-->
         </activity>
 
-        <activity android:name=".ChooseUp"
+        <activity android:name=".ChooseUpMode"
 
-        android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
-    </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity android:name=".ChooseUpManual"
+
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity android:name=".ChooseUpRandom"
+
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
 
         <activity android:name=".ChooseUpMode"
 
@@ -60,9 +70,6 @@
         </activity>
 
         <activity android:name=".GameOver"
-            android:theme="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">  <!--@android means reference to android resource file-->
-        </activity>
-        <activity android:name=".TimesUp"
             android:theme="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
     </application>
