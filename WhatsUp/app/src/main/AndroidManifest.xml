@@ -36,21 +36,6 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
-        <activity android:name=".ChooseUpMode"
-
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
-        </activity>
-
-        <activity android:name=".ChooseUpManual"
-
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
-        </activity>
-
-        <activity android:name=".ChooseUpRandom"
-
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
-        </activity>
-
         <activity android:name=".Main"
             android:label="@string/main_title"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->

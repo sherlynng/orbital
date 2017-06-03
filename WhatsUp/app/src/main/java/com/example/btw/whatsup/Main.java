@@ -55,15 +55,6 @@ public class Main extends Activity implements OnClickListener {
         score = 0;
         life = 3;
         current = 1;
-<<<<<<< HEAD
-
-        //321 animation
-        Intent intent= new Intent(this,Onetwothree.class);
-        intent.putExtra(Onetwothree.UPDIGIT,UP);
-        startActivity(intent);
-
-=======
->>>>>>> 913674706c94390ddbc5a3896ff334bc76c8872b
 
         //321 animation
         Intent intent = new Intent(this, Onetwothree.class);
@@ -160,33 +151,6 @@ public class Main extends Activity implements OnClickListener {
         btn25.setOnClickListener(this);
     }
 
-<<<<<<< HEAD
-        TextView v = (TextView) findViewById(R.id.countdown);
-        v.setText("" + String.format("%02d : %02d", 2, 0));
-
-        final Handler handler = new Handler();
-        final Runnable counter = new Runnable() {
-            @Override
-            public void run() {
-                new CountDownTimer(119000, 1000) {
-                    TextView v = (TextView) findViewById(R.id.countdown);
-
-                    public void onTick(long millisUntilFinished) {
-                        v.setText("" + String.format("%02d : %02d",
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                    }
-
-                    public void onFinish() {
-                        TimesUp();
-                    }
-                }.start();
-
-                }
-        };
-        handler.postDelayed(counter, 5000);
-=======
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -257,7 +221,6 @@ public class Main extends Activity implements OnClickListener {
         outState.putInt("current", current);
         //Log.d("checkstate","current saved as "+current);
 
->>>>>>> 913674706c94390ddbc5a3896ff334bc76c8872b
     }
 
     @Override

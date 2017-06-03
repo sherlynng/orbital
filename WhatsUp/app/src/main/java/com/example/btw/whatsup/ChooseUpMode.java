@@ -19,10 +19,6 @@ public class ChooseUpMode extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chooseupmode);
-<<<<<<< HEAD
-
-=======
->>>>>>> 913674706c94390ddbc5a3896ff334bc76c8872b
         View button = this.findViewById(R.id.manual_button);
         button.setOnClickListener(this);
         View button2 = this.findViewById(R.id.random_button);
