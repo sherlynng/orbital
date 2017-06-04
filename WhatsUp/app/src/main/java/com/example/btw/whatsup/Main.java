@@ -1,20 +1,26 @@
 package com.example.btw.whatsup;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -40,8 +46,7 @@ public class Main extends Activity implements OnClickListener {
     private int score;
     private int life;
     private int current;
-    protected CountDownTimerPausable cdt;
-
+    public CountDownTimerPausable cdt;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,8 @@ public class Main extends Activity implements OnClickListener {
         Intent intent = new Intent(this, Onetwothree.class);
         intent.putExtra(Onetwothree.UPDIGIT, UP);
         startActivity(intent);
+
+
         final TextView timer = (TextView) findViewById(R.id.countdown);
         timer.setText("-- : --");
         cdt = new CountDownTimerPausable(120000, 100, true) {
@@ -87,15 +94,69 @@ public class Main extends Activity implements OnClickListener {
                 cdt.create();
             }
         };
+
+        final Handler handler2 = new Handler();
+        final Runnable counter2 = new Runnable() {
+            @Override
+            public void run() {
+               startPause();
+            }
+        };
+
         handler.postDelayed(counter, 5000);
+        handler2.postDelayed(counter2, 5001);
+
 
     }
 
+    private void startPause() {
+        if (isApplicationSentToBackground(getApplicationContext())) {
+            // Do what you want to do on detecting Home Key being Pressed
+            cdt.pause();
+            Intent pause = new Intent(this, Pause.class);
+            pause.putExtra(Pause.UPD,UP);
+            pause.putExtra(Pause.TIME,cdt.timeLeft());
+            pause.putExtra(Pause.ONETWOTHREE_PAUSED,true);
+            this.startActivity(pause); //hereeee
+
+        }
+    }
+
+    public boolean isApplicationSentToBackground(final Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onPause() {
+        if (isApplicationSentToBackground(this)){
+            // Do what you want to do on detecting Home Key being Pressed
+            cdt.pause();
+            Intent i = new Intent(this, Pause.class);
+            i.putExtra(Pause.UPD,UP);
+            i.putExtra(Pause.TIME,cdt.timeLeft());
+            this.startActivity(i);
+        }
+        super.onPause();
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         cdt.resume();
+
+        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
+        pause.setImageResource(R.drawable.pause_button);
+        pause.setOnClickListener(this);
+
         //set onClickListeners for all buttons
         View upBtn = this.findViewById(R.id.up_button);
         upBtn.setOnClickListener(this);
@@ -290,6 +351,7 @@ public class Main extends Activity implements OnClickListener {
         //Log.d("checkstate","life restored as "+life);
         current = savedInstanceState.getInt("current");
         //Log.d("checkstate","current restored as "+current);
+
     }
 
     public void Game() {
@@ -587,6 +649,13 @@ public class Main extends Activity implements OnClickListener {
 
         Button temp;
         switch (v.getId()) {
+             case R.id.pause_btn:
+                cdt.pause();
+                Intent i = new Intent(this, Pause.class);
+                i.putExtra(Pause.UPD,UP);
+                i.putExtra(Pause.TIME,cdt.timeLeft());
+                this.startActivity(i);
+                break;
             case R.id.up_button:
                 temp = (Button) v;
                 pressedButton = temp;

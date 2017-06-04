@@ -47,7 +47,7 @@ public class WhatsUp extends Activity implements OnClickListener {
                 this.startActivity(j);
                 break;
             case R.id.exit_button:
-                finish();
+                finishAffinity();
                 break;
 
             //More buttons to go

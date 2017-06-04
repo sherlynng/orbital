@@ -45,8 +45,10 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
 
           <!--  android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" -->
+        </activity>
 
-
+        <activity android:name=".Pause"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
 
         <activity android:name=".Settings"
@@ -58,5 +60,7 @@
             android:theme="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
 </manifest>
