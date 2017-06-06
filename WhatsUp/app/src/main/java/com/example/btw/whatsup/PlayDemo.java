@@ -3,6 +3,7 @@ package com.example.btw.whatsup;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -36,15 +37,11 @@ import static com.example.btw.whatsup.R.id.time;
  * Created by BTW on 5/24/2017.
  */
 
-public class Main extends Activity implements OnClickListener {
+public class PlayDemo extends Activity implements OnClickListener {
 
-    //   public static final String CONTINUE_FROM_LAST = "CONTINUE_FROM_LAST";
-    private boolean continueFromLast;
-    public static final String UPDIGIT = "UPDIGIT";
     private int UP;
 
-
-    private long timeLeft;
+    // private long timeLeft;
     private int score;
     private int bestScore;
     private int current;
@@ -65,81 +62,30 @@ public class Main extends Activity implements OnClickListener {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.playdemo);
 
-        gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
-        editor = gameData.edit();
-
-        continueFromLast = gameData.getBoolean("CONTINUE_FROM_LAST", false);
-        if (continueFromLast) {
-            Log.d("Debug", "cotinue from last=true");
-            UP = gameData.getInt("UPdigit", 1);
-            score = gameData.getInt("score", 0);
-            life = gameData.getInt("life", 3);
-            current = gameData.getInt("current", 1);
-            timeLeft = gameData.getLong("timeLeft", 120000);
-            //TODO:not resumed to original grid yet
-            initialiseGrid(current);
-            changeNo(current + 25);
-        } else {
-            Log.d("Debug", "cotinue from last=false");
-            UP = getIntent().getIntExtra("UPDIGIT", 1);
-            score = 0;
-            life = 3;
-            current = 1;
-            timeLeft = 120000;
-            initialiseGrid(1);
-            changeNo(26);
-        }
+        UP = 4;
+        score = 0;
+        life = 3;
+        current = 1;
+        initialiseGrid(1);
+        changeNo(26);
 
         currentScore = (TextView) findViewById(R.id.currentScore);
         currentScore.setText(score + "");
-        best= (TextView) findViewById(R.id.bestScore);
+        best = (TextView) findViewById(R.id.bestScore);
         bestScore = gameData.getInt("bestScore", 0);
         best.setText(bestScore + "");
 
 
-        //321 animation
-        Intent intent = new Intent(this, Onetwothree.class);
-        intent.putExtra(Onetwothree.UPDIGIT, UP);
-        startActivity(intent);
-
-
         final TextView timer = (TextView) findViewById(R.id.countdown);
         timer.setText("-- : --");
-        cdt = new CountDownTimerPausable(timeLeft, 100, true) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timer.setText("" + String.format("%02d : %02d",
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
-
-            @Override
-            public void onFinish() {
-                timer.setText("00 : 00");
-                cdt.cancel();
-                editor.putInt("bestScore", Math.max(score,gameData.getInt("bestScore",-1))).commit();
-                GameOver(1);
-            }
-        };
-
-
-        final Handler handler = new Handler();
-        final Runnable counter = new Runnable() {
-            @Override
-            public void run() {
-                cdt.create();
-            }
-        };
-        handler.postDelayed(counter, 5000);
 
         final Handler handler2 = new Handler();
         final Runnable counter2 = new Runnable() {
             @Override
             public void run() {
-                startPause();
+                backToStartMenu();
             }
         };
         handler2.postDelayed(counter2, 5001);
@@ -147,16 +93,10 @@ public class Main extends Activity implements OnClickListener {
 
     }
 
-    private void startPause() {
+    private void backToStartMenu() {
         if (isApplicationSentToBackground(getApplicationContext())) {
-            // Do what you want to do on detecting Home Key being Pressed
-            cdt.pause();
-            Intent pause = new Intent(this, Pause.class);
-            pause.putExtra(Pause.UPDIGIT, UP);
-            pause.putExtra(Pause.TIME, cdt.timeLeft());
-            pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
-            this.startActivity(pause); //hereeee
-
+            Intent backToStartMenu = new Intent(this, WhatsUp.class);
+            this.startActivity(backToStartMenu); //hereeee
         }
     }
 
@@ -173,13 +113,12 @@ public class Main extends Activity implements OnClickListener {
         return false;
     }
 
-    @Override
+  /*  @Override
     public void onPause() {
         super.onPause();
 
         if (isApplicationSentToBackground(this)) {
             // Do what you want to do on detecting Home Key being Pressed
-            cdt.pause();
             Intent i = new Intent(this, Pause.class);
             //i.putExtra(Pause.UPDIGIT, UP);
             //i.putExtra(Pause.TIME, cdt.timeLeft());
@@ -187,16 +126,17 @@ public class Main extends Activity implements OnClickListener {
         }
 
     }
+    */
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        cdt.resume();
+       // cdt.resume();
 
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
-        pause.setOnClickListener(this);
+        ImageButton backToStartMenu = (ImageButton) findViewById(R.id.start_menu_btn);
+        backToStartMenu.setImageResource(R.drawable.pause_button);
+        backToStartMenu.setOnClickListener(this);
 
         //set onClickListeners for all buttons
         View upBtn = this.findViewById(R.id.up_button);
@@ -257,7 +197,6 @@ public class Main extends Activity implements OnClickListener {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        cdt.pause();
         TextView t;
         t = (TextView) findViewById(R.id.btn1);
         outState.putCharSequence("btn1", t.getText());
@@ -400,6 +339,7 @@ public class Main extends Activity implements OnClickListener {
         boolean isUp;
         isUp = checkUp();
         if (isUp) {   //UP num
+
             if (pressedID == R.id.up_button) {  //Correct
                 score += current;
                 findCurrent();
@@ -407,7 +347,7 @@ public class Main extends Activity implements OnClickListener {
                 current++;
             } else {//Wrong
                 cdt.cancel();
-                editor.putInt("bestScore", Math.max(score,gameData.getInt("bestScore",-1))).commit();
+                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
                 GameOver(2);
             }
         } else {   //Not UP num
@@ -422,7 +362,7 @@ public class Main extends Activity implements OnClickListener {
                 life--;
                 if (life <= 0) {
                     cdt.cancel();
-                    editor.putInt("bestScore", Math.max(score,gameData.getInt("bestScore",-1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
                     GameOver(3);
                     return;
                 }
@@ -694,7 +634,7 @@ public class Main extends Activity implements OnClickListener {
 
                 editor.putInt("UPdigit", UP).commit();
                 editor.putInt("score", score).commit();
-                editor.putInt("bestScore", Math.max(score,gameData.getInt("bestScore",-1))).commit();
+                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
                 editor.putInt("life", life).commit();
                 editor.putInt("current", current).commit();
                 editor.putLong("timeLeft", cdt.timeLeft()).commit();

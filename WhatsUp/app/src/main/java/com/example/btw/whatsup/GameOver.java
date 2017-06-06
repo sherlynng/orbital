@@ -1,8 +1,10 @@
 package com.example.btw.whatsup;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -42,6 +44,13 @@ public class GameOver extends Activity implements View.OnClickListener {
         resBtn.setOnClickListener(this);
         View mainBtn = this.findViewById(R.id.mainMenu_btn);
         mainBtn.setOnClickListener(this);
+        SharedPreferences gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = gameData.edit();
+        editor.putInt("UPdigit", 1);
+        editor.putInt("score", 0);
+        editor.putInt("life", 3);
+        editor.putInt("current", 1);
+        editor.putLong("timeLeft", 120000);
     }
 
     @Override

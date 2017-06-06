@@ -16,47 +16,59 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".About"
+        <activity
+            android:name=".About"
             android:label="@string/about_title"
-            android:theme="@android:style/Theme.Holo.Dialog">  <!--@android means reference to android resource file-->
-        </activity>
+            android:theme="@android:style/Theme.Holo.Dialog"></activity>
 
-        <activity android:name=".ChooseUpMode"
-
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
-        </activity>
-
-        <activity android:name=".ChooseUpManual"
+        <activity
+            android:name=".ChooseUpMode"
 
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
-        <activity android:name=".ChooseUpRandom"
+        <activity
+            android:name=".ChooseUpManual"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
 
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
-        </activity>
+        <activity
+            android:name=".ChooseUpRandom"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
 
-        <activity android:name=".Main"
+        <activity
+            android:name=".Main"
             android:label="@string/main_title"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
         </activity>
 
-        <activity android:name=".Onetwothree"
+        <activity
+            android:name=".Onetwothree"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
 
-          <!--  android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" -->
-
-
         </activity>
 
-        <activity android:name=".Settings"
+        <activity
+            android:name=".Pause"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <activity
+            android:name=".PlayDemo"
+            android:theme="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".Settings"
             android:label="@string/settings_title">
 
         </activity>
 
-        <activity android:name=".GameOver"
+        <activity
+            android:name=".GameOver"
             android:theme="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
 </manifest>

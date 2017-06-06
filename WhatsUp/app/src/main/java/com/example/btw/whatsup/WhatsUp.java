@@ -2,8 +2,10 @@ package com.example.btw.whatsup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,21 +35,27 @@ public class WhatsUp extends Activity implements OnClickListener {
 
 
     public void onClick(View v) {
+        SharedPreferences gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = gameData.edit();
         switch (v.getId()) {
             case R.id.about_button:
-                //must create an instance of Intent before running the activity
-                Intent i = new Intent(this, About.class);
-                this.startActivity(i);
+                Intent about = new Intent(this, About.class);
+                editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+                this.startActivity(about);
                 break;
             case R.id.continue_button:
-              //  startGame(Game.DIFFICULTY_CONTINUE);
+              Intent continue_from_last = new Intent(this,Main.class);
+                editor.putBoolean("CONTINUE_FROM_LAST", true).commit();
+                this.startActivity(continue_from_last);
                 break;
             case R.id.new_button:
-                Intent j = new Intent(this, ChooseUpMode.class);
-                this.startActivity(j);
+                Intent new_Game = new Intent(this, ChooseUpMode.class);
+                editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+                this.startActivity(new_Game);
                 break;
             case R.id.exit_button:
-                finish();
+                editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+                finishAffinity();
                 break;
 
             //More buttons to go
