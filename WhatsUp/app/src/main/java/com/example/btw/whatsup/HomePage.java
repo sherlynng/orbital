@@ -1,27 +1,22 @@
 package com.example.btw.whatsup;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 /**
  * Created by BTW on 5/21/2017.
  */
 
-public class WhatsUp extends Activity implements OnClickListener {
+public class HomePage extends Activity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.start);
+        setContentView(R.layout.home);
         //Set up click listeners for all buttons
         View continueButton = this.findViewById(R.id.continue_button);
         continueButton.setOnClickListener(this);
@@ -52,33 +47,11 @@ public class WhatsUp extends Activity implements OnClickListener {
                 this.startActivity(j);
                 break;
             case R.id.exit_button:
-                openDialog();
+                finishAffinity();
                 break;
 
             //More buttons to go
         }
-    }
-
-    public void openDialog(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure you want to exit?");
-        alertDialogBuilder.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Toast.makeText(WhatsUp.this,"Hope you enjoyed playing What's Up!",Toast.LENGTH_LONG).show();
-                        finishAffinity();
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 
     /**
@@ -87,7 +60,7 @@ public class WhatsUp extends Activity implements OnClickListener {
     private void startGame() {
        // Log.d(TAG, "clicked on " + i);
         //Start game here
-        Intent intent= new Intent(WhatsUp.this,ChooseUpMode.class);
+        Intent intent= new Intent(HomePage.this,ChooseUpMode.class);
      //   intent.putExtra(Game.KEY_DIFFICULTY,i); //extraData is a map of key(string)/value(in this case int) pairs
         startActivity(intent);
     }

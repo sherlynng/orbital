@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@mipmap/background"
     android:weightSum="1">
 
     <TextView
@@ -17,6 +17,7 @@
         android:textSize="20dp"
         android:layout_gravity="center"
         android:text="Choose Your UP Digit:"
+        android:textColor="@color/black"
         android:layout_margin="2dp"/>
 
 
@@ -32,10 +33,10 @@
 
     <Button
         android:id="@+id/next_button_manual"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:text="Next" />
+        android:layout_margin="0dp"
+        android:background="@mipmap/next"/>
 
 </LinearLayout>

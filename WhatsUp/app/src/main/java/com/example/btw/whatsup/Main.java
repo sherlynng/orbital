@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
@@ -47,6 +48,8 @@ public class Main extends Activity implements OnClickListener {
     private int life;
     private int current;
     public CountDownTimerPausable cdt;
+    public static final String BACKPRESSED = "BACK";
+    public static final String TEST = "Testing";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +110,38 @@ public class Main extends Activity implements OnClickListener {
         handler2.postDelayed(counter2, 5001);
 
 
+        //Back press from 321 not working!!! :((((((
+        final AtomicInteger n = new AtomicInteger(15);
+        final Handler handler3 = new Handler();
+     //   final TextView textView = (TextView) findViewById(R.id.currentScore);
+       // final AtomicInteger n = new AtomicInteger(3);
+        final Runnable check = new Runnable() {
+
+            @Override
+            public void run() {
+               boolean isBackPressed = getIntent().getBooleanExtra(BACKPRESSED, false);
+                int test = getIntent().getIntExtra(TEST, 100);
+
+                if (isBackPressed){
+              //      cdt.cancel();
+               //     finish();
+
+                }
+                else if(test < 0){
+                    n.getAndIncrement();
+           //         TextView v = (TextView) findViewById(R.id.currentScore);
+             //       v.setText(Integer.toString(test));
+                    handler3.postDelayed(this, 500);
+                }
+                else if(n.get() > 0){
+                    n.getAndDecrement();
+               //     TextView v = (TextView) findViewById(R.id.currentScore);
+                 //   v.setText(Integer.toString(n.get()));
+                    handler3.postDelayed(this, 500);
+                }
+            }
+        };
+        handler3.postDelayed(check, 1);
     }
 
     private void startPause() {
@@ -148,13 +183,19 @@ public class Main extends Activity implements OnClickListener {
     }
 
     @Override
+    public void onBackPressed(){
+        cdt.cancel();
+        finish();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
         cdt.resume();
 
         ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
+        pause.setImageResource(R.mipmap.pause_button2);
         pause.setOnClickListener(this);
 
         //set onClickListeners for all buttons

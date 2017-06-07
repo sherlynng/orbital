@@ -1,12 +1,15 @@
 package com.example.btw.whatsup;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.os.Process;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,8 +41,8 @@ public class Pause extends Activity implements View.OnClickListener {
         resumeButton.setOnClickListener(this);
         View contButton = this.findViewById(R.id.continue_btn);
         contButton.setOnClickListener(this);
-        View endButton = this.findViewById(R.id.endgame_btn);
-        endButton.setOnClickListener(this);
+     //   View endButton = this.findViewById(R.id.endgame_btn);
+      //  endButton.setOnClickListener(this);
         TextView v= (TextView) findViewById(R.id.UPD);
         v.setText(UP + "");
         TextView v2= (TextView) findViewById(R.id.timeleft_clock);
@@ -59,14 +62,45 @@ public class Pause extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.continue_btn:
-                //must create an instance of Intent before running the activity
-                Intent i = new Intent(this, About.class);
-                this.startActivity(i);
-                break;
-            case R.id.endgame_btn:
-                finishAffinity();
+                openDialog();
                 break;
         }
     }
+
+    public void openDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Do you want to save your game?");
+                alertDialogBuilder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                saveGameData();
+                                Toast.makeText(Pause.this,"Game saved",Toast.LENGTH_LONG).show();
+                                backToHomePage();
+                            }
+                        });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                backToHomePage();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void backToHomePage(){
+        Intent i = new Intent(Pause.this, WhatsUp.class);
+        this.startActivity(i);
+    }
+
+    //Where you save your game data
+    public void saveGameData(){
+
+    }
+
+
 
 }

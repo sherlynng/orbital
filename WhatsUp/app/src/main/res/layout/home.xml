@@ -36,34 +36,35 @@
 
         <Button
             android:id="@+id/continue_button"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
+            android:layout_width="340dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
-            android:background="@mipmap/continue_"
-            android:paddingRight="200dp" />
+            android:background="@drawable/test_arrow2"
+            android:text="Continue"/>
 
         <Button
             android:id="@+id/new_button"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@mipmap/new_game"
-         />
+            android:background="@drawable/test_arrow2"
+            android:text="Continue"/>
 
         <Button
             android:id="@+id/settings_button"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@mipmap/settings"
-     />
+            android:background="@drawable/test_arrow2"
+            android:text="Continue"/>
 
         <Button
             android:id="@+id/exit_button"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@mipmap/exit"/>
+            android:background="@drawable/test_arrow2"
+            android:text="Continue"/>
 <!--
     <ImageView
         android:id="@+id/imageView"
@@ -86,11 +87,11 @@
 
         <Button
             android:id="@+id/about_button"
-            android:layout_width="100dp"
+            android:layout_width="130dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="35dp"
-            android:background="@mipmap/about4" />
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/about3" />
 
         <Button
             android:id="@+id/howtoplay_button"
@@ -98,7 +99,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="80dp"
             android:layout_gravity="right"
-            android:background="@mipmap/howtoplay4" />
+            android:background="@mipmap/howtoplay3" />
 
     </LinearLayout>
 

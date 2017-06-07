@@ -60,6 +60,15 @@ public class Onetwothree extends Activity {
         };
         handler.postDelayed(counter, 1000);
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent= new Intent(this,Main.class);
+        intent.putExtra(Main.BACKPRESSED,true);
+        intent.putExtra(Main.TEST,-50);
+        finish();
+    }
+
 /*
     public boolean isApplicationSentToBackground(final Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
