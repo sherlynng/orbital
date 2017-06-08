@@ -18,8 +18,9 @@
 
         <activity
             android:name=".About"
-            android:label="@string/about_title"
-            android:theme="@android:style/Theme.Holo.Dialog"></activity>
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"></activity>
+
+
 
         <activity
             android:name=".ChooseUpMode"
@@ -54,7 +55,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name=".PlayDemo"
-            android:theme="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">  <!--@android means reference to android resource file-->
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
         <activity

@@ -6,12 +6,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.example.btw.whatsup.R.id.btn1;
 import static com.example.btw.whatsup.R.id.countdown;
+import static com.example.btw.whatsup.R.id.instruct_display;
 import static com.example.btw.whatsup.R.id.time;
 
 /**
@@ -38,7 +42,6 @@ import static com.example.btw.whatsup.R.id.time;
  */
 
 public class PlayDemo extends Activity implements OnClickListener {
-
     private int UP;
 
     // private long timeLeft;
@@ -52,13 +55,37 @@ public class PlayDemo extends Activity implements OnClickListener {
     private int pressedNum;
     private int pressedID;
     private Button pressedButton;
-    public CountDownTimerPausable cdt;
+
 
     protected TextView currentScore;
-    protected TextView best;
-    protected SharedPreferences gameData;
-    protected SharedPreferences.Editor editor;
+    protected TextView instruct;
 
+    protected Button upBtn;
+    protected Button btn1;
+    protected Button btn2;
+    protected Button btn3;
+    protected Button btn4;
+    protected Button btn5;
+    protected Button btn6;
+    protected Button btn7;
+    protected Button btn8;
+    protected Button btn9;
+    protected Button btn10;
+    protected Button btn11;
+    protected Button btn12;
+    protected Button btn13;
+    protected Button btn14;
+    protected Button btn15;
+    protected Button btn16;
+    protected Button btn17;
+    protected Button btn18;
+    protected Button btn19;
+    protected Button btn20;
+    protected Button btn21;
+    protected Button btn22;
+    protected Button btn23;
+    protected Button btn24;
+    protected Button btn25;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,18 +95,38 @@ public class PlayDemo extends Activity implements OnClickListener {
         score = 0;
         life = 3;
         current = 1;
+
+        instruct = (TextView) findViewById(R.id.instruct_display);
+
+        upBtn = (Button) this.findViewById(R.id.up_button);
+        btn1 = (Button) this.findViewById(R.id.btn1);
+        btn2 = (Button) this.findViewById(R.id.btn2);
+        btn3 = (Button) this.findViewById(R.id.btn3);
+        btn4 = (Button) this.findViewById(R.id.btn4);
+        btn5 = (Button) this.findViewById(R.id.btn5);
+        btn6 = (Button) this.findViewById(R.id.btn6);
+        btn7 = (Button) this.findViewById(R.id.btn7);
+        btn8 = (Button) this.findViewById(R.id.btn8);
+        btn9 = (Button) this.findViewById(R.id.btn9);
+        btn10 = (Button) this.findViewById(R.id.btn10);
+        btn11 = (Button) this.findViewById(R.id.btn11);
+        btn12 = (Button) this.findViewById(R.id.btn12);
+        btn13 = (Button) this.findViewById(R.id.btn13);
+        btn14 = (Button) this.findViewById(R.id.btn14);
+        btn15 = (Button) this.findViewById(R.id.btn15);
+        btn16 = (Button) this.findViewById(R.id.btn16);
+        btn17 = (Button) this.findViewById(R.id.btn17);
+        btn18 = (Button) this.findViewById(R.id.btn18);
+        btn19 = (Button) this.findViewById(R.id.btn19);
+        btn20 = (Button) this.findViewById(R.id.btn20);
+        btn21 = (Button) this.findViewById(R.id.btn21);
+        btn22 = (Button) this.findViewById(R.id.btn22);
+        btn23 = (Button) this.findViewById(R.id.btn23);
+        btn24 = (Button) this.findViewById(R.id.btn24);
+        btn25 = (Button) this.findViewById(R.id.btn25);
+
         initialiseGrid(1);
         changeNo(26);
-
-        currentScore = (TextView) findViewById(R.id.currentScore);
-        currentScore.setText(score + "");
-        best = (TextView) findViewById(R.id.bestScore);
-        bestScore = gameData.getInt("bestScore", 0);
-        best.setText(bestScore + "");
-
-
-        final TextView timer = (TextView) findViewById(R.id.countdown);
-        timer.setText("-- : --");
 
         final Handler handler2 = new Handler();
         final Runnable counter2 = new Runnable() {
@@ -91,7 +138,47 @@ public class PlayDemo extends Activity implements OnClickListener {
         handler2.postDelayed(counter2, 5001);
 
 
+        //TODO: add instruction button to retrieve instruction during the demo, replace pause button content with back to menu & start a game
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(PlayDemo.this);
+        builder1.setMessage(R.string.PlayDemo_message1)
+                .setTitle(R.string.PlayDemo_title);
+        builder1.setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(PlayDemo.this);
+                builder2.setMessage(R.string.PlayDemo_message2);
+                builder2.setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        AlertDialog.Builder builder3 = new AlertDialog.Builder(PlayDemo.this);
+                        builder3.setMessage(R.string.PlayDemo_message3);
+                        builder3.setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                AlertDialog.Builder builder4 = new AlertDialog.Builder(PlayDemo.this);
+                                builder4.setMessage(R.string.PlayDemo_message4);
+                                builder4.setPositiveButton(R.string.start, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                    }
+                                }).setCancelable(false);
+                                AlertDialog dialog4 = builder4.create();
+                                dialog4.show();
+                            }
+                        }).setCancelable(false);
+                        AlertDialog dialog3 = builder3.create();
+                        dialog3.show();
+                    }
+                }).setCancelable(false);
+                AlertDialog dialog2 = builder2.create();
+                dialog2.show();
+            }
+        }).setCancelable(false);
+        AlertDialog dialog1 = builder1.create();
+        dialog1.show();
     }
+
 
     private void backToStartMenu() {
         if (isApplicationSentToBackground(getApplicationContext())) {
@@ -113,7 +200,7 @@ public class PlayDemo extends Activity implements OnClickListener {
         return false;
     }
 
-  /*  @Override
+    @Override
     public void onPause() {
         super.onPause();
 
@@ -126,70 +213,43 @@ public class PlayDemo extends Activity implements OnClickListener {
         }
 
     }
-    */
 
     @Override
     protected void onResume() {
         super.onResume();
 
-       // cdt.resume();
+        // cdt.resume();
 
         ImageButton backToStartMenu = (ImageButton) findViewById(R.id.start_menu_btn);
         backToStartMenu.setImageResource(R.drawable.pause_button);
         backToStartMenu.setOnClickListener(this);
 
         //set onClickListeners for all buttons
-        View upBtn = this.findViewById(R.id.up_button);
         upBtn.setOnClickListener(this);
-        View btn1 = this.findViewById(R.id.btn1);
         btn1.setOnClickListener(this);
-        View btn2 = this.findViewById(R.id.btn2);
         btn2.setOnClickListener(this);
-        View btn3 = this.findViewById(R.id.btn3);
         btn3.setOnClickListener(this);
-        View btn4 = this.findViewById(R.id.btn4);
         btn4.setOnClickListener(this);
-        View btn5 = this.findViewById(R.id.btn5);
         btn5.setOnClickListener(this);
-        View btn6 = this.findViewById(R.id.btn6);
         btn6.setOnClickListener(this);
-        View btn7 = this.findViewById(R.id.btn7);
         btn7.setOnClickListener(this);
-        View btn8 = this.findViewById(R.id.btn8);
         btn8.setOnClickListener(this);
-        View btn9 = this.findViewById(R.id.btn9);
         btn9.setOnClickListener(this);
-        View btn10 = this.findViewById(R.id.btn10);
         btn10.setOnClickListener(this);
-        View btn11 = this.findViewById(R.id.btn11);
         btn11.setOnClickListener(this);
-        View btn12 = this.findViewById(R.id.btn12);
         btn12.setOnClickListener(this);
-        View btn13 = this.findViewById(R.id.btn13);
         btn13.setOnClickListener(this);
-        View btn14 = this.findViewById(R.id.btn14);
         btn14.setOnClickListener(this);
-        View btn15 = this.findViewById(R.id.btn15);
         btn15.setOnClickListener(this);
-        View btn16 = this.findViewById(R.id.btn16);
         btn16.setOnClickListener(this);
-        View btn17 = this.findViewById(R.id.btn17);
         btn17.setOnClickListener(this);
-        View btn18 = this.findViewById(R.id.btn18);
         btn18.setOnClickListener(this);
-        View btn19 = this.findViewById(R.id.btn19);
         btn19.setOnClickListener(this);
-        View btn20 = this.findViewById(R.id.btn20);
         btn20.setOnClickListener(this);
-        View btn21 = this.findViewById(R.id.btn21);
         btn21.setOnClickListener(this);
-        View btn22 = this.findViewById(R.id.btn22);
         btn22.setOnClickListener(this);
-        View btn23 = this.findViewById(R.id.btn23);
         btn23.setOnClickListener(this);
-        View btn24 = this.findViewById(R.id.btn24);
         btn24.setOnClickListener(this);
-        View btn25 = this.findViewById(R.id.btn25);
         btn25.setOnClickListener(this);
     }
 
@@ -339,38 +399,34 @@ public class PlayDemo extends Activity implements OnClickListener {
         boolean isUp;
         isUp = checkUp();
         if (isUp) {   //UP num
-
             if (pressedID == R.id.up_button) {  //Correct
-                score += current;
+                //score += current;
                 findCurrent();
-                currentScore.setText(score + "");
+                // currentScore.setText(score + "");
                 current++;
+                instruct.setText("Correct!");
+                instruct.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_mild));
             } else {//Wrong
-                cdt.cancel();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
-                GameOver(2);
+                pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
+                instruct.setText("Wrong!Press the UP button");
+                instruct.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_mild));
             }
         } else {   //Not UP num
             if (pressedNum == current) {      //Correct
-                score += pressedNum;
+                // score += pressedNum;
                 changeNo(pressedButton);
-                currentScore.setText(score + "");
+                // currentScore.setText(score + "");
                 current++;
-            } else {                            //Wrong
-
-
-                life--;
-                if (life <= 0) {
-                    cdt.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
-                    GameOver(3);
-                    return;
-                }
-                //Shake screen
-                pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim));
+                instruct.setText("Correct!");
+                instruct.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_mild));
+            } else {      //Wrong
+                pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
+                instruct.setText("Press the numbers in order!\nGet it wrong three times and you are OUT!");
+                instruct.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_mild));
             }
         }
     }
+
 
     public boolean checkUp() {
         return (current % UP == 0) || checkDigit();
@@ -548,81 +604,31 @@ public class PlayDemo extends Activity implements OnClickListener {
         }
         Collections.shuffle(arr);
 
-        Button p1_button = (Button) findViewById(btn1);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn2);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn3);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn4);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn5);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn6);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn7);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn8);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn9);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn10);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn11);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn12);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn13);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn14);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn15);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn16);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn17);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn18);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn19);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn20);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn21);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn22);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn23);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn24);
-        p1_button.setText(arr.remove(0) + "");
-
-        p1_button = (Button) findViewById(R.id.btn25);
-        p1_button.setText(arr.remove(0) + "");
-
+        btn1.setText(arr.remove(0) + "");
+        btn2.setText(arr.remove(0) + "");
+        btn3.setText(arr.remove(0) + "");
+        btn4.setText(arr.remove(0) + "");
+        btn5.setText(arr.remove(0) + "");
+        btn6.setText(arr.remove(0) + "");
+        btn7.setText(arr.remove(0) + "");
+        btn8.setText(arr.remove(0) + "");
+        btn9.setText(arr.remove(0) + "");
+        btn10.setText(arr.remove(0) + "");
+        btn11.setText(arr.remove(0) + "");
+        btn12.setText(arr.remove(0) + "");
+        btn13.setText(arr.remove(0) + "");
+        btn14.setText(arr.remove(0) + "");
+        btn15.setText(arr.remove(0) + "");
+        btn16.setText(arr.remove(0) + "");
+        btn17.setText(arr.remove(0) + "");
+        btn18.setText(arr.remove(0) + "");
+        btn19.setText(arr.remove(0) + "");
+        btn20.setText(arr.remove(0) + "");
+        btn21.setText(arr.remove(0) + "");
+        btn22.setText(arr.remove(0) + "");
+        btn23.setText(arr.remove(0) + "");
+        btn24.setText(arr.remove(0) + "");
+        btn25.setText(arr.remove(0) + "");
     }
 
     public void onClick(View v) {
@@ -630,18 +636,7 @@ public class PlayDemo extends Activity implements OnClickListener {
         Button temp;
         switch (v.getId()) {
             case R.id.pause_btn:
-                cdt.pause();
-
-                editor.putInt("UPdigit", UP).commit();
-                editor.putInt("score", score).commit();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
-                editor.putInt("life", life).commit();
-                editor.putInt("current", current).commit();
-                editor.putLong("timeLeft", cdt.timeLeft()).commit();
-
-                Intent i = new Intent(this, Pause.class);
-                i.putExtra(Pause.UPDIGIT, UP);
-                i.putExtra(Pause.TIME, cdt.timeLeft());
+                Intent i = new Intent(this, WhatsUp.class);
                 this.startActivity(i);
                 break;
             case R.id.up_button:

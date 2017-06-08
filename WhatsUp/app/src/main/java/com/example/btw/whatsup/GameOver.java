@@ -15,13 +15,19 @@ import android.widget.TextView;
 
 public class GameOver extends Activity implements View.OnClickListener {
 
+    protected SharedPreferences gameData;
+    protected SharedPreferences.Editor editor;
     public static final String REASON = "REASON";
     public static final int REASON_DEFAULT = 0;
     private int reason;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        gameData=getSharedPreferences("GameData",Context.MODE_PRIVATE);
+        editor=gameData.edit();
         reason = getIntent().getIntExtra(REASON, REASON_DEFAULT);
         setContentView(R.layout.gameover);
         TextView v = (TextView)findViewById(R.id.gameover_message);
@@ -44,20 +50,23 @@ public class GameOver extends Activity implements View.OnClickListener {
         resBtn.setOnClickListener(this);
         View mainBtn = this.findViewById(R.id.mainMenu_btn);
         mainBtn.setOnClickListener(this);
-        SharedPreferences gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = gameData.edit();
         editor.putInt("UPdigit", 1);
         editor.putInt("score", 0);
         editor.putInt("life", 3);
         editor.putInt("current", 1);
         editor.putLong("timeLeft", 120000);
+        editor.putBoolean("HAS_OLD_GAME_TO_CONTINUE",false).commit();
+        editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
     }
 
     @Override
     public void onClick(View v) {
+      SharedPreferences  gameData=getSharedPreferences("GameData",Context.MODE_PRIVATE);
+
         switch (v.getId()) {
             case R.id.restart_btn:
                 Intent i = new Intent(this, ChooseUpMode.class);
+
                 this.startActivity(i);
                 break;
             case R.id.mainMenu_btn:

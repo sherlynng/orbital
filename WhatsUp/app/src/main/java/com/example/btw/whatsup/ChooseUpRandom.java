@@ -28,7 +28,7 @@ public class ChooseUpRandom extends Activity implements View.OnClickListener {
     }
 
     public void onClick(View v) {
-        Intent intent= new Intent(ChooseUpRandom.this,Main.class);
+        Intent intent= new Intent(this,Main.class);
         intent.putExtra(Main.UPDIGIT,up);
         startActivity(intent);
     }
