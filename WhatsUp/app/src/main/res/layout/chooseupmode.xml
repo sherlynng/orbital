@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.1"
+        android:paddingLeft="40dp"
+        android:text="Choose Grid Size:"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+    <Spinner
+        android:id="@+id/gridsize_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="50dp"
+        android:layout_weight="0.08"
+        android:spinnerMode="dropdown"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="0.1"
+        android:paddingLeft="30dp"
+        android:text="Choose Mode:"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+    <!--<Spinner
+         android:id="@+id/spinner"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="50dp"
+         android:layout_weight="0.08"
+         android:spinnerMode="dropdown"
+       />
+ -->
+    <Button
+        android:id="@+id/manual_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@mipmap/manual"/>
+
+    <Button
+        android:id="@+id/random_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@mipmap/random3" />
+
+
+
+</LinearLayout>

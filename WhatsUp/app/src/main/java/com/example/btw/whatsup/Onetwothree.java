@@ -1,6 +1,9 @@
 package com.example.btw.whatsup;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -41,19 +45,42 @@ public class Onetwothree extends Activity {
                 if (n.getAndDecrement() >=1)
                     handler.postDelayed(this, 1000);
                 else {
-                    TextView v= (TextView) findViewById(R.id.textView123);
-                    v.setText("Start!");
-                    startGame();
+                        TextView v = (TextView) findViewById(R.id.textView123);
+                        v.setText("Start!");
+                        final Handler handler1 = new Handler();
+                        handler1.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 500);
+
                 }
             }
         };
         handler.postDelayed(counter, 1000);
     }
-
-    protected void startGame(){
-
-        Intent intent= new Intent(this,Main.class);
-        intent.putExtra(Main.UPDIGIT,UP);
-        startActivity(intent);
+/*
+    public boolean isApplicationSentToBackground(final Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
     }
+
+    @Override
+    public void onPause() {
+        if (isApplicationSentToBackground(this)){
+            // Do what you want to do on detecting Home Key being Pressed
+            Intent i = new Intent(this, ChooseUpMode.class);
+            this.startActivity(i);
+        }
+        super.onPause();
+    }
+*/
 }

@@ -5,7 +5,7 @@
     <string name="continue_label">Continue</string>
     <string name="new_game_label">New Game</string>
     <string name="about_title">About</string>
-    <string name="chooseup_summary" >
+    <string name="chooseup_summary">
        \t  When the game begins, you will search for the smallest tile in the grid and begin tapping them in ascending order.\n\n
        \t  When you encounter a tile that contains the UP digit or is a multiple of the UP digit, you need to avoid it by tapping the UP button instead.
     </string>
@@ -13,14 +13,34 @@
     <string name="UPdigit_dispaly">random</string>
     <string name="exit_label">Exit</string>
     <string name="about_text">\
-   WhatsUp is a great gam
+   The game is developed by MatchaLatte
         </string>
+    <string name="instruct">display</string>
+    <string name="GameOver_Message1">Time\'s up!</string>
+    <string name="GameOver_Message2">It\'s a UP number!</string>
+    <string name="GameOver_Message3">Be more accurate!...</string>
     <string name="settings_label">Settings...</string>
     <string name="settings_title">WhatsUp settings</string>
     <string name="settings_shortcut">s</string>
     <string name="music_title">Music</string>
     <string name="music_summary">Play Background music</string>
+    <string name="NoGameToContinue_message">There is no old game to continue.Would you like to start a new Game?</string>
+    <string name="NoGameToContinue_title">Oops!</string>
+    <string name="PlayDemo_message1">
+        This Demo does not have time limit.
+        </string>
+    <string name="PlayDemo_message2"> When the game begins, search for the smallest tile in the grid and begin tapping them in ascending order.\n
+        When you encounter a tile that contains the UP digit or is a multiple of the UP digit, tap the UP button instead.
+       </string>
+    <string name="PlayDemo_message3">   The UP digit for this demo is 4.</string>
+    <string name="PlayDemo_message4">
+       Press START when you are ready!</string>
 
+    <string name="PlayDemo_title">Let\'s have a Demo!</string>
+    <string name="next">NEXT</string>
+    <string name="ok">OK</string>
+    <string name="start">START</string>
+    <string name="cancel">CANCEL</string>
     <string-array name="ups_array">
         <item>3</item>
         <item>4</item>
