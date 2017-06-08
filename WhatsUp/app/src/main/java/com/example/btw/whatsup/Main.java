@@ -88,7 +88,6 @@ public class Main extends Activity implements OnClickListener {
     protected Button btn25;
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -120,12 +119,12 @@ public class Main extends Activity implements OnClickListener {
         btn24 = (Button) this.findViewById(R.id.btn24);
         btn25 = (Button) this.findViewById(R.id.btn25);
 
-        gameData=getSharedPreferences("GameData",Context.MODE_PRIVATE);
-        editor=gameData.edit();
+        gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
+        editor = gameData.edit();
 
         continueFromLast = gameData.getBoolean("CONTINUE_FROM_LAST", false);
         if (continueFromLast) {
-         //   Log.d("Debug", "cotinue from last=true");
+            //   Log.d("Debug", "cotinue from last=true");
             UP = gameData.getInt("UPdigit", 1);
             score = gameData.getInt("score", 0);
             life = gameData.getInt("life", 3);
@@ -139,58 +138,58 @@ public class Main extends Activity implements OnClickListener {
             }
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
-            t.setText(gameData.getString("btn1",""));
+            t.setText(gameData.getString("btn1", ""));
             t = (TextView) findViewById(R.id.btn2);
-            t.setText(gameData.getString("btn2",""));
+            t.setText(gameData.getString("btn2", ""));
             t = (TextView) findViewById(R.id.btn3);
-            t.setText(gameData.getString("btn3",""));
+            t.setText(gameData.getString("btn3", ""));
             t = (TextView) findViewById(R.id.btn4);
-            t.setText(gameData.getString("btn4",""));
+            t.setText(gameData.getString("btn4", ""));
             t = (TextView) findViewById(R.id.btn5);
-            t.setText(gameData.getString("btn5",""));
+            t.setText(gameData.getString("btn5", ""));
             t = (TextView) findViewById(R.id.btn6);
-            t.setText(gameData.getString("btn6",""));
+            t.setText(gameData.getString("btn6", ""));
             t = (TextView) findViewById(R.id.btn7);
-            t.setText(gameData.getString("btn7",""));
+            t.setText(gameData.getString("btn7", ""));
             t = (TextView) findViewById(R.id.btn8);
-            t.setText(gameData.getString("btn8",""));
+            t.setText(gameData.getString("btn8", ""));
             t = (TextView) findViewById(R.id.btn9);
-            t.setText(gameData.getString("btn9",""));
+            t.setText(gameData.getString("btn9", ""));
             t = (TextView) findViewById(R.id.btn10);
-            t.setText(gameData.getString("btn10",""));
+            t.setText(gameData.getString("btn10", ""));
             t = (TextView) findViewById(R.id.btn11);
-            t.setText(gameData.getString("btn11",""));
+            t.setText(gameData.getString("btn11", ""));
             t = (TextView) findViewById(R.id.btn12);
-            t.setText(gameData.getString("btn12",""));
+            t.setText(gameData.getString("btn12", ""));
             t = (TextView) findViewById(R.id.btn13);
-            t.setText(gameData.getString("btn13",""));
+            t.setText(gameData.getString("btn13", ""));
             t = (TextView) findViewById(R.id.btn14);
-            t.setText(gameData.getString("btn14",""));
+            t.setText(gameData.getString("btn14", ""));
             t = (TextView) findViewById(R.id.btn15);
-            t.setText(gameData.getString("btn15",""));
+            t.setText(gameData.getString("btn15", ""));
             t = (TextView) findViewById(R.id.btn16);
-            t.setText(gameData.getString("btn16",""));
+            t.setText(gameData.getString("btn16", ""));
             t = (TextView) findViewById(R.id.btn17);
-            t.setText(gameData.getString("btn17",""));
+            t.setText(gameData.getString("btn17", ""));
             t = (TextView) findViewById(R.id.btn18);
-            t.setText(gameData.getString("btn18",""));
+            t.setText(gameData.getString("btn18", ""));
             t = (TextView) findViewById(R.id.btn19);
-            t.setText(gameData.getString("btn19",""));
+            t.setText(gameData.getString("btn19", ""));
             t = (TextView) findViewById(R.id.btn20);
-            t.setText(gameData.getString("btn20",""));
+            t.setText(gameData.getString("btn20", ""));
             t = (TextView) findViewById(R.id.btn21);
-            t.setText(gameData.getString("btn21",""));
+            t.setText(gameData.getString("btn21", ""));
             t = (TextView) findViewById(R.id.btn22);
-            t.setText(gameData.getString("btn22",""));
+            t.setText(gameData.getString("btn22", ""));
             t = (TextView) findViewById(R.id.btn23);
-            t.setText(gameData.getString("btn23",""));
+            t.setText(gameData.getString("btn23", ""));
             t = (TextView) findViewById(R.id.btn24);
-            t.setText(gameData.getString("btn24",""));
+            t.setText(gameData.getString("btn24", ""));
             t = (TextView) findViewById(R.id.btn25);
-            t.setText(gameData.getString("btn25",""));
+            t.setText(gameData.getString("btn25", ""));
             populateArr(current + 25);
         } else {
-         //   Log.d("Debug", "cotinue from last=false");
+            //   Log.d("Debug", "cotinue from last=false");
             UP = getIntent().getIntExtra("UPDIGIT", 1);
             score = 0;
             life = 3;
@@ -252,6 +251,42 @@ public class Main extends Activity implements OnClickListener {
         };
         handler2.postDelayed(counter2, 5001);
 
+
+
+        /* TODO: Back press from 321 not working!!! :((((((
+        final AtomicInteger n = new AtomicInteger(15);
+        final Handler handler3 = new Handler();
+        //   final TextView textView = (TextView) findViewById(R.id.currentScore);
+        // final AtomicInteger n = new AtomicInteger(3);
+        final Runnable check = new Runnable() {
+
+            @Override
+            public void run() {
+                boolean isBackPressed = getIntent().getBooleanExtra(BACKPRESSED, false);
+                int test = getIntent().getIntExtra(TEST, 100);
+
+                if (isBackPressed){
+                    //      cdt.cancel();
+                    //     finish();
+
+                }
+                else if(test < 0){
+                    n.getAndIncrement();
+                    //         TextView v = (TextView) findViewById(R.id.currentScore);
+                    //       v.setText(Integer.toString(test));
+                    handler3.postDelayed(this, 500);
+                }
+                else if(n.get() > 0){
+                    n.getAndDecrement();
+                    //     TextView v = (TextView) findViewById(R.id.currentScore);
+                    //   v.setText(Integer.toString(n.get()));
+                    handler3.postDelayed(this, 500);
+                }
+            }
+        };
+        handler3.postDelayed(check, 1);
+    }
+    */
 
     }
 
