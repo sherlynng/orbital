@@ -30,7 +30,11 @@ public class GameOver extends Activity implements View.OnClickListener {
         editor=gameData.edit();
         reason = getIntent().getIntExtra(REASON, REASON_DEFAULT);
         setContentView(R.layout.gameover);
-        TextView v = (TextView)findViewById(R.id.gameover_message);
+        TextView message = (TextView)findViewById(R.id.gameover_message);
+        TextView yourScore = (TextView)findViewById(R.id.yourScore_text);
+        TextView yourBestScore = (TextView)findViewById(R.id.yourBestScore_text);
+        yourScore.setText(gameData.getInt("score", 0)+"");
+        yourBestScore.setText( gameData.getInt("bestScore", 0)+"");
         switch (reason) {
              /* REASON for ending game:
       1: Time is up
@@ -38,13 +42,15 @@ public class GameOver extends Activity implements View.OnClickListener {
       3: no more lives
       */
             case 1:
-                v.setText(getResources().getString(R.string.GameOver_Message1));
+                message.setText(getResources().getString(R.string.GameOver_Message1));
+
                 break;
             case 2:
-                v.setText(getResources().getString(R.string.GameOver_Message2));
+                message.setText(getResources().getString(R.string.GameOver_Message2));
+
                 break;
             case 3:
-                v.setText(getResources().getString(R.string.GameOver_Message3));
+                message.setText(getResources().getString(R.string.GameOver_Message3));
         }
         View resBtn = this.findViewById(R.id.restart_btn);
         resBtn.setOnClickListener(this);

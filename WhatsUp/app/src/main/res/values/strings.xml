@@ -15,7 +15,7 @@
     <string name="about_text">\
    The game is developed by MatchaLatte
         </string>
-    <string name="instruct">display</string>
+    <string name="instruct">  </string>
     <string name="GameOver_Message1">Time\'s up!</string>
     <string name="GameOver_Message2">It\'s a UP number!</string>
     <string name="GameOver_Message3">Be more accurate!...</string>
@@ -35,11 +35,16 @@
     <string name="PlayDemo_message3">   The UP digit for this demo is 4.</string>
     <string name="PlayDemo_message4">
        Press START when you are ready!</string>
-
     <string name="PlayDemo_title">Let\'s have a Demo!</string>
+    <string name="PlayDemo_messageFull">
+        When the game begins, search for the smallest tile in the grid and begin tapping them in ascending order.\n
+        When you encounter a tile that contains the UP digit or is a multiple of the UP digit, tap the UP button instead.\n
+        The UP digit for this demo is 4.\n
+        </string>
     <string name="next">NEXT</string>
     <string name="ok">OK</string>
     <string name="start">START</string>
+    <string name="dismiss">DISMISS</string>
     <string name="cancel">CANCEL</string>
     <string-array name="ups_array">
         <item>3</item>
@@ -49,5 +54,10 @@
         <item>7</item>
         <item>8</item>
         <item>9</item>
+    </string-array>
+    <string-array name="gridsize_array">
+        <item>16</item>
+        <item>25</item>
+        <item>36</item>
     </string-array>
 </resources>

@@ -37,12 +37,29 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
 
         <activity
-            android:name=".Main"
+            android:name=".ChooseGridSize"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".Main5"
             android:label="@string/main_title"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".Main4"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".Main6"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+        </activity>
         <activity
             android:name=".Onetwothree"
             android:screenOrientation="portrait"

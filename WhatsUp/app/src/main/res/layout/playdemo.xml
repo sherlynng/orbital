@@ -30,9 +30,19 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
                 <ImageButton
-                    android:id="@+id/start_menu_btn"
+                    android:id="@+id/retrieve_inst_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:adjustViewBounds="true"
+                    android:background="@color/transparent"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/pause_button" />
+
+                <!--TODO:create graphics for home btn on the right and instruct btn on the left -->
+                <ImageButton
+                    android:id="@+id/back_to_home_btn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentRight="true"

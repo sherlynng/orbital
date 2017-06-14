@@ -27,6 +27,9 @@ public class Pause extends Activity implements View.OnClickListener {
     private int UP;
     public static final String TIME = "TIME";
     private long timeLeft;
+    public static final String SCORE="SCORE";
+    public static final int SCORE_DEFAULT = -1;
+    private int score;
     public static final String ONETWOTHREE_PAUSED = "PAUSED_123";
     private boolean paused_123;
 
@@ -37,6 +40,7 @@ public class Pause extends Activity implements View.OnClickListener {
 
         UP = getIntent().getIntExtra(UPDIGIT, UPD_DEFAULT);
         timeLeft = getIntent().getLongExtra(TIME, 123);
+        score = getIntent().getIntExtra(SCORE, SCORE_DEFAULT);
         paused_123 = getIntent().getBooleanExtra(ONETWOTHREE_PAUSED, false);
 
 
@@ -49,11 +53,15 @@ public class Pause extends Activity implements View.OnClickListener {
                 TimeUnit.MILLISECONDS.toMinutes(timeLeft),
                 TimeUnit.MILLISECONDS.toSeconds(timeLeft) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeLeft))));
+        TextView v3 = (TextView) findViewById(R.id.score_report);
+        v3.setText(score+"");
+
 
         View resumeButton = this.findViewById(R.id.resume_btn);
         resumeButton.setOnClickListener(this);
         View contButton = this.findViewById(R.id.endgame_btn);
         contButton.setOnClickListener(this);
+
 
         if (paused_123)
             moveTaskToBack(true);
@@ -85,7 +93,8 @@ public class Pause extends Activity implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         editor.putBoolean("HAS_OLD_GAME_TO_CONTINUE",true).commit();
-                        Toast.makeText(Pause.this,"Game saved",Toast.LENGTH_LONG).show();
+                        Toast.makeText(Pause.this,"Game saved",Toast.LENGTH_SHORT
+                        ).show();
                         backToHomePage();
                     }
                 });

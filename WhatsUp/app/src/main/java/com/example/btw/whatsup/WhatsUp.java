@@ -56,7 +56,7 @@ public class WhatsUp extends Activity implements OnClickListener {
             case R.id.continue_button:
                 hasOldGameToContinue = gameData.getBoolean("HAS_OLD_GAME_TO_CONTINUE", false);
                 if (hasOldGameToContinue) {
-                    Intent continue_from_last = new Intent(this, Main.class);
+                    Intent continue_from_last = new Intent(this, Main4.class);
                     editor.putBoolean("CONTINUE_FROM_LAST", true).commit();
                     this.startActivity(continue_from_last);
                 } else {
@@ -94,6 +94,7 @@ public class WhatsUp extends Activity implements OnClickListener {
 
             case R.id.settings_button:
                 //TODO:setting button content missing
+                
                 break;
 
         }

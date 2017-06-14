@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ChooseUpMode extends Activity implements View.OnClickListener {
 
     public int up;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +27,8 @@ public class ChooseUpMode extends Activity implements View.OnClickListener {
         button.setOnClickListener(this);
         View button2 = this.findViewById(R.id.random_button);
         button2.setOnClickListener(this);
-    }
+
+}
 
     public void onClick(View v) {
         switch (v.getId()) {
