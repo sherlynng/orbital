@@ -4,6 +4,31 @@
     android:background="@mipmap/background3">
 
     <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/timeleft_clock"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="145dp"
+        android:text="Time left: "
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/UPD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/pause_text"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="200dp"
+        android:text="3"
+        android:textColor="@color/colorPrimary"
+        android:textSize="50dp" />
+
+    <TextView
         android:id="@+id/pause_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,71 +44,45 @@
         android:id="@+id/resume_btn"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginTop="340dp"
         android:background="@mipmap/resume"
 
-        android:layout_alignStart="@+id/UPdigit_text" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/score_report_title"
+        android:layout_marginBottom="62dp" />
 
     <Button
-        android:id="@+id/continue_btn"
+        android:id="@+id/endgame_btn"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:background="@mipmap/end_game2"
-        android:layout_marginTop="33dp"
         android:layout_marginLeft="-20dp"
-        android:layout_below="@+id/UPdigit_text"
-        android:layout_alignStart="@+id/timeleft_clock" />
-<!--
-    <Button
-        android:id="@+id/endgame_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Game"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/resume_btn"
-        android:layout_centerHorizontal="true" />
--->
+        android:layout_alignBottom="@+id/resume_btn"
+        android:layout_alignStart="@+id/score_report"
+        android:layout_marginBottom="14dp" />
+    <!--
+        <Button
+            android:id="@+id/endgame_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Game"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/resume_btn"
+            android:layout_centerHorizontal="true" />
+    -->
 
     <TextView
-    android:id="@+id/UPdigit_text"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="20dp"
-    android:textColor="@color/black"
-    android:text="Your UP Digit was: "
-    android:layout_marginLeft="68dp"
-    android:layout_marginBottom="72dp"
-        android:layout_marginTop="210dp"
-
-    android:layout_alignEnd="@+id/pause_text" />
-
-    <TextView
-        android:id="@+id/UPD"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="50dp"
-        android:textColor="@color/colorPrimary"
-        android:text="3"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="260dp"
-        android:layout_marginBottom="55dp"
-        android:layout_marginTop="190dp"
-
-        android:layout_alignEnd="@+id/pause_text"
-        android:layout_alignParentLeft="true"/>
-
-    <TextView
-        android:id="@+id/timeleft_text"
+        android:id="@+id/UPdigit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:textColor="@color/black"
-        android:text="Time left: "
-        android:layout_marginLeft="145dp"
-        android:layout_marginTop="40dp"
-        android:layout_below="@id/pause_text"
-        android:layout_above="@+id/continue_btn"
-        android:layout_alignEnd="@+id/UPdigit_text" />
+        android:text="Your UP Digit was: "
+        android:layout_marginLeft="68dp"
+
+        android:layout_alignBottom="@+id/UPD"
+        android:layout_alignEnd="@+id/UPD" />
+
+
 
     <TextView
         android:id="@+id/timeleft_clock"
@@ -94,9 +93,33 @@
         android:text="02 : 00"
         android:layout_marginRight="-50dp"
         android:layout_marginLeft="240dp"
-        android:layout_marginTop="28dp"
-        android:layout_below="@id/pause_text"
-        android:layout_alignParentLeft="true"/>
+        android:layout_below="@+id/pause_text"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="33dp" />
+
+    <TextView
+        android:id="@+id/score_report_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="Your score was: "
+        android:layout_below="@+id/UPD"
+        android:layout_alignStart="@+id/textView3" />
+    <TextView
+    android:id="@+id/score_report"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="35dp"
+    android:textColor="@color/hotpink"
+    android:text=" 1000"
+    android:layout_marginRight="-50dp"
+    android:layout_marginLeft="240dp"
+
+        android:layout_alignBaseline="@+id/score_report_title"
+        android:layout_alignBottom="@+id/score_report_title"
+        android:layout_toEndOf="@+id/resume_btn"
+        android:layout_marginStart="54dp" />
 
 
 </RelativeLayout>

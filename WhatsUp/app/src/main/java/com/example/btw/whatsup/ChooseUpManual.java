@@ -18,24 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ChooseUpManual extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public int up;
-/*    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.chooseupmanual);
-        TextView v= (TextView) findViewById(R.id.UPdigit_display);
-        v.setText(up + "");
-        View button = this.findViewById(R.id.next_button_manual);
-        button.setOnClickListener(this);
 
-    }
-
-    public void onClick(View v) {
-        Intent intent= new Intent(ChooseUpManual.this,Main.class);
-        intent.putExtra(Main.UPDIGIT,up);
-        startActivity(intent);
-    }
-}
-*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +50,8 @@ public class ChooseUpManual extends Activity implements View.OnClickListener, Ad
     }
 
     public void onClick(View v) {
-        Intent intent= new Intent(ChooseUpManual.this,Main.class);
-        intent.putExtra(Main.UPDIGIT,up);
+        Intent intent= new Intent(ChooseUpManual.this,ChooseGridSize.class);
+        intent.putExtra(ChooseGridSize.UPDIGIT,up);
         startActivity(intent);
     }
 }

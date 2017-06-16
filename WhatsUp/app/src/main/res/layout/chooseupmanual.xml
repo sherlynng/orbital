@@ -17,7 +17,6 @@
         android:textSize="20dp"
         android:layout_gravity="center"
         android:text="Choose Your UP Digit:"
-        android:textColor="@color/black"
         android:layout_margin="2dp"/>
 
 
@@ -33,10 +32,11 @@
 
     <Button
         android:id="@+id/next_button_manual"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
         android:layout_width="150dp"
         android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:layout_margin="0dp"
-        android:background="@mipmap/next"/>
+        android:background="@mipmap/next"
+         />
 
 </LinearLayout>

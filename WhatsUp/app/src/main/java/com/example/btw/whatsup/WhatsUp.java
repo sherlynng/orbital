@@ -2,13 +2,14 @@ package com.example.btw.whatsup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -31,34 +32,77 @@ public class WhatsUp extends Activity implements OnClickListener {
         aboutButton.setOnClickListener(this);
         View exitButton = this.findViewById(R.id.exit_button);
         exitButton.setOnClickListener(this);
+        View howToPlayButton = this.findViewById(R.id.howtoplay_button);
+        howToPlayButton.setOnClickListener(this);
 
-        ImageView pause = (ImageView) findViewById(R.id.whatsup_logo);
-        pause.setImageResource(R.mipmap.whatsup_logo);
+        ImageView logo = (ImageView) findViewById(R.id.whatsup_logo);
+        logo.setImageResource(R.mipmap.whatsup_logo);
+
     }
 
 
     public void onClick(View v) {
+       final SharedPreferences gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = gameData.edit();
+        Boolean hasOldGameToContinue;
+
         switch (v.getId()) {
             case R.id.about_button:
-                //must create an instance of Intent before running the activity
-                Intent i = new Intent(this, About.class);
-                this.startActivity(i);
+                Intent about = new Intent(this, About.class);
+                editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+                this.startActivity(about);
+                break;
+            case R.id.howtoplay_button:
+                Intent demo = new Intent(this,PlayDemo.class);
+                editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+                this.startActivity(demo);
                 break;
             case R.id.continue_button:
-              //  startGame(Game.DIFFICULTY_CONTINUE);
+                hasOldGameToContinue = gameData.getBoolean("HAS_OLD_GAME_TO_CONTINUE", false);
+                if (hasOldGameToContinue) {
+                    Intent continue_from_last = new Intent(this, Main4.class);
+                    editor.putBoolean("CONTINUE_FROM_LAST", true).commit();
+                    this.startActivity(continue_from_last);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(WhatsUp.this);
+                    builder.setMessage(R.string.NoGameToContinue_message)
+                            .setTitle(R.string.NoGameToContinue_title);
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent startNewGame = new Intent(WhatsUp.this, ChooseUpMode.class);
+                            editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+                            startActivity(startNewGame);
+                        }
+                    });
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent backToMenu = new Intent(WhatsUp.this, WhatsUp.class);
+                            editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+                            startActivity(backToMenu);
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
                 break;
             case R.id.new_button:
-                Intent j = new Intent(this, ChooseUpMode.class);
-                this.startActivity(j);
+                Intent new_Game = new Intent(this, ChooseUpMode.class);
+                editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+                this.startActivity(new_Game);
                 break;
             case R.id.exit_button:
+                editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
                 openDialog();
                 break;
 
-            //More buttons to go
+            case R.id.settings_button:
+                //TODO:setting button content missing
+                
+                break;
+
         }
     }
-
     public void openDialog(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are you sure you want to exit?");
@@ -80,17 +124,5 @@ public class WhatsUp extends Activity implements OnClickListener {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-
-    /**
-     * Start a new game with given difficulty
-     */
-    private void startGame() {
-       // Log.d(TAG, "clicked on " + i);
-        //Start game here
-        Intent intent= new Intent(WhatsUp.this,ChooseUpMode.class);
-     //   intent.putExtra(Game.KEY_DIFFICULTY,i); //extraData is a map of key(string)/value(in this case int) pairs
-        startActivity(intent);
-    }
-
 
 }

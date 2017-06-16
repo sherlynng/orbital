@@ -6,6 +6,7 @@
     android:background="@mipmap/background"
     android:weightSum="1">
 
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,22 +17,22 @@
         android:textColor="@color/black"
         android:textSize="20dp" />
     <Spinner
-         android:id="@+id/gridsize_spinner"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center"
-         android:layout_margin="50dp"
-         android:layout_weight="0.08"
-         android:spinnerMode="dropdown"
-       />
-
+        android:id="@+id/gridsize_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="50dp"
+        android:layout_weight="0.08"
+        android:spinnerMode="dropdown"
+        />
+-->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="70dp"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="0.1"
-        android:paddingLeft="30dp"
         android:text="Choose Mode:"
         android:textColor="@color/black"
         android:textSize="20dp" />
@@ -50,7 +51,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
+        android:layout_margin="0dp"
         android:background="@mipmap/manual"/>
 
     <Button
@@ -58,7 +59,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
+        android:layout_margin="50dp"
         android:background="@mipmap/random3" />
 
 

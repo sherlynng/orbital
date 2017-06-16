@@ -48,7 +48,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:background="@mipmap/new_game"
-         />
+            />
 
         <Button
             android:id="@+id/settings_button"
@@ -56,7 +56,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:background="@mipmap/settings"
-     />
+            />
 
         <Button
             android:id="@+id/exit_button"
@@ -64,14 +64,14 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:background="@mipmap/exit"/>
-<!--
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="600dp"
-        android:layout_height="190dp"
-        android:layout_gravity="center_horizontal"
-        app:srcCompat="@mipmap/brickwall_withBear_transparent" />
-   -->
+        <!--
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="600dp"
+                android:layout_height="190dp"
+                android:layout_gravity="center_horizontal"
+                app:srcCompat="@mipmap/brickwall_withBear_transparent" />
+           -->
 
     </LinearLayout>
 

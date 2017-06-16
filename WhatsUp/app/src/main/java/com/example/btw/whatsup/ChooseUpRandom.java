@@ -25,13 +25,11 @@ public class ChooseUpRandom extends Activity implements View.OnClickListener {
         View button = this.findViewById(R.id.next_button_random);
         button.setOnClickListener(this);
 
-       // this.findViewById(R.id.arrow).setRotation(90);
-
     }
 
     public void onClick(View v) {
-        Intent intent= new Intent(ChooseUpRandom.this,Main.class);
-        intent.putExtra(Main.UPDIGIT,up);
+        Intent intent= new Intent(ChooseUpRandom.this,ChooseGridSize.class);
+        intent.putExtra(ChooseGridSize.UPDIGIT,up);
         startActivity(intent);
     }
 }
