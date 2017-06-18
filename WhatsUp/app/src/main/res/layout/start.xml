@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@mipmap/home_screen4"
+
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/whatsup_logo"
+            android:layout_width="250dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@mipmap/whatsup_logo" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/continue_"
+            android:paddingRight="200dp" />
+
+        <Button
+            android:id="@+id/new_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/new_game" />
+
+        <Button
+            android:id="@+id/settings_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/settings" />
+
+        <Button
+            android:id="@+id/exit_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/exit" />
+        <!--
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="600dp"
+                android:layout_height="190dp"
+                android:layout_gravity="center_horizontal"
+                app:srcCompat="@mipmap/brickwall_withBear_transparent" />
+           -->
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="90dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/about_button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="35dp"
+            android:background="@mipmap/about4" />
+
+        <Button
+            android:id="@+id/howtoplay_button"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="80dp"
+            android:layout_gravity="right"
+            android:background="@mipmap/howtoplay4" />
+
+    </LinearLayout>
+
+
+
+</android.widget.LinearLayout>
