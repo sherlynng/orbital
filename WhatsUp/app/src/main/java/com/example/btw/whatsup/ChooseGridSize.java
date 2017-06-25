@@ -18,6 +18,7 @@ public class ChooseGridSize extends Activity implements AdapterView.OnItemSelect
     private int UP;
     public String gridsize;
     public Spinner spinner;
+    protected boolean continueMusic = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,5 +74,19 @@ public class ChooseGridSize extends Activity implements AdapterView.OnItemSelect
                 startActivity(sixbysix);
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_MENU);
     }
 }

@@ -19,32 +19,77 @@ import android.widget.Toast;
 
 public class WhatsUp extends Activity implements OnClickListener {
 
+    protected SharedPreferences gameData;
+    protected SharedPreferences.Editor editor;
+    protected boolean continueMusic = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
+
+        gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
+        editor = gameData.edit();
+
         //Set up click listeners for all buttons
+        boolean hasOldGameToContinue = gameData.getBoolean("HAS_OLD_GAME_TO_CONTINUE", false);
+
+        //Continue button not visible if there's no old game
         View continueButton = this.findViewById(R.id.continue_button);
-        continueButton.setOnClickListener(this);
+        if(hasOldGameToContinue) {
+            continueButton.setBackgroundResource(R.drawable.continue_btn_state);
+            continueButton.setOnClickListener(this);
+        }
+        else{
+            continueButton.setVisibility(View.GONE);
+        }
+
         View newButton = this.findViewById(R.id.new_button);
+        newButton.setBackgroundResource(R.drawable.new_game_btn_state);
         newButton.setOnClickListener(this);
         View aboutButton = this.findViewById(R.id.about_button);
+        aboutButton.setBackgroundResource(R.drawable.about_btn_state);
         aboutButton.setOnClickListener(this);
         View exitButton = this.findViewById(R.id.exit_button);
+        exitButton.setBackgroundResource(R.drawable.exit_btn_state);
         exitButton.setOnClickListener(this);
         View howToPlayButton = this.findViewById(R.id.howtoplay_button);
+        howToPlayButton.setBackgroundResource(R.drawable.howtoplay_btn_state);
         howToPlayButton.setOnClickListener(this);
+        View settingsButton = this.findViewById(R.id.settings_button);
+        settingsButton.setBackgroundResource(R.drawable.settings_btn_state);
+        settingsButton.setOnClickListener(this);
 
         ImageView logo = (ImageView) findViewById(R.id.whatsup_logo);
         logo.setImageResource(R.mipmap.whatsup_logo);
-
     }
 
+    @Override
+    protected void  onResume(){
+        super.onResume();
+       // Music.play(this,R.raw.bgm);
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_MENU);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+     //   Music.stop(this);
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
+        openDialog();
+    }
 
     public void onClick(View v) {
-       final SharedPreferences gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = gameData.edit();
-        Boolean hasOldGameToContinue;
+
+        boolean hasOldGameToContinue;
 
         switch (v.getId()) {
             case R.id.about_button:
@@ -63,7 +108,8 @@ public class WhatsUp extends Activity implements OnClickListener {
                     Intent continue_from_last = new Intent(this, Main4.class);
                     editor.putBoolean("CONTINUE_FROM_LAST", true).commit();
                     this.startActivity(continue_from_last);
-                } else {
+                }
+               /* else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(WhatsUp.this);
                     builder.setMessage(R.string.NoGameToContinue_message)
                             .setTitle(R.string.NoGameToContinue_title);
@@ -84,7 +130,7 @@ public class WhatsUp extends Activity implements OnClickListener {
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }
+                } */
                 break;
             case R.id.new_button:
                 Intent new_Game = new Intent(this, ChooseUpMode.class);
@@ -97,8 +143,8 @@ public class WhatsUp extends Activity implements OnClickListener {
                 break;
 
             case R.id.settings_button:
-                //TODO:setting button content missing
-                
+                Intent settings = new Intent(this, Settings.class);
+                this.startActivity(settings);
                 break;
 
         }

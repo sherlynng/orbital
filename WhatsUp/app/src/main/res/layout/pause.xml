@@ -1,125 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@mipmap/background3">
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/timeleft_clock"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="145dp"
-        android:text="Time left: "
-        android:textColor="@color/black"
-        android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/UPD"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/pause_text"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="260dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="200dp"
-        android:text="3"
-        android:textColor="@color/colorPrimary"
-        android:textSize="50dp" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background3"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/pause_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="51dp"
-        android:textSize="50dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/black"
         android:text="Game Paused"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:textColor="@color/black"
+        android:textSize="50dp" />
 
-    <Button
-        android:id="@+id/resume_btn"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:background="@mipmap/resume"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/score_report_title"
-        android:layout_marginBottom="62dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/endgame_btn"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:background="@mipmap/end_game2"
-        android:layout_marginLeft="-20dp"
-        android:layout_alignBottom="@+id/resume_btn"
-        android:layout_alignStart="@+id/score_report"
-        android:layout_marginBottom="14dp" />
-    <!--
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="2"
+                android:text="Time Left:"
+                android:textSize="20dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/timeleft_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginLeft="60dp"
+                android:text="00:00"
+                android:textSize="35dp"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
+                android:text="Your UP digit was:"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/UPD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="7"
+                android:textSize="35dp"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/score_report_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
+                android:text="Your score was:"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/score_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="100"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="35dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp">
+        <Button
+            android:id="@+id/resume_btn"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/resume"
+            />
+
         <Button
             android:id="@+id/endgame_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="End Game"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/resume_btn"
-            android:layout_centerHorizontal="true" />
-    -->
-
-    <TextView
-        android:id="@+id/UPdigit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:text="Your UP Digit was: "
-        android:layout_marginLeft="68dp"
-
-        android:layout_alignBottom="@+id/UPD"
-        android:layout_alignEnd="@+id/UPD" />
-
-
-
-    <TextView
-        android:id="@+id/timeleft_clock"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="35dp"
-        android:textColor="@color/hotpink"
-        android:text="02 : 00"
-        android:layout_marginRight="-50dp"
-        android:layout_marginLeft="240dp"
-        android:layout_below="@+id/pause_text"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="33dp" />
-
-    <TextView
-        android:id="@+id/score_report_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:text="Your score was: "
-        android:layout_below="@+id/UPD"
-        android:layout_alignStart="@+id/textView3" />
-    <TextView
-    android:id="@+id/score_report"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="35dp"
-    android:textColor="@color/hotpink"
-    android:text=" 1000"
-    android:layout_marginRight="-50dp"
-    android:layout_marginLeft="240dp"
-
-        android:layout_alignBaseline="@+id/score_report_title"
-        android:layout_alignBottom="@+id/score_report_title"
-        android:layout_toEndOf="@+id/resume_btn"
-        android:layout_marginStart="54dp" />
-
-
-</RelativeLayout>
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="70dp"
+            android:background="@mipmap/end_game2" />
+    </LinearLayout>
+</LinearLayout>

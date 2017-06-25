@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -44,6 +45,7 @@ public class Main5 extends Activity implements OnClickListener {
     private boolean continueFromLast;
     protected SharedPreferences gameData;
     protected SharedPreferences.Editor editor;
+    protected boolean continueMusic = true;
 
     public static final String UPDIGIT = "UPDIGIT";
     private int UP;
@@ -98,30 +100,55 @@ public class Main5 extends Activity implements OnClickListener {
 
         upBtn = (Button) this.findViewById(R.id.up_button);
         btn1 = (Button) this.findViewById(R.id.btn1);
+        btn1.setBackgroundResource(R.drawable.yellow_spark);
         btn2 = (Button) this.findViewById(R.id.btn2);
+        btn2.setBackgroundResource(R.drawable.orange_spark);
         btn3 = (Button) this.findViewById(R.id.btn3);
+        btn3.setBackgroundResource(R.drawable.pink_spark);
         btn4 = (Button) this.findViewById(R.id.btn4);
+        btn4.setBackgroundResource(R.drawable.green_spark);
         btn5 = (Button) this.findViewById(R.id.btn5);
+        btn5.setBackgroundResource(R.drawable.purple_spark);
         btn6 = (Button) this.findViewById(R.id.btn6);
+        btn6.setBackgroundResource(R.drawable.purple_spark);
         btn7 = (Button) this.findViewById(R.id.btn7);
+        btn7.setBackgroundResource(R.drawable.yellow_spark);
         btn8 = (Button) this.findViewById(R.id.btn8);
+        btn8.setBackgroundResource(R.drawable.orange_spark);
         btn9 = (Button) this.findViewById(R.id.btn9);
+        btn9.setBackgroundResource(R.drawable.pink_spark);
         btn10 = (Button) this.findViewById(R.id.btn10);
+        btn10.setBackgroundResource(R.drawable.green_spark);
         btn11 = (Button) this.findViewById(R.id.btn11);
+        btn11.setBackgroundResource(R.drawable.green_spark);
         btn12 = (Button) this.findViewById(R.id.btn12);
+        btn12.setBackgroundResource(R.drawable.purple_spark);
         btn13 = (Button) this.findViewById(R.id.btn13);
+        btn13.setBackgroundResource(R.drawable.yellow_spark);
         btn14 = (Button) this.findViewById(R.id.btn14);
+        btn14.setBackgroundResource(R.drawable.orange_spark);
         btn15 = (Button) this.findViewById(R.id.btn15);
+        btn15.setBackgroundResource(R.drawable.pink_spark);
         btn16 = (Button) this.findViewById(R.id.btn16);
+        btn16.setBackgroundResource(R.drawable.pink_spark);
         btn17 = (Button) this.findViewById(R.id.btn17);
+        btn17.setBackgroundResource(R.drawable.green_spark);
         btn18 = (Button) this.findViewById(R.id.btn18);
+        btn18.setBackgroundResource(R.drawable.purple_spark);
         btn19 = (Button) this.findViewById(R.id.btn19);
+        btn19.setBackgroundResource(R.drawable.yellow_spark);
         btn20 = (Button) this.findViewById(R.id.btn20);
+        btn20.setBackgroundResource(R.drawable.orange_spark);
         btn21 = (Button) this.findViewById(R.id.btn21);
+        btn21.setBackgroundResource(R.drawable.orange_spark);
         btn22 = (Button) this.findViewById(R.id.btn22);
+        btn22.setBackgroundResource(R.drawable.pink_spark);
         btn23 = (Button) this.findViewById(R.id.btn23);
+        btn23.setBackgroundResource(R.drawable.green_spark);
         btn24 = (Button) this.findViewById(R.id.btn24);
+        btn24.setBackgroundResource(R.drawable.purple_spark);
         btn25 = (Button) this.findViewById(R.id.btn25);
+        btn25.setBackgroundResource(R.drawable.yellow_spark);
 
         gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
         editor = gameData.edit();
@@ -329,21 +356,81 @@ public class Main5 extends Activity implements OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
 
         if (isApplicationSentToBackground(this)) {
             // Do what you want to do on detecting Home Key being Pressed
             cdt.pause();
             Intent i = new Intent(this, Pause.class);
-            //i.putExtra(Pause.UPDIGIT, UP);
-            //i.putExtra(Pause.TIME, cdt.timeLeft());
+            i.putExtra(Pause.UPDIGIT, UP);
+            i.putExtra(Pause.TIME, cdt.timeLeft());
+            i.putExtra(Pause.SCORE, score);
             this.startActivity(i);
         }
 
     }
 
     @Override
+    public void onBackPressed() {
+        cdt.pause();
+
+        TextView t;
+        t = (TextView) findViewById(R.id.btn1);
+        editor.putString("btn1", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn2);
+        editor.putString("btn2", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn3);
+        editor.putString("btn3", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn4);
+        editor.putString("btn4", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn5);
+        editor.putString("btn5", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn6);
+        editor.putString("btn6", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn7);
+        editor.putString("btn7", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn8);
+        editor.putString("btn8", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn9);
+        editor.putString("btn9", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn10);
+        editor.putString("btn10", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn11);
+        editor.putString("btn11", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn12);
+        editor.putString("btn12", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn13);
+        editor.putString("btn13", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn14);
+        editor.putString("btn14", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn15);
+        editor.putString("btn15", t.getText().toString()).commit();
+        t = (TextView) findViewById(R.id.btn16);
+        editor.putString("btn16", t.getText().toString()).commit();
+        editor.putInt("UPdigit", UP).commit();
+        editor.putInt("score", score).commit();
+        editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+        editor.putInt("life", life).commit();
+        editor.putInt("current", current).commit();
+        editor.putLong("timeLeft", cdt.timeLeft()).commit();
+        for (Integer i : fillArr) {
+            fillArrContent += i + ",";
+        }
+        editor.putString("FILLARR_CONTENT", fillArrContent).commit();
+        Intent i = new Intent(this, Pause.class);
+        i.putExtra(Pause.UPDIGIT, UP);
+        i.putExtra(Pause.TIME, cdt.timeLeft());
+        i.putExtra(Pause.SCORE, score);
+        this.startActivity(i);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_GAME);
 
         cdt.resume();
 
@@ -533,23 +620,57 @@ public class Main5 extends Activity implements OnClickListener {
                 findCurrent();
                 currentScore.setText(score + "");
                 current++;
-                currentNumText.setText(current + "");
+                currentNumText.setText(current+"");
             } else {//Wrong
-                cdt.cancel();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+               /*cdt.cancel();
+               editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
                 editor.putInt("score", score).commit();
                 GameOver(2);
+                */
+                life--;
+                if (life <= 0) {
+                    cdt.cancel();
+                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("score", score).commit();
+                    GameOver(2);
+                    return;
+                }
+                //Shake screen
+                pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
+                if (life > 1) {
+                    final Toast toast1=Toast.makeText(Main5.this, "You have " + life + " more lives!", Toast.LENGTH_SHORT);
+                    new CountDownTimer(1200, 1000)
+                    {
+                        public void onTick(long millisUntilFinished) {toast1.show();}
+                        public void onFinish() {toast1.cancel();}
+                    }.start();
+                } else {
+                    final Toast toast2=Toast.makeText(Main5.this, "You have " + life + " more life!", Toast.LENGTH_SHORT);
+                    new CountDownTimer(1200, 1000)
+                    {
+                        public void onTick(long millisUntilFinished) {toast2.show();}
+                        public void onFinish() {toast2.cancel();}
+                    }.start();
+                }
+
             }
         } else {   //Not UP num
             if (pressedNum == current) {      //Correct
+
+                //Spark animation
+                AnimationDrawable anim = (AnimationDrawable)pressedButton.getBackground();
+
+                if (anim.isRunning()) {
+                    anim.stop();
+                }
+                anim.start();
+
                 score += pressedNum;
                 changeNo(pressedButton);
                 currentScore.setText(score + "");
                 current++;
-                currentNumText.setText(current + "");
+                currentNumText.setText(current+"");
             } else {                            //Wrong
-
-
                 life--;
                 if (life <= 0) {
                     cdt.cancel();
@@ -829,6 +950,7 @@ public class Main5 extends Activity implements OnClickListener {
                 Intent i = new Intent(this, Pause.class);
                 i.putExtra(Pause.UPDIGIT, UP);
                 i.putExtra(Pause.TIME, cdt.timeLeft());
+                i.putExtra(Pause.SCORE, score);
                 this.startActivity(i);
                 break;
             case R.id.up_button:

@@ -32,6 +32,7 @@ public class Pause extends Activity implements View.OnClickListener {
     private int score;
     public static final String ONETWOTHREE_PAUSED = "PAUSED_123";
     private boolean paused_123;
+    protected boolean continueMusic = true;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +72,9 @@ public class Pause extends Activity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.resume_btn:  //back to game play
-                finish();
+                this.finish();
                 break;
-            case R.id.endgame_btn:  //back to start menu. save game data to continue next time
-              //  Intent continueNextTime = new Intent(this, WhatsUp.class);
-                //editor.putBoolean("HAS_OLD_GAME_TO_CONTINUE",true).commit();
-               // this.startActivity(continueNextTime);
+            case R.id.endgame_btn:
                 openDialog();
                 break;
         }
@@ -87,7 +85,7 @@ public class Pause extends Activity implements View.OnClickListener {
         final SharedPreferences gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = gameData.edit();
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Do you want to save your game?");
+        alertDialogBuilder.setMessage("Do you want to save your game? Previous unfinished game will be erased.");
         alertDialogBuilder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -114,6 +112,20 @@ public class Pause extends Activity implements View.OnClickListener {
     public void backToHomePage(){
         Intent i = new Intent(Pause.this, WhatsUp.class);
         this.startActivity(i);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_MENU);
     }
 
 }

@@ -18,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ChooseUpManual extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public int up;
+    protected boolean continueMusic = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,20 @@ public class ChooseUpManual extends Activity implements View.OnClickListener, Ad
         Intent intent= new Intent(ChooseUpManual.this,ChooseGridSize.class);
         intent.putExtra(ChooseGridSize.UPDIGIT,up);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_MENU);
     }
 }
 

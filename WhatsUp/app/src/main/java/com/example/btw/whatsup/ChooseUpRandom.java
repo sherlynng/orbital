@@ -15,6 +15,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ChooseUpRandom extends Activity implements View.OnClickListener {
 
     public int up;
+    protected boolean continueMusic = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,5 +33,19 @@ public class ChooseUpRandom extends Activity implements View.OnClickListener {
         Intent intent= new Intent(ChooseUpRandom.this,ChooseGridSize.class);
         intent.putExtra(ChooseGridSize.UPDIGIT,up);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_MENU);
     }
 }

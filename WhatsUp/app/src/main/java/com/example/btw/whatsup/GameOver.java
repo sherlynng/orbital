@@ -20,6 +20,7 @@ public class GameOver extends Activity implements View.OnClickListener {
     public static final String REASON = "REASON";
     public static final int REASON_DEFAULT = 0;
     private int reason;
+    protected boolean continueMusic = true;
 
 
 
@@ -46,9 +47,9 @@ public class GameOver extends Activity implements View.OnClickListener {
 
                 break;
             case 2:
-                message.setText(getResources().getString(R.string.GameOver_Message2));
+              //  message.setText(getResources().getString(R.string.GameOver_Message2));
 
-                break;
+//                break;
             case 3:
                 message.setText(getResources().getString(R.string.GameOver_Message3));
         }
@@ -67,7 +68,7 @@ public class GameOver extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-      SharedPreferences  gameData=getSharedPreferences("GameData",Context.MODE_PRIVATE);
+        SharedPreferences  gameData=getSharedPreferences("GameData",Context.MODE_PRIVATE);
 
         switch (v.getId()) {
             case R.id.restart_btn:
@@ -80,5 +81,19 @@ public class GameOver extends Activity implements View.OnClickListener {
                 this.startActivity(j);
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_END_GAME);
     }
 }

@@ -49,6 +49,7 @@ public class PlayDemo extends Activity implements OnClickListener {
     private int bestScore;
     private int current;
     private int life;
+    protected boolean continueMusic = true;
 
 
     private ArrayList<Integer> fillArr = new ArrayList<Integer>();  //arraylist that contains new numbers to replace tapped numbers
@@ -207,6 +208,9 @@ public class PlayDemo extends Activity implements OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
 
         if (isApplicationSentToBackground(this)) {
             // Do what you want to do on detecting Home Key being Pressed
@@ -221,6 +225,8 @@ public class PlayDemo extends Activity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_MENU);
 
         // cdt.resume();
 /*
@@ -415,7 +421,7 @@ public class PlayDemo extends Activity implements OnClickListener {
                 instruct.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_mild));
             } else {//Wrong
                 pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
-                instruct.setText("Wrong!Press the UP button");
+                instruct.setText("Wrong! Press the UP button");
                 instruct.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_mild));
             }
         } else {   //Not UP num
@@ -606,7 +612,7 @@ public class PlayDemo extends Activity implements OnClickListener {
     protected void initialiseGrid(int start) {
         ArrayList<Integer> arr = new ArrayList<Integer>();
 
-        for (int i = start; i <= start + 25; i++) {
+        for (int i = start; i < start + 25; i++) {
             arr.add(i);
         }
         Collections.shuffle(arr);
