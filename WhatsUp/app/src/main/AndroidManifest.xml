@@ -73,6 +73,13 @@
         </activity>
 
         <activity
+            android:name=".MainExtreme4"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".Main5"
             android:label="@string/main_title"
             android:screenOrientation="portrait"
@@ -112,6 +119,12 @@
 
         <activity
             android:name=".Rotate"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".IncreaseGrid"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>

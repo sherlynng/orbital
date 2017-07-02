@@ -29,14 +29,14 @@ public class YourUpDigit extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yourupdigit);
 
-       // upDigit = getIntent().getIntExtra("UPDIGIT", 1);
-       // gridSize = getIntent().getIntExtra("GRIDSIZE", 1);
+        // upDigit = getIntent().getIntExtra("UPDIGIT", 1);
+        // gridSize = getIntent().getIntExtra("GRIDSIZE", 1);
         difficulty = getIntent().getIntExtra("DIFFICULTY", 1);
 
         gridSize = Settings.getGridSize(this);
         upDigit = Settings.getUpDigit(this);
 
-        if(upDigit == 0) {
+        if (upDigit == 0) {
             Random rand = new Random();
 
             // nextInt is normally exclusive of the top value,
@@ -44,7 +44,7 @@ public class YourUpDigit extends Activity implements View.OnClickListener {
             upDigit = rand.nextInt((9 - 3) + 1) + 3;
         }
 
-        TextView v= (TextView) findViewById(R.id.up_display);
+        TextView v = (TextView) findViewById(R.id.up_display);
         v.setText(upDigit + "");
         View button = this.findViewById(R.id.start_btn);
         button.setBackgroundResource(R.drawable.start_btn_state);
@@ -68,7 +68,7 @@ public class YourUpDigit extends Activity implements View.OnClickListener {
                 chooseGridHard();
                 break;
             case 5:
-                chooseGridEasy();
+                chooseGridExtreme();
                 break;
         }
     }
@@ -153,6 +153,12 @@ public class YourUpDigit extends Activity implements View.OnClickListener {
         }
     }
 
+    private void chooseGridExtreme() {
+        Intent fourbyfour = new Intent(this, MainExtreme4.class);
+        fourbyfour.putExtra(MainExtreme4.UPDIGIT, upDigit);
+        startActivity(fourbyfour);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -160,6 +166,7 @@ public class YourUpDigit extends Activity implements View.OnClickListener {
             MusicManager.pause();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
