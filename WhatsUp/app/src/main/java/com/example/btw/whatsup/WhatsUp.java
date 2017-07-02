@@ -133,7 +133,7 @@ public class WhatsUp extends Activity implements OnClickListener {
                 } */
                 break;
             case R.id.new_button:
-                Intent new_Game = new Intent(this, ChooseUpMode.class);
+                Intent new_Game = new Intent(this, ChooseLevel.class);
                 editor.putBoolean("CONTINUE_FROM_LAST", false).commit();
                 this.startActivity(new_Game);
                 break;

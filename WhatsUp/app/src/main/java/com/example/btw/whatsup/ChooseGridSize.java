@@ -41,7 +41,10 @@ public class ChooseGridSize extends Activity implements AdapterView.OnItemSelect
 
         View button = this.findViewById(R.id.LetsPlay_button);
         button.setOnClickListener(this);
-    }
+
+        View lame = this.findViewById(R.id.lame);
+        lame.setOnClickListener(this);
+}
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
@@ -57,6 +60,15 @@ public class ChooseGridSize extends Activity implements AdapterView.OnItemSelect
     //TODO: create new graphcs for StartGame btn
     @Override
     public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.lame:
+                Intent i = new Intent(this, MainLame4.class);
+                i.putExtra(MainLame4.UPDIGIT, UP);
+                this.startActivity(i);
+                break;
+        }
+/*
         switch (gridsize) {
             case "4x4":
                 Intent fourbyfour = new Intent(ChooseGridSize.this, Main4.class);
@@ -74,6 +86,7 @@ public class ChooseGridSize extends Activity implements AdapterView.OnItemSelect
                 startActivity(sixbysix);
                 break;
         }
+        */
     }
 
     @Override

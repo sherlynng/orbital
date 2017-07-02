@@ -33,4 +33,10 @@
         android:background="@mipmap/start"
       />
 
+    <Button
+        android:id="@+id/lame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lame Game" />
+
 </LinearLayout>

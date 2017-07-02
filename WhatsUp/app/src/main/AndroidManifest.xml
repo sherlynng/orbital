@@ -42,6 +42,37 @@
         </activity>
 
         <activity
+            android:name=".ChooseLevel"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".YourUpDigit"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".MainLame4"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".MainMedium4"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".MainHard4"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".Main5"
             android:label="@string/main_title"
             android:screenOrientation="portrait"
@@ -65,6 +96,24 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
 
+        </activity>
+
+        <activity
+            android:name=".ChangeUpDigit"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".SecondUpDigit"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".Rotate"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
 
         <activity

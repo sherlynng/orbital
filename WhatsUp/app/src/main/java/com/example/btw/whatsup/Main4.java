@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import static com.example.btw.whatsup.R.id.UPDisplayText;
 import static com.example.btw.whatsup.R.id.btn1;
 import static com.example.btw.whatsup.R.id.countdown;
 import static com.example.btw.whatsup.R.id.time;
+import static com.example.btw.whatsup.R.id.up;
 
 /**
  * Created by BTW on 5/24/2017.
@@ -64,6 +66,7 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
     private Button pressedButton;
     public CountDownTimerPausable cdt;
     private LinearLayout bg;
+    private ImageView life1, life2, life3;
 
 
     protected TextView currentScore;
@@ -88,11 +91,14 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
     protected Button btn15;
     protected Button btn16;
 
-    private MediaPlayer explode_sound;
-    private MediaPlayer up_sound;
-    private MediaPlayer tap_sound;
+//    private MediaPlayer explode_sound;
+ //   private MediaPlayer up_sound;
+  //  private MediaPlayer tap_sound;
     public static boolean playMusic;
     public static boolean vibrationOn;
+
+    private SoundPoolHelper mSoundPoolHelper;
+    private int explodeId, tapId, upId;
 
     public static void checkMusic(Context context) {
         if (Settings.getMusic(context)) {
@@ -119,9 +125,14 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
 
         checkVibration(this);
         checkMusic(this);
-        explode_sound = MediaPlayer.create(this, R.raw.explode);
-        up_sound = MediaPlayer.create(this, R.raw.up);
-        tap_sound = MediaPlayer.create(this, R.raw.tap);
+  //      explode_sound = MediaPlayer.create(this, R.raw.explode);
+   //     up_sound = MediaPlayer.create(this, R.raw.up);
+  //      tap_sound = MediaPlayer.create(this, R.raw.tap);
+
+        mSoundPoolHelper = new SoundPoolHelper(1, this);
+        explodeId = mSoundPoolHelper.load(this, R.raw.explode, 1);
+        upId = mSoundPoolHelper.load(this, R.raw.up, 1);
+        tapId = mSoundPoolHelper.load(this, R.raw.tap, 1);
 
         bg = (LinearLayout)this.findViewById(R.id.main);
 
@@ -439,6 +450,13 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
         pause.setImageResource(R.drawable.pause_button);
         pause.setOnClickListener(this);
 
+        life3 = (ImageView) findViewById(R.id.life3);
+        life3.setImageResource(R.drawable.life3);
+        life2 = (ImageView) findViewById(R.id.life2);
+        life2.setImageResource(R.drawable.life2);
+        life1 = (ImageView) findViewById(R.id.life1);
+        life1.setImageResource(R.drawable.life1);
+
         //set onClickListeners for all buttons
 
         upBtn.setOnClickListener(this);
@@ -582,6 +600,10 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
 
     }
 
+    private void playSound(int soundId) {
+        mSoundPoolHelper.play(soundId);
+    }
+
     public void Game() {
 
         boolean isUp;
@@ -600,7 +622,8 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
 
                 //Sound effect
                 if(playMusic) {
-                    up_sound.start();
+        //            up_sound.start();
+                    playSound(upId);
                 }
 
                 if(vibrationOn) {
@@ -635,7 +658,8 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
 
                 //Sound effect
                 if(playMusic){
-                     explode_sound.start();
+         //            explode_sound.start();
+                    playSound(explodeId);
                 }
 
                 if(vibrationOn) {
@@ -646,7 +670,20 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
                 }
 
                 life--;
-                if (life <= 0) {
+
+                if (life == 2) {
+                    life3.setVisibility(View.GONE);
+                }
+                else if(life==1){
+                    life3.setVisibility(View.GONE);
+                    life2.setVisibility(View.GONE);
+                }
+
+                else if (life <= 0) {
+                    life3.setVisibility(View.GONE);
+                    life2.setVisibility(View.GONE);
+                    life1.setVisibility(View.GONE);
+
                     cdt.cancel();
                     editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
@@ -693,7 +730,8 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
 
                 //Sound effect
                 if(playMusic) {
-                    tap_sound.start();
+          //          tap_sound.start();
+                    playSound(tapId);
                 }
 
                 if(vibrationOn) {
@@ -724,7 +762,8 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
 
                 //Sound effect
                 if(playMusic) {
-                    explode_sound.start();
+       //             explode_sound.start();
+                    playSound(explodeId);
                 }
 
                 if(vibrationOn) {
@@ -735,7 +774,20 @@ public class Main4 extends Activity implements OnClickListener, View.OnTouchList
                 }
 
                 life--;
-                if (life <= 0) {
+
+                if (life == 2) {
+                    life3.setVisibility(View.GONE);
+                }
+                else if(life==1){
+                    life3.setVisibility(View.GONE);
+                    life2.setVisibility(View.GONE);
+                }
+
+                else if (life <= 0) {
+                    life3.setVisibility(View.GONE);
+                    life2.setVisibility(View.GONE);
+                    life1.setVisibility(View.GONE);
+
                     cdt.cancel();
                     editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();

@@ -24,9 +24,21 @@ public class Pause extends Activity implements View.OnClickListener {
 
     public static final String UPDIGIT = "UPDIGIT";
     public static final int UPD_DEFAULT = 7;
+    public static final String UPDIGIT2 = "UPDIGIT2";
+    public static final int UPD2_DEFAULT = -1;
+    public static final String CURRENT = "CURRENT";
+    public static final int CURRENT_DEFAULT = 0;
     private int UP;
+    private int secondUP;
+    private int current;
     public static final String TIME = "TIME";
     private long timeLeft;
+    public static final String CHANGEUPTIME = "CHANGEUPTIME";
+    private long changeuptimeLeft;
+    public static final String ROTATETIME1 = "ROTATETIME1";
+    private long rotatetimeLeft1;
+    public static final String ROTATETIME2 = "ROTATETIME2";
+    private long rotatetimeLeft2;
     public static final String SCORE="SCORE";
     public static final int SCORE_DEFAULT = 0;
     private int score;
@@ -40,15 +52,22 @@ public class Pause extends Activity implements View.OnClickListener {
         setContentView(R.layout.pause);
 
         UP = getIntent().getIntExtra(UPDIGIT, UPD_DEFAULT);
+        secondUP = getIntent().getIntExtra(UPDIGIT2, UPD2_DEFAULT);
         timeLeft = getIntent().getLongExtra(TIME, 123);
+        changeuptimeLeft = getIntent().getLongExtra(CHANGEUPTIME, 123);
         score = getIntent().getIntExtra(SCORE, SCORE_DEFAULT);
         paused_123 = getIntent().getBooleanExtra(ONETWOTHREE_PAUSED, false);
-
-
-
+        current = getIntent().getIntExtra(CURRENT, CURRENT_DEFAULT);
 
         TextView v = (TextView) findViewById(R.id.UPD);
-        v.setText(UP + "");
+
+        if(secondUP == -1) { //SecondUP has not started
+            v.setText(UP+ "");
+        }
+        else{
+            v.setText(UP + ", " + secondUP);
+        }
+
         TextView v2 = (TextView) findViewById(R.id.timeleft_clock);
         v2.setText("" + String.format("%02d : %02d",
                 TimeUnit.MILLISECONDS.toMinutes(timeLeft),
@@ -56,6 +75,9 @@ public class Pause extends Activity implements View.OnClickListener {
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeLeft))));
         TextView v3 = (TextView) findViewById(R.id.score_report);
         v3.setText(score+"");
+
+        TextView v4 = (TextView) findViewById(R.id.currentNo);
+        v4.setText(current+"");
 
 
         View resumeButton = this.findViewById(R.id.resume_btn);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,7 +38,7 @@ public class ChooseUpMode extends Activity implements View.OnClickListener {
         button2.setOnClickListener(this);
 
         Button test = (Button) findViewById(R.id.test);
-        test.setBackgroundResource(R.drawable.blue_spark);
+      //  test.setBackgroundResource(R.drawable.blue_spark);
         test.setOnClickListener(this);
 
 
@@ -56,18 +57,23 @@ public class ChooseUpMode extends Activity implements View.OnClickListener {
 
             case R.id.test:
                 Button temp = (Button) v;
-                anim = (AnimationDrawable)temp.getBackground();
+         /*       anim = (AnimationDrawable)temp.getBackground();
                // anim.start();
                 if (anim.isRunning()) {
                     anim.stop();
                 }
                 anim.start();
+*/
+                temp.startAnimation(AnimationUtils.loadAnimation(this, R.anim.hint_shake));
+
+                Intent h = new Intent(this, MainLame4.class);
+                this.startActivity(h);
+                break;
 
 
                 //   Button temp = (Button) v;
                // temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.orange_spark));
 
-                break;
         }
     }
 

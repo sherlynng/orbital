@@ -21,5 +21,27 @@
              android:textColor="@color/black"
              android:title="Vibration" />
 
+    <PreferenceCategory
+        android:title="Game Play">
+
+    </PreferenceCategory>
+
+    <ListPreference
+        android:defaultValue="4"
+        android:entries="@array/gridsize_array"
+        android:entryValues="@array/gridsize_array_values"
+        android:key="gridSize"
+        android:summary="%s"
+        android:title="Choose Grid Size" />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/ups_array"
+        android:entryValues="@array/ups_array_values"
+        android:key="upDigit"
+        android:summary="%s"
+        android:title="Choose UP Digit" />
+
+
 
 </PreferenceScreen>

@@ -42,6 +42,17 @@
     <string name="dismiss">DISMISS</string>
     <string name="cancel">CANCEL</string>
     <string-array name="ups_array">
+        <item>Random</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+    <string-array name="ups_array_values">
+        <item>0</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
@@ -55,6 +66,12 @@
         <item>5x5</item>
         <item>6x6</item>
     </string-array>
+    <string-array name="gridsize_array_values">
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
     <string name="key_pref_music_volume">5</string>
     <string-array name="volume_values">
         <item>0</item>
