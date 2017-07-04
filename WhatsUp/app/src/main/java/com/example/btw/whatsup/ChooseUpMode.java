@@ -2,10 +2,15 @@ package com.example.btw.whatsup;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +25,9 @@ public class ChooseUpMode extends Activity implements View.OnClickListener {
     public int up;
     protected boolean continueMusic = true;
 
+
+    AnimationDrawable anim;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +36,10 @@ public class ChooseUpMode extends Activity implements View.OnClickListener {
         button.setOnClickListener(this);
         View button2 = this.findViewById(R.id.random_button);
         button2.setOnClickListener(this);
+
+        Button test = (Button) findViewById(R.id.test);
+        test.setOnClickListener(this);
+
 
 }
 
@@ -40,6 +52,14 @@ public class ChooseUpMode extends Activity implements View.OnClickListener {
             case R.id.random_button:
                 Intent j = new Intent(this, ChooseUpRandom.class);
                 this.startActivity(j);
+                break;
+
+            case R.id.test:
+                Button temp = (Button) v;
+                temp.startAnimation(AnimationUtils.loadAnimation(this, R.anim.hint_shake));
+
+                Intent h = new Intent(this, MainLame4.class);
+                this.startActivity(h);
                 break;
         }
     }

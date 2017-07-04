@@ -421,7 +421,7 @@ public class PlayDemo extends Activity implements OnClickListener {
                 instruct.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_mild));
             } else {//Wrong
                 pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
-                instruct.setText("Wrong!Press the UP button");
+                instruct.setText("Wrong! Press the UP button");
                 instruct.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_mild));
             }
         } else {   //Not UP num
@@ -612,7 +612,7 @@ public class PlayDemo extends Activity implements OnClickListener {
     protected void initialiseGrid(int start) {
         ArrayList<Integer> arr = new ArrayList<Integer>();
 
-        for (int i = start; i <= start + 25; i++) {
+        for (int i = start; i < start + 25; i++) {
             arr.add(i);
         }
         Collections.shuffle(arr);

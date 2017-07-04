@@ -41,7 +41,12 @@ public class ChooseGridSize extends Activity implements AdapterView.OnItemSelect
 
         View button = this.findViewById(R.id.LetsPlay_button);
         button.setOnClickListener(this);
+
+
+        View lame = this.findViewById(R.id.lame);
+        lame.setOnClickListener(this);
     }
+
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
@@ -57,25 +62,15 @@ public class ChooseGridSize extends Activity implements AdapterView.OnItemSelect
     //TODO: create new graphcs for StartGame btn
     @Override
     public void onClick(View v) {
-        switch (gridsize) {
-            case "4x4":
-                Intent fourbyfour = new Intent(ChooseGridSize.this, Main4.class);
-                fourbyfour.putExtra(Main4.UPDIGIT, UP);
-                startActivity(fourbyfour);
-                break;
-            case "5x5":
-                Intent fivebyfive = new Intent(ChooseGridSize.this, Main5.class);
-                fivebyfive.putExtra(Main5.UPDIGIT, UP);
-                startActivity(fivebyfive);
-                break;
-            case "6x6":
-                Intent sixbysix = new Intent(ChooseGridSize.this, Main6.class);
-                sixbysix.putExtra(Main6.UPDIGIT, UP);
-                startActivity(sixbysix);
+
+        switch (v.getId()) {
+            case R.id.lame:
+                Intent i = new Intent(this, MainLame4.class);
+                i.putExtra(MainLame4.UPDIGIT, UP);
+                this.startActivity(i);
                 break;
         }
     }
-
     @Override
     protected void onPause() {
         super.onPause();

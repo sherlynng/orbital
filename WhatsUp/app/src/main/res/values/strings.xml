@@ -22,8 +22,8 @@
     <string name="settings_title">WhatsUp settings</string>
     <string name="settings_shortcut">s</string>
     <string name="music_title">Music</string>
-    <string name="music_summary">Play Background music</string>
-    <string name="NoGameToContinue_message">There is no old game to continue.Would you like to start a new Game?</string>
+    <string name="music_summary">Play background music and sound effects</string>
+    <string name="NoGameToContinue_message">There is no old game to continue. Would you like to start a new Game?</string>
     <string name="NoGameToContinue_title">Oops!</string>
     <string name="PlayDemo_message1">
         This Demo does not have time limit.
@@ -42,6 +42,17 @@
     <string name="dismiss">DISMISS</string>
     <string name="cancel">CANCEL</string>
     <string-array name="ups_array">
+        <item>Random</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+    <string-array name="ups_array_values">
+        <item>0</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
@@ -55,6 +66,12 @@
         <item>5x5</item>
         <item>6x6</item>
     </string-array>
+    <string-array name="gridsize_array_values">
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
     <string name="key_pref_music_volume">5</string>
     <string-array name="volume_values">
         <item>0</item>
@@ -69,5 +86,6 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string name="facebook_application_id" translatable="false">389144331480794</string>
 
 </resources>

@@ -81,27 +81,4 @@ public class Onetwothree extends Activity {
         MusicManager.start(this, MusicManager.MUSIC_GAME);
     }
 
-/*
-    public boolean isApplicationSentToBackground(final Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
-        if (!tasks.isEmpty()) {
-            ComponentName topActivity = tasks.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void onPause() {
-        if (isApplicationSentToBackground(this)){
-            // Do what you want to do on detecting Home Key being Pressed
-            Intent i = new Intent(this, ChooseUpMode.class);
-            this.startActivity(i);
-        }
-        super.onPause();
-    }
-*/
 }

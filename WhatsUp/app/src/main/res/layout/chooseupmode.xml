@@ -64,4 +64,17 @@
 
 
 
+        <Button
+            android:id="@+id/test"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/blue_spark0"
+            android:layout_weight="0.1"
+             />
+
+
+
+
+
 </LinearLayout>
