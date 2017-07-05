@@ -70,7 +70,6 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
         authButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-
                 if (auth.getCurrentUser() != null) {
                     // User is currently signed in
                     AuthUI.getInstance()
