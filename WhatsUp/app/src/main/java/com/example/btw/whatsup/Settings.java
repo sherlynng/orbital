@@ -9,6 +9,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +18,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class Settings extends PreferenceActivity implements View.OnClickListener {
-
+    private static final int RC_SIGN_IN = 0;
     FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     //option names and default values
     private static final String OPT_LOGIN = "music";
     private static final boolean OPT_LOGIN_DEF = true;
@@ -37,11 +44,11 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
     private static final String OPT_UP = "upDigit";
     private static final String OPT_UP_DEF = "0";
     protected boolean continueMusic = true;
-    ViewGroup main;
-    View loginlogoutButtonView;
-    Button loginlogoutButton;
 
-    Preference button;
+
+    Preference authButton;
+    Preference addToDababaseButton;
+
 
 
     @Override
@@ -51,34 +58,63 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
         addPreferencesFromResource(R.xml.settings);
         auth = FirebaseAuth.getInstance();
 
-        button = findPreference("loginlogout");
+
+        authButton = findPreference("signin");
         if (auth.getCurrentUser() == null) {
             Log.d("AUTH", "user not logged in");
-            button.setTitle("Log in");
+            authButton.setTitle("Log in");
         } else {
             Log.d("AUTH", "user logged in");
-            button.setTitle("Log Out");
+            authButton.setTitle("Log Out");
         }
-        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        authButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                //code for what you want it to do
-                Log.d("switch", "directed to login/out");
-                Intent i = new Intent(Settings.this, loginlogout.class);
-                Settings.this.startActivity(i);
-                if(button.getTitle().equals("Log Out")){
-                    button.setTitle("Log In");
-                    Toast.makeText(Settings.this, "You are logged out", Toast.LENGTH_SHORT).show();
-                } else{
-                    button.setTitle("Log Out");
+
+                if (auth.getCurrentUser() != null) {
+                    // User is currently signed in
+                    AuthUI.getInstance()
+                            .signOut(Settings.this)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Log.d("AUTH", "user logged out");
+                                }
+                            });
+
+                } else {
+                    // User is currently signed out
+                    Intent i = new Intent(Settings.this, SignIn.class);
+                    startActivity(i);
+                }
+                if (auth.getCurrentUser() != null) {
+                    authButton.setTitle("Log Out");
+                } else {
+                    authButton.setTitle("Log In");
                 }
                 return true;
             }
         });
 
+        addToDababaseButton = findPreference("myplayerprofile");
+        addToDababaseButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if(auth.getCurrentUser()==null){
+                    toastMessage("Directing to sign in page");
+                    Intent i = new Intent(Settings.this, SignIn.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(Settings.this, MyPlayerProfile.class);
+                    startActivity(i);
+                }
+                return true;
+            }
+        });
     }
 
     //get current value of music option
+
     public static boolean getMusic(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).
                 getBoolean(OPT_MUSIC, OPT_MUSIC_DEF);
@@ -128,7 +164,10 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         Log.d("switch", "directed to login/out");
-        Intent i = new Intent(this, loginlogout.class);
+        Intent i = new Intent(this, SignIn.class);
         this.startActivity(i);
+    }
+    private void toastMessage(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }

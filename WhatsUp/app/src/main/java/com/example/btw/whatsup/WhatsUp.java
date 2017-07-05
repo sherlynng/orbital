@@ -75,7 +75,7 @@ public class WhatsUp extends Activity implements OnClickListener {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         if (settings.getBoolean("my_first_time", true)) {
-            Intent i = new Intent(this, loginlogout.class);
+            Intent i = new Intent(this, SignIn.class);
             this.startActivity(i);
             settings.edit().putBoolean("my_first_time", false).commit();
         }

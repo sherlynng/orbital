@@ -122,10 +122,14 @@
         </activity>
 
         <activity
+            android:name=".MyPlayerProfile"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+        <activity
             android:name=".Settings"
             android:label="@string/settings_title"
             android:theme="@style/Theme.SettingsBackground">
-        </activity>
+            </activity>
 
         <activity
         android:name=".GameOver"
@@ -145,7 +149,7 @@
         </activity>
 
         <activity
-            android:name=".loginlogout"
+            android:name=".SignIn"
             android:theme="@style/Theme.AppCompat.Light">  <!--@android means reference to android resource file-->
         </activity>
 

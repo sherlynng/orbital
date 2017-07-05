@@ -45,8 +45,11 @@
 
     </PreferenceCategory>
     <Preference android:title="Log Out"
-        android:key="loginlogout"
+        android:key="signin"
        />
+    <Preference android:title="Edit my player profile"
+        android:key="myplayerprofile"
+        />
 
  <!--   <Preference
         android:key="loginButtons"
