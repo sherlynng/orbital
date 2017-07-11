@@ -11,13 +11,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 public class MainExtreme4 extends Activity implements OnClickListener, View.OnTouchListener {
 
     private boolean continueFromLast;
-    protected SharedPreferences gameData;
+    protected SharedPreferences gameDataExtreme;
     protected SharedPreferences.Editor editor;
     protected boolean continueMusic = true;
 
@@ -47,6 +46,7 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
     private int secondUP;
     private boolean secondUP_start;
     private int score;
+
     //  private int bestScore;
     private int current;
     private int lastGeneratedNum;
@@ -82,6 +82,7 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
     private LinearLayout bg;
     private boolean hasIncreasedGrid1;
     private boolean hasIncreasedGrid2;
+    private boolean hasChangedUp;
 
     protected TextView currentScore;
     //   protected TextView best;
@@ -161,6 +162,7 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         secondUP = -1;
         hasIncreasedGrid1 = false;
         hasIncreasedGrid2 = false;
+        hasChangedUp = false;
 
         /* First initialisation of frozen grids.
             0: Unfrozen; 1:Frozen once; 2:Frozen twice */
@@ -257,165 +259,192 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         btn36 = (Button) this.findViewById(R.id.btn36);
         btn36.setBackgroundResource(R.drawable.yellow_spark);
 
-        gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
-        editor = gameData.edit();
+        gameDataExtreme = getSharedPreferences("gameDataExtreme", Context.MODE_PRIVATE);
+        editor = gameDataExtreme.edit();
 
-        continueFromLast = gameData.getBoolean("CONTINUE_FROM_LAST", false);
+        continueFromLast = gameDataExtreme.getBoolean("continuefromlastExtreme", false);
         if (continueFromLast) {
             //   Log.d("Debug", "cotinue from last=true");
-            UP = gameData.getInt("UPdigit", 1);
-            score = gameData.getInt("score", 0);
-            life = gameData.getInt("life", 3);
-            current = gameData.getInt("current", 1);
-            timeLeft = gameData.getLong("timeLeft", 120000);
-            changeUpTimeLeft = gameData.getLong("changeUpTimeLeft", 60000);
-            increasedGridTimeLeft1 = gameData.getLong("increasedGridtimeLeft1", 30000);
-            increasedGridTimeLeft2 = gameData.getLong("increasedGridimeLeft2", 90000);
-            freezeTimeLeft1 = gameData.getLong("freezetimeLeft1", 15000);
-            freezeTimeLeft2 = gameData.getLong("freezetimeLeft2", 45000);
-            freezeTimeLeft3 = gameData.getLong("freezetimeLeft3", 75000);
-            freezeTimeLeft4 = gameData.getLong("freezetimeLeft4", 105000);
-            fillArrContent = gameData.getString("FILLARR_CONTENT", "");
-            String[] strArray = fillArrContent.split(",");
-            fillArr.clear();
-            for (int i = 0; i < strArray.length; i++) {
-                fillArr.add(0, Integer.parseInt(strArray[i]));
+            UP = gameDataExtreme.getInt("UPdigit", 1);
+            secondUP = gameDataExtreme.getInt("UPdigit2", -1);
+            secondUP_start = gameDataExtreme.getBoolean("UPdigit2_start", false);
+            score = gameDataExtreme.getInt("score", 0);
+            life = gameDataExtreme.getInt("life", 3);
+            current = gameDataExtreme.getInt("current", 1);
+            lastGeneratedNum = gameDataExtreme.getInt("lastGeneratedNum", 1);
+            Log.d("checkstate", "(saved) num= " + lastGeneratedNum);
+            timeLeft = gameDataExtreme.getLong("timeLeft", 120000);
+            changeUpTimeLeft = gameDataExtreme.getLong("changeUpTimeLeft", 60000);
+            increasedGridTimeLeft1 = gameDataExtreme.getLong("increasedGridtimeLeft1", 30000);
+            increasedGridTimeLeft2 = gameDataExtreme.getLong("increasedGridtimeLeft2", 90000);
+            hasChangedUp = gameDataExtreme.getBoolean("hasChangedUp", false);
+            hasIncreasedGrid1 = gameDataExtreme.getBoolean("hasIncreasedGrid1", false);
+            hasIncreasedGrid2 = gameDataExtreme.getBoolean("hasIncreasedGrid2", false);
+            freezeTimeLeft1 = gameDataExtreme.getLong("freezetimeLeft1", 15000);
+            freezeTimeLeft2 = gameDataExtreme.getLong("freezetimeLeft2", 45000);
+            freezeTimeLeft3 = gameDataExtreme.getLong("freezetimeLeft3", 75000);
+            freezeTimeLeft4 = gameDataExtreme.getLong("freezetimeLeft4", 105000);
+            fillArrContent = gameDataExtreme.getString("FILLARR_CONTENT", "");
+            if (!fillArrContent.equals("")) {
+                String[] strArray = fillArrContent.split(",");
+
+                Log.d("strArr", "num= " + strArray);
+                Log.d("strArr", "length= " + strArray.length);
+                fillArr.clear();
+
+                for (int i = 0; i < strArray.length; i++) {
+                    fillArr.add(0, Integer.parseInt(strArray[i]));
+                }
+            }
+            life3 = (ImageView) findViewById(R.id.life3);
+            life3.setImageResource(R.drawable.life3);
+            life2 = (ImageView) findViewById(R.id.life2);
+            life2.setImageResource(R.drawable.life2);
+            life1 = (ImageView) findViewById(R.id.life1);
+            life1.setImageResource(R.drawable.life1);
+
+            if (life == 2) {
+                life3.setVisibility(View.INVISIBLE);
+            }
+            else if(life == 1) {
+                life3.setVisibility(View.INVISIBLE);
+                life2.setVisibility(View.INVISIBLE);
             }
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
-            if (gameData.getString("btn1", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn1", "99").equals("0")) {
                 btn1.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn1", ""));
+            t.setText(gameDataExtreme.getString("btn1", "99"));
             t = (TextView) findViewById(R.id.btn2);
-            if (gameData.getString("btn2", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn2", "99").equals("0")) {
                 btn2.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn2", ""));
+            t.setText(gameDataExtreme.getString("btn2", "99"));
             t = (TextView) findViewById(R.id.btn3);
-            if (gameData.getString("btn3", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn3", "99").equals("0")) {
                 btn3.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn3", ""));
+            t.setText(gameDataExtreme.getString("btn3", "99"));
             t = (TextView) findViewById(R.id.btn4);
-            if (gameData.getString("btn4", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn4", "99").equals("0")) {
                 btn4.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn4", ""));
+            t.setText(gameDataExtreme.getString("btn4", "99"));
             t = (TextView) findViewById(R.id.btn5);
-            if (gameData.getString("btn5", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn5", "99").equals("0")) {
                 btn5.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn5", ""));
+            t.setText(gameDataExtreme.getString("btn5", "99"));
             t = (TextView) findViewById(R.id.btn6);
-            if (gameData.getString("btn6", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn6", "99").equals("0")) {
                 btn6.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn6", ""));
+            t.setText(gameDataExtreme.getString("btn6", "99"));
             t = (TextView) findViewById(R.id.btn7);
-            if (gameData.getString("btn7", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn7", "99").equals("0")) {
                 btn7.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn7", ""));
+            t.setText(gameDataExtreme.getString("btn7", "99"));
             t = (TextView) findViewById(R.id.btn8);
-            t.setText(gameData.getString("btn8", ""));
+            t.setText(gameDataExtreme.getString("btn8", "99"));
             t = (TextView) findViewById(R.id.btn9);
-            t.setText(gameData.getString("btn9", ""));
+            t.setText(gameDataExtreme.getString("btn9", "99"));
             t = (TextView) findViewById(R.id.btn10);
-            t.setText(gameData.getString("btn10", ""));
+            t.setText(gameDataExtreme.getString("btn10", "99"));
             t = (TextView) findViewById(R.id.btn11);
-            t.setText(gameData.getString("btn11", ""));
+            t.setText(gameDataExtreme.getString("btn11", "99"));
             t = (TextView) findViewById(R.id.btn12);
-            if (gameData.getString("btn12", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn12", "99").equals("0")) {
                 btn12.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn12", ""));
+            t.setText(gameDataExtreme.getString("btn12", "99"));
             t = (TextView) findViewById(R.id.btn13);
-            if (gameData.getString("btn13", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn13", "99").equals("0")) {
                 btn13.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn13", ""));
+            t.setText(gameDataExtreme.getString("btn13", "1"));
             t = (TextView) findViewById(R.id.btn14);
-            t.setText(gameData.getString("btn14", ""));
+            t.setText(gameDataExtreme.getString("btn14", "1"));
             t = (TextView) findViewById(R.id.btn15);
-            t.setText(gameData.getString("btn15", ""));
+            t.setText(gameDataExtreme.getString("btn15", "1"));
             t = (TextView) findViewById(R.id.btn16);
-            t.setText(gameData.getString("btn16", ""));
+            t.setText(gameDataExtreme.getString("btn16", "1"));
             t = (TextView) findViewById(R.id.btn17);
-            t.setText(gameData.getString("btn17", ""));
+            t.setText(gameDataExtreme.getString("btn17", "1"));
             t = (TextView) findViewById(R.id.btn18);
-            if (gameData.getString("btn18", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn18", "99").equals("0")) {
                 btn18.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn18", ""));
+            t.setText(gameDataExtreme.getString("btn18", "99"));
             t = (TextView) findViewById(R.id.btn19);
-            if (gameData.getString("btn19", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn19", "99").equals("0")) {
                 btn19.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn19", ""));
+            t.setText(gameDataExtreme.getString("btn19", "99"));
             t = (TextView) findViewById(R.id.btn20);
-            t.setText(gameData.getString("btn20", ""));
+            t.setText(gameDataExtreme.getString("btn20", "1"));
             t = (TextView) findViewById(R.id.btn21);
-            t.setText(gameData.getString("btn21", ""));
+            t.setText(gameDataExtreme.getString("btn21", "1"));
             t = (TextView) findViewById(R.id.btn22);
-            t.setText(gameData.getString("btn22", ""));
+            t.setText(gameDataExtreme.getString("btn22", "1"));
             t = (TextView) findViewById(R.id.btn23);
-            t.setText(gameData.getString("btn23", ""));
+            t.setText(gameDataExtreme.getString("btn23", "1"));
             t = (TextView) findViewById(R.id.btn24);
-            if (gameData.getString("btn24", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn24", "99").equals("0")) {
                 btn24.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn24", ""));
+            t.setText(gameDataExtreme.getString("btn24", "99"));
             t = (TextView) findViewById(R.id.btn25);
-            if (gameData.getString("btn25", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn25", "99").equals("0")) {
                 btn25.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn25", ""));
+            t.setText(gameDataExtreme.getString("btn25", "99"));
             t = (TextView) findViewById(R.id.btn26);
-            t.setText(gameData.getString("btn26", ""));
+            t.setText(gameDataExtreme.getString("btn26", "1"));
             t = (TextView) findViewById(R.id.btn27);
-            t.setText(gameData.getString("btn27", ""));
+            t.setText(gameDataExtreme.getString("btn27", "1"));
             t = (TextView) findViewById(R.id.btn28);
-            t.setText(gameData.getString("btn28", ""));
+            t.setText(gameDataExtreme.getString("btn28", "1"));
             t = (TextView) findViewById(R.id.btn29);
-            t.setText(gameData.getString("btn29", ""));
+            t.setText(gameDataExtreme.getString("btn29", "1"));
             t = (TextView) findViewById(R.id.btn30);
-            if (gameData.getString("btn30", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn30", "99").equals("0")) {
                 btn30.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn30", ""));
+            t.setText(gameDataExtreme.getString("btn30", "99"));
             t = (TextView) findViewById(R.id.btn31);
-            if (gameData.getString("btn31", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn31", "99").equals("0")) {
                 btn31.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn31", ""));
+            t.setText(gameDataExtreme.getString("btn31", "99"));
             t = (TextView) findViewById(R.id.btn32);
-            if (gameData.getString("btn32", "").equals("-1")) {
-                btn32.setVisibility(View.GONE);
+            if (gameDataExtreme.getString("btn32", "99").equals("0")) {
+                btn32.setVisibility(View.INVISIBLE);
             }
-            t.setText(gameData.getString("btn32", ""));
+            t.setText(gameDataExtreme.getString("btn32", "99"));
             t = (TextView) findViewById(R.id.btn33);
-            if (gameData.getString("btn33", "").equals("-1")) {
-                btn33.setVisibility(View.GONE);
+            if (gameDataExtreme.getString("btn33", "99").equals("0")) {
+                btn33.setVisibility(View.INVISIBLE);
             }
-            t.setText(gameData.getString("btn33", ""));
+            t.setText(gameDataExtreme.getString("btn33", "99"));
             t = (TextView) findViewById(R.id.btn34);
-            if (gameData.getString("btn34", "").equals("-1")) {
-                btn34.setVisibility(View.GONE);
+            if (gameDataExtreme.getString("btn34", "99").equals("0")) {
+                btn34.setVisibility(View.INVISIBLE);
             }
-            t.setText(gameData.getString("btn34", ""));
+            t.setText(gameDataExtreme.getString("btn34", "99"));
             t = (TextView) findViewById(R.id.btn35);
-            if (gameData.getString("btn35", "").equals("-1")) {
-                btn35.setVisibility(View.GONE);
+            if (gameDataExtreme.getString("btn35", "99").equals("0")) {
+                btn35.setVisibility(View.INVISIBLE);
             }
-            t.setText(gameData.getString("btn35", ""));
+            t.setText(gameDataExtreme.getString("btn35", "99"));
             t = (TextView) findViewById(R.id.btn36);
-            if (gameData.getString("btn36", "").equals("-1")) {
+            if (gameDataExtreme.getString("btn36", "99").equals("0")) {
                 btn36.setVisibility(View.GONE);
             }
-            t.setText(gameData.getString("btn36", ""));
+            t.setText(gameDataExtreme.getString("btn36", "99"));
 
-            populateArr();
+            //   populateArr();
         } else {
             //   Log.d("Debug", "cotinue from last=false");
             UP = getIntent().getIntExtra("UPDIGIT", 1);
@@ -464,12 +493,16 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         currentScore = (TextView) findViewById(R.id.currentScore);
         currentScore.setText(score + "");
         //  best = (TextView) findViewById(R.id.bestScore);
-        //  bestScore = gameData.getInt("bestScore", 0);
+        //  bestScore = gameDataExtreme.getInt("bestScore", 0);
         //    best.setText(bestScore + "");
         currentNumText = (TextView) findViewById(R.id.currentNumText);
         currentNumText.setText(current + "");
         upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
-        upDisplayText.setText(UP + "");
+        if (secondUP == -1) { //SecondUP has not started
+            upDisplayText.setText(UP + "");
+        } else {
+            upDisplayText.setText(UP + ", " + secondUP);
+        }
 
 
         //321 animation
@@ -493,121 +526,141 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
             public void onFinish() {
                 timer.setText("00 : 00");
                 cdt.cancel();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                editor.putInt("bestScore", Math.max(score, gameDataExtreme.getInt("bestScore", -1))).commit();
                 editor.putInt("score", score).commit();
                 GameOver(1);
             }
         };
 
-        //Change UP Timer
-        changeUpTimer = new CountDownTimerPausable(changeUpTimeLeft, 100, true) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
+        if(changeUpTimeLeft != 0) {
+            //Change UP Timer
+            changeUpTimer = new CountDownTimerPausable(changeUpTimeLeft, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
 
-            @Override
-            public void onFinish() {
+                @Override
+                public void onFinish() {
 
-                changeUpTimer.cancel();
+                    hasChangedUp = true;
+                    changeUpTimer.cancel();
 
-                int newUpDigit;
-                Random rand = new Random();
+                    int newUpDigit;
+                    Random rand = new Random();
 
-                do {
-                    newUpDigit = rand.nextInt((9 - 3) + 1) + 3;
-                } while (newUpDigit == UP);
+                    do {
+                        newUpDigit = rand.nextInt((9 - 3) + 1) + 3;
+                    } while (newUpDigit == UP);
 
-                secondUP = newUpDigit;
+                    secondUP = newUpDigit;
 
-                //   upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
-                upDisplayText.setText(UP + ", " + secondUP);
+                    //   upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
+                    upDisplayText.setText(UP + ", " + secondUP);
 
-                cdt.pause();
-                increasedGridTimer2.pause();
-                freezeTimer3.pause();
-                freezeTimer4.pause();
-
-                startChangeUpDigit();
-                secondUP_start = true;
-
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
-                        freezeTimer3.resume();
-                        freezeTimer4.resume();
+                    cdt.pause();
+                    if (!hasIncreasedGrid2) {
+                        increasedGridTimer2.pause();
                     }
-                };
-                handler.postDelayed(counter, 1500);
-            }
-        };
+                    freezeTimer3.pause();
+                    freezeTimer4.pause();
 
-        //First Increase Grid Timer
-        increasedGridTimer1 = new CountDownTimerPausable(increasedGridTimeLeft1, 100, true) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
+                    startChangeUpDigit();
+                    secondUP_start = true;
 
-            @Override
-            public void onFinish() {
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                            if (!hasIncreasedGrid2) {
+                                increasedGridTimer2.resume();
+                            }
+                            freezeTimer3.resume();
+                            freezeTimer4.resume();
+                        }
+                    };
+                    handler.postDelayed(counter, 1500);
+                }
+            };
+        }
 
-                increasedGridTimer1.cancel();
-                hasIncreasedGrid1 = true;
+        if(increasedGridTimeLeft1 != 0) {
+            //First Increase Grid Timer
+            increasedGridTimer1 = new CountDownTimerPausable(increasedGridTimeLeft1, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
 
-                cdt.pause();
-                changeUpTimer.pause();
-                increasedGridTimer2.pause();
-                freezeTimer2.pause();
-                freezeTimer3.pause();
-                freezeTimer4.pause();
+                @Override
+                public void onFinish() {
 
-                startIncreaseGrid1();
+                    increasedGridTimer1.cancel();
+                    hasIncreasedGrid1 = true;
 
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
-                        changeUpTimer.resume();
-                        increasedGridTimer2.resume();
-                        freezeTimer2.resume();
-                        freezeTimer3.resume();
-                        freezeTimer4.resume();
+                    cdt.pause();
+                    if (!hasChangedUp) {
+                        changeUpTimer.pause();
                     }
-                };
-                handler.postDelayed(counter, 2000);
-            }
-        };
-
-        //Second Increase Grid Timer
-        increasedGridTimer2 = new CountDownTimerPausable(increasedGridTimeLeft2, 100, true) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
-
-            @Override
-            public void onFinish() {
-
-                increasedGridTimer2.cancel();
-                hasIncreasedGrid2 = true;
-
-                cdt.pause();
-                freezeTimer4.pause();
-
-                startIncreaseGrid2();
-
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
-                        freezeTimer4.resume();
+                    if (!hasIncreasedGrid2) {
+                        increasedGridTimer2.pause();
                     }
-                };
-                handler.postDelayed(counter, 2000);
-            }
-        };
+                    freezeTimer2.pause();
+                    freezeTimer3.pause();
+                    freezeTimer4.pause();
+
+                    startIncreaseGrid1();
+
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                            if (!hasChangedUp) {
+                                changeUpTimer.resume();
+                            }
+                            if (!hasIncreasedGrid2) {
+                                increasedGridTimer2.resume();
+                            }
+                            freezeTimer2.resume();
+                            freezeTimer3.resume();
+                            freezeTimer4.resume();
+                        }
+                    };
+                    handler.postDelayed(counter, 2000);
+                }
+            };
+        }
+
+        if(increasedGridTimeLeft2 != 0) {
+            //Second Increase Grid Timer
+            increasedGridTimer2 = new CountDownTimerPausable(increasedGridTimeLeft2, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+
+                @Override
+                public void onFinish() {
+
+                    increasedGridTimer2.cancel();
+                    hasIncreasedGrid2 = true;
+
+                    cdt.pause();
+                    freezeTimer4.pause();
+
+                    startIncreaseGrid2();
+
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                            freezeTimer4.resume();
+                        }
+                    };
+                    handler.postDelayed(counter, 2000);
+                }
+            };
+        }
 
         //First Freeze Timer
         freezeTimer1 = new CountDownTimerPausable(freezeTimeLeft1, 100, true) {
@@ -683,7 +736,9 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         final Runnable counter3 = new Runnable() {
             @Override
             public void run() {
-                changeUpTimer.create();
+                if (!hasChangedUp) {
+                    changeUpTimer.create();
+                }
             }
         };
         handler3.postDelayed(counter3, 5000);
@@ -692,7 +747,9 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         final Runnable counter4 = new Runnable() {
             @Override
             public void run() {
-                increasedGridTimer1.create();
+                if (!hasIncreasedGrid1) {
+                    increasedGridTimer1.create();
+                }
             }
         };
         handler4.postDelayed(counter4, 5000);
@@ -701,7 +758,9 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         final Runnable counter5 = new Runnable() {
             @Override
             public void run() {
-                increasedGridTimer2.create();
+                if (!hasIncreasedGrid2) {
+                    increasedGridTimer2.create();
+                }
             }
         };
         handler5.postDelayed(counter5, 5000);
@@ -1076,20 +1135,28 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         if (isApplicationSentToBackground(getApplicationContext())) {
             // Do what you want to do on detecting Home Key being Pressed
             cdt.pause();
-            changeUpTimer.pause();
-            increasedGridTimer1.pause();
-            increasedGridTimer2.pause();
+            if (!hasChangedUp) {
+                changeUpTimer.pause();
+            }
+            if (!hasIncreasedGrid1) {
+                increasedGridTimer1.pause();
+            }
+            if (!hasIncreasedGrid2) {
+                increasedGridTimer2.pause();
+            }
             freezeTimer1.pause();
             freezeTimer2.pause();
             freezeTimer3.pause();
             freezeTimer4.pause();
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
+            pause.putExtra(Pause.UPDIGIT2, secondUP);
             pause.putExtra(Pause.SCORE, score);
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CURRENT, current);
+            pause.putExtra(Pause.CALLEE, 5);
             this.startActivity(pause);
 
         }
@@ -1119,19 +1186,27 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         if (isApplicationSentToBackground(this)) {
             // Do what you want to do on detecting Home Key being Pressed
             cdt.pause();
-            changeUpTimer.pause();
-            increasedGridTimer1.pause();
-            increasedGridTimer2.pause();
+            if (!hasChangedUp) {
+                changeUpTimer.pause();
+            }
+            if (!hasIncreasedGrid1) {
+                increasedGridTimer1.pause();
+            }
+            if (!hasIncreasedGrid2) {
+                increasedGridTimer2.pause();
+            }
             freezeTimer1.pause();
             freezeTimer2.pause();
             freezeTimer3.pause();
             freezeTimer4.pause();
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
+            pause.putExtra(Pause.UPDIGIT2, secondUP);
             pause.putExtra(Pause.SCORE, score);
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
             pause.putExtra(Pause.CURRENT, current);
+            pause.putExtra(Pause.CALLEE, 5);
             //    this.startActivity(pause);
         }
 
@@ -1141,9 +1216,15 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
     @Override
     public void onBackPressed() {
         cdt.pause();
-        changeUpTimer.pause();
-        increasedGridTimer1.pause();
-        increasedGridTimer2.pause();
+        if (!hasChangedUp) {
+            changeUpTimer.pause();
+        }
+        if (!hasIncreasedGrid1) {
+            increasedGridTimer1.pause();
+        }
+        if (!hasIncreasedGrid2) {
+            increasedGridTimer2.pause();
+        }
         freezeTimer1.pause();
         freezeTimer2.pause();
         freezeTimer3.pause();
@@ -1223,28 +1304,45 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         t = (TextView) findViewById(R.id.btn36);
         editor.putString("btn36", t.getText().toString()).commit();
         editor.putInt("UPdigit", UP).commit();
+        editor.putInt("UPdigit2", secondUP).commit();
+        editor.putBoolean("UPdigit2_start", secondUP_start).commit();
         editor.putInt("score", score).commit();
-        editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+        editor.putInt("bestScore", Math.max(score, gameDataExtreme.getInt("bestScore", -1))).commit();
         editor.putInt("life", life).commit();
         editor.putInt("current", current).commit();
+        editor.putInt("lastGeneratedNum", lastGeneratedNum).commit();
+        Log.d("checkstate", "(editor) num= " + lastGeneratedNum);
         editor.putLong("timeLeft", cdt.timeLeft()).commit();
-        editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
-        editor.putLong("increasedGridtimeLeft1", increasedGridTimer1.timeLeft()).commit();
-        editor.putLong("increasedGridtimeLeft2", increasedGridTimer2.timeLeft()).commit();
+        if(!hasChangedUp) {
+            editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
+        }
+        if (!hasIncreasedGrid1) {
+            editor.putLong("increasedGridtimeLeft1", increasedGridTimer1.timeLeft()).commit();
+        }
+        if(!hasIncreasedGrid2) {
+            editor.putLong("increasedGridtimeLeft2", increasedGridTimer2.timeLeft()).commit();
+        }
+        editor.putBoolean("hasChangedUp", hasChangedUp).commit();
+        editor.putBoolean("hasIncreasedGrid1", hasIncreasedGrid1).commit();
+        editor.putBoolean("hasIncreasedGrid2", hasIncreasedGrid2).commit();
         editor.putLong("freezetimeLeft1", freezeTimer1.timeLeft()).commit();
         editor.putLong("freezetimeLeft2", freezeTimer2.timeLeft()).commit();
         editor.putLong("freezetimeLeft3", freezeTimer3.timeLeft()).commit();
         editor.putLong("freezetimeLeft4", freezeTimer4.timeLeft()).commit();
+        fillArrContent = "";
         for (Integer i : fillArr) {
             fillArrContent += i + ",";
         }
         editor.putString("FILLARR_CONTENT", fillArrContent).commit();
+        Log.d("fillArr", "num= " + fillArrContent);
         Intent i = new Intent(this, Pause.class);
         i.putExtra(Pause.UPDIGIT, UP);
+        i.putExtra(Pause.UPDIGIT2, secondUP);
         i.putExtra(Pause.TIME, cdt.timeLeft());
         i.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
         i.putExtra(Pause.SCORE, score);
         i.putExtra(Pause.CURRENT, current);
+        i.putExtra(Pause.CALLEE, 5);
         this.startActivity(i);
     }
 
@@ -1256,9 +1354,15 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         MusicManager.start(this, MusicManager.MUSIC_GAME);
 
         cdt.resume();
-        changeUpTimer.resume();
-        increasedGridTimer1.resume();
-        increasedGridTimer2.resume();
+        if (!hasChangedUp) {
+            changeUpTimer.resume();
+        }
+        if (!hasIncreasedGrid1) {
+            increasedGridTimer1.resume();
+        }
+        if (!hasIncreasedGrid2) {
+            increasedGridTimer2.resume();
+        }
         freezeTimer1.resume();
         freezeTimer2.resume();
         freezeTimer3.resume();
@@ -1357,9 +1461,15 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         cdt.pause();
-        changeUpTimer.pause();
-        increasedGridTimer1.pause();
-        increasedGridTimer2.pause();
+        if (!hasChangedUp) {
+            changeUpTimer.pause();
+        }
+        if (!hasIncreasedGrid1) {
+            increasedGridTimer1.pause();
+        }
+        if (!hasIncreasedGrid2) {
+            increasedGridTimer2.pause();
+        }
         freezeTimer1.pause();
         freezeTimer2.pause();
         freezeTimer3.pause();
@@ -1588,7 +1698,7 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
 
             } else {//Wrong
                /*cdt.cancel();
-               editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+               editor.putInt("bestScore", Math.max(score, gameDataExtreme.getInt("bestScore", -1))).commit();
                 editor.putInt("score", score).commit();
                 GameOver(2);
                 */
@@ -1618,24 +1728,33 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
                 life--;
 
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
-                } else if (life == 1) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                } else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                }
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                }
+
+                else if (life <= 0) {
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
-                    changeUpTimer.cancel();
-                    increasedGridTimer1.cancel();
-                    increasedGridTimer2.cancel();
+                    if (!hasChangedUp) {
+                        changeUpTimer.cancel();
+                    }
+                    if (!hasIncreasedGrid1) {
+                        increasedGridTimer1.cancel();
+                    }
+                    if (!hasIncreasedGrid2) {
+                        increasedGridTimer2.cancel();
+                    }
                     freezeTimer1.cancel();
                     freezeTimer2.cancel();
                     freezeTimer3.cancel();
                     freezeTimer4.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataExtreme.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
                     GameOver(2);
                     return;
@@ -1726,24 +1845,33 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
                 life--;
 
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
-                } else if (life == 1) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                } else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                }
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                }
+
+                else if (life <= 0) {
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
-                    changeUpTimer.cancel();
-                    increasedGridTimer1.cancel();
-                    increasedGridTimer2.cancel();
+                    if (!hasChangedUp) {
+                        changeUpTimer.cancel();
+                    }
+                    if (!hasIncreasedGrid1) {
+                        increasedGridTimer1.cancel();
+                    }
+                    if (!hasIncreasedGrid2) {
+                        increasedGridTimer2.cancel();
+                    }
                     freezeTimer1.cancel();
                     freezeTimer2.cancel();
                     freezeTimer3.cancel();
                     freezeTimer4.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataExtreme.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
                     GameOver(3);
                     return;
@@ -1949,6 +2077,7 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
     public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
         i.putExtra(GameOver.REASON, r);
+        i.putExtra(GameOver.CALLEE, 5);
         this.startActivity(i);
     }
 
@@ -1969,10 +2098,10 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
             }
             Collections.shuffle(fillArr);
         }
+        Log.d("ChangeNo", "num= " + fillArr.get(0));
         btn.setText(fillArr.remove(0) + "");
     }
 
-    //fill grid with numbers from start to start+24 in random order
     protected void initialiseGrid(int start) {
         ArrayList<Integer> arr = new ArrayList<Integer>();
 
@@ -2000,26 +2129,26 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         btn29.setText(arr.remove(0) + "");
 
         //Rest of the grid
-        btn1.setText("-1");
-        btn2.setText("-1");
-        btn3.setText("-1");
-        btn4.setText("-1");
-        btn5.setText("-1");
-        btn6.setText("-1");
-        btn7.setText("-1");
-        btn12.setText("-1");
-        btn13.setText("-1");
-        btn18.setText("-1");
-        btn19.setText("-1");
-        btn24.setText("-1");
-        btn25.setText("-1");
-        btn30.setText("-1");
-        btn31.setText("-1");
-        btn32.setText("-1");
-        btn33.setText("-1");
-        btn34.setText("-1");
-        btn35.setText("-1");
-        btn36.setText("-1");
+        btn1.setText("0");
+        btn2.setText("0");
+        btn3.setText("0");
+        btn4.setText("0");
+        btn5.setText("0");
+        btn6.setText("0");
+        btn7.setText("0");
+        btn12.setText("0");
+        btn13.setText("0");
+        btn18.setText("0");
+        btn19.setText("0");
+        btn24.setText("0");
+        btn25.setText("0");
+        btn30.setText("0");
+        btn31.setText("0");
+        btn32.setText("0");
+        btn33.setText("0");
+        btn34.setText("0");
+        btn35.setText("0");
+        btn36.setText("0");
     }
 
     @Override
@@ -2194,9 +2323,15 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         switch (v.getId()) {
             case R.id.pause_btn:
                 cdt.pause();
-                changeUpTimer.pause();
-                increasedGridTimer1.pause();
-                increasedGridTimer2.pause();
+                if (!hasChangedUp) {
+                    changeUpTimer.pause();
+                }
+                if (!hasIncreasedGrid1) {
+                    increasedGridTimer1.pause();
+                }
+                if (!hasIncreasedGrid2) {
+                    increasedGridTimer2.pause();
+                }
                 freezeTimer1.pause();
                 freezeTimer2.pause();
                 freezeTimer3.pause();
@@ -2235,25 +2370,78 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
                 editor.putString("btn15", t.getText().toString()).commit();
                 t = (TextView) findViewById(R.id.btn16);
                 editor.putString("btn16", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn17);
+                editor.putString("btn17", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn18);
+                editor.putString("btn18", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn19);
+                editor.putString("btn19", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn20);
+                editor.putString("btn20", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn21);
+                editor.putString("btn21", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn22);
+                editor.putString("btn22", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn23);
+                editor.putString("btn23", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn24);
+                editor.putString("btn24", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn25);
+                editor.putString("btn25", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn26);
+                editor.putString("btn26", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn27);
+                editor.putString("btn27", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn28);
+                editor.putString("btn28", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn29);
+                editor.putString("btn29", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn30);
+                editor.putString("btn30", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn31);
+                editor.putString("btn31", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn32);
+                editor.putString("btn32", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn33);
+                editor.putString("btn33", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn34);
+                editor.putString("btn34", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn35);
+                editor.putString("btn35", t.getText().toString()).commit();
+                t = (TextView) findViewById(R.id.btn36);
+                editor.putString("btn36", t.getText().toString()).commit();
                 editor.putInt("UPdigit", UP).commit();
                 editor.putInt("UPdigit2", secondUP).commit();
                 editor.putBoolean("UPdigit2_start", secondUP_start).commit();
                 editor.putInt("score", score).commit();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                editor.putInt("bestScore", Math.max(score, gameDataExtreme.getInt("bestScore", -1))).commit();
                 editor.putInt("life", life).commit();
                 editor.putInt("current", current).commit();
+                editor.putInt("lastGeneratedNum", lastGeneratedNum).commit();
+                Log.d("checkstate", "(editor) num= " + lastGeneratedNum);
                 editor.putLong("timeLeft", cdt.timeLeft()).commit();
-                editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
-                editor.putLong("increasedGridtimeLeft1", increasedGridTimer1.timeLeft()).commit();
-                editor.putLong("increasedGridtimeLeft2", increasedGridTimer2.timeLeft()).commit();
+                if(!hasChangedUp) {
+                    editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
+                }
+                if (!hasIncreasedGrid1) {
+                    editor.putLong("increasedGridtimeLeft1", increasedGridTimer1.timeLeft()).commit();
+                }
+                if(!hasIncreasedGrid2) {
+                    editor.putLong("increasedGridtimeLeft2", increasedGridTimer2.timeLeft()).commit();
+                }
+                editor.putBoolean("hasChangedUp", hasChangedUp).commit();
+                editor.putBoolean("hasIncreasedGrid1", hasIncreasedGrid1).commit();
+                editor.putBoolean("hasIncreasedGrid2", hasIncreasedGrid2).commit();
                 editor.putLong("freezetimeLeft1", freezeTimer1.timeLeft()).commit();
                 editor.putLong("freezetimeLeft2", freezeTimer2.timeLeft()).commit();
                 editor.putLong("freezetimeLeft3", freezeTimer3.timeLeft()).commit();
                 editor.putLong("freezetimeLeft4", freezeTimer4.timeLeft()).commit();
+                fillArrContent = "";
                 for (Integer i : fillArr) {
                     fillArrContent += i + ",";
                 }
                 editor.putString("FILLARR_CONTENT", fillArrContent).commit();
+                Log.d("fillArr", "num= " + fillArrContent);
                 Intent i = new Intent(this, Pause.class);
                 i.putExtra(Pause.UPDIGIT, UP);
                 i.putExtra(Pause.UPDIGIT2, secondUP);
@@ -2261,6 +2449,7 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
                 i.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
                 i.putExtra(Pause.SCORE, score);
                 i.putExtra(Pause.CURRENT, current);
+                i.putExtra(Pause.CALLEE, 5);
                 this.startActivity(i);
                 break;
             case R.id.up_button:

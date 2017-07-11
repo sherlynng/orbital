@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainSettingsLayout">
 
-        <PreferenceCategory
-            android:title="Settings">
+    <PreferenceCategory android:title="Settings">
 
-        </PreferenceCategory>
-        <CheckBoxPreference
-            android:paddingTop="20dp"
-            android:defaultValue="true"
-            android:key="music"
-            android:summary="@string/music_summary"
-            android:textColor="@color/black"
-            android:title="@string/music_title" />
-         <CheckBoxPreference
-             android:paddingTop="20dp"
-             android:defaultValue="true"
-             android:key="vibration"
-             android:summary="Enable vibration"
-             android:textColor="@color/black"
-             android:title="Vibration" />
+    </PreferenceCategory>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="music"
+        android:paddingTop="20dp"
+        android:summary="@string/music_summary"
+        android:textColor="@color/black"
+        android:title="@string/music_title" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="vibration"
+        android:paddingTop="20dp"
+        android:summary="Enable vibration"
+        android:textColor="@color/black"
+        android:title="Vibration" />
 
-    <PreferenceCategory
-        android:title="Game Play">
+    <PreferenceCategory android:title="Game Play">
 
     </PreferenceCategory>
 
@@ -42,6 +41,24 @@
         android:summary="%s"
         android:title="Choose UP Digit" />
 
+    <PreferenceCategory android:title="Account">
 
+    </PreferenceCategory>
+    <EditTextPreference
+        android:inputType="text"
+        android:defaultValue="Gamer1"
+        android:key="edit_text_preference_1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Game ID"
+        android:summary="%s"/>
 
+    <Preference android:title="Log Out"
+        android:key="loginlogout"
+       />
+
+ <!--   <Preference
+        android:key="loginButtons"
+        android:layout="@layout/loginlogoutbutton"></Preference>
+        -->
 </PreferenceScreen>

@@ -86,5 +86,6 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string name="facebook_application_id" translatable="false">389144331480794</string>
 
 </resources>

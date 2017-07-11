@@ -19,6 +19,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,32 +34,27 @@ import java.util.concurrent.TimeUnit;
  * Created by BTW on 5/24/2017.
  */
 
-public class MainLame4 extends Activity implements OnClickListener, View.OnTouchListener {
+public class MainUpDown extends Activity implements OnClickListener, View.OnTouchListener {
 
-    private boolean continueFromLast;
-    protected SharedPreferences gameDataLame;
-    protected SharedPreferences.Editor editor;
+    public static final String KEY = "KEY";
+    public static final String KEY_DEFAULT = "hello";
+    String key;
     protected boolean continueMusic = true;
-
-    public static final String UPDIGIT = "UPDIGIT";
     private int UP;
-    private long timeLeft;
-    private int score;
-    //  private int bestScore;
     private int current;
- //   private int life;
     private ArrayList<Integer> fillArr = new ArrayList<Integer>();  //arraylist that contains new numbers to replace tapped numbers
     private String fillArrContent = "";
     private int pressedNum;
     private int pressedID;
     private Button pressedButton;
-    public CountDownTimerPausable cdt;
     private LinearLayout bg;
 
+    DatabaseReference currentGameDb;
+    private int opponent_score;
+    private int my_score;
 
-    protected TextView currentScore;
-    //   protected TextView best;
-    protected TextView currentNumText;
+    protected TextView myScoreText;
+    protected TextView opponentScoreText;
     protected TextView upDisplayText;
     protected Button upBtn;
     protected Button btn1;
@@ -73,9 +74,6 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
     protected Button btn15;
     protected Button btn16;
 
- //   private MediaPlayer explode_sound;
- //   private MediaPlayer up_sound;
- //   private MediaPlayer tap_sound;
     public static boolean playMusic;
     public static boolean vibrationOn;
 
@@ -97,7 +95,6 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
         else{
             playMusic = false;
         }
-
     }
 
     public static void checkVibration(Context context) {
@@ -111,13 +108,13 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainlame4);
+        setContentView(R.layout.mainupdown);
 
         checkVibration(this);
         checkMusic(this);
-   //     explode_sound = MediaPlayer.create(this, R.raw.explode);
-   //     up_sound = MediaPlayer.create(this, R.raw.up);
-   //     tap_sound = MediaPlayer.create(this, R.raw.tap);
+
+        key = getIntent().getExtras().getString(KEY, KEY_DEFAULT);
+        currentGameDb = FirebaseDatabase.getInstance().getReference("games").child(key);
 
         mSoundPoolHelper = new SoundPoolHelper(1, this);
         explodeId = mSoundPoolHelper.load(this, R.raw.explode, 1);
@@ -159,82 +156,10 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
         btn16 = (Button) this.findViewById(R.id.btn16);
         btn16.setBackgroundResource(R.drawable.yellow_spark);
 
+        current = 1;
+        initialiseGrid(1);
+        populateArr(17);
 
-        gameDataLame = getSharedPreferences("gameDataLame", Context.MODE_PRIVATE);
-        editor = gameDataLame.edit();
-
-        continueFromLast = gameDataLame.getBoolean("continuefromlastLame", false);
-        if (continueFromLast) {
-            //   Log.d("Debug", "cotinue from last=true");
-            UP = gameDataLame.getInt("UPdigit", 1);
-            score = gameDataLame.getInt("score", 0);
-        //    life = gameDataLame.getInt("life", 3);
-            current = gameDataLame.getInt("current", 1);
-            timeLeft = gameDataLame.getLong("timeLeft", 120000);
-            fillArrContent = gameDataLame.getString("FILLARR_CONTENT", "");
-            if (!fillArrContent.equals("")) {
-                String[] strArray = fillArrContent.split(",");
-                fillArr.clear();
-
-                for (int i = 0; i < strArray.length; i++) {
-                    fillArr.add(0, Integer.parseInt(strArray[i]));
-                }
-            }
-
-            TextView t;
-            t = (TextView) findViewById(R.id.btn1);
-            t.setText(gameDataLame.getString("btn1", ""));
-            t = (TextView) findViewById(R.id.btn2);
-            t.setText(gameDataLame.getString("btn2", ""));
-            t = (TextView) findViewById(R.id.btn3);
-            t.setText(gameDataLame.getString("btn3", ""));
-            t = (TextView) findViewById(R.id.btn4);
-            t.setText(gameDataLame.getString("btn4", ""));
-            t = (TextView) findViewById(R.id.btn5);
-            t.setText(gameDataLame.getString("btn5", ""));
-            t = (TextView) findViewById(R.id.btn6);
-            t.setText(gameDataLame.getString("btn6", ""));
-            t = (TextView) findViewById(R.id.btn7);
-            t.setText(gameDataLame.getString("btn7", ""));
-            t = (TextView) findViewById(R.id.btn8);
-            t.setText(gameDataLame.getString("btn8", ""));
-            t = (TextView) findViewById(R.id.btn9);
-            t.setText(gameDataLame.getString("btn9", ""));
-            t = (TextView) findViewById(R.id.btn10);
-            t.setText(gameDataLame.getString("btn10", ""));
-            t = (TextView) findViewById(R.id.btn11);
-            t.setText(gameDataLame.getString("btn11", ""));
-            t = (TextView) findViewById(R.id.btn12);
-            t.setText(gameDataLame.getString("btn12", ""));
-            t = (TextView) findViewById(R.id.btn13);
-            t.setText(gameDataLame.getString("btn13", ""));
-            t = (TextView) findViewById(R.id.btn14);
-            t.setText(gameDataLame.getString("btn14", ""));
-            t = (TextView) findViewById(R.id.btn15);
-            t.setText(gameDataLame.getString("btn15", ""));
-            t = (TextView) findViewById(R.id.btn16);
-            t.setText(gameDataLame.getString("btn16", ""));
-       //     populateArr(current + 16);
-        } else {
-            //   Log.d("Debug", "cotinue from last=false");
-            UP = getIntent().getIntExtra("UPDIGIT", 1);
-            score = 0;
-     //       life = 3;
-            current = 1;
-            timeLeft = 120000;
-            initialiseGrid(1);
-            populateArr(17);
-        }
-
-        currentScore = (TextView) findViewById(R.id.currentScore);
-        currentScore.setText(score + "");
-        //  best = (TextView) findViewById(R.id.bestScore);
-        //  bestScore = gameDataLame.getInt("bestScore", 0);
-        //    best.setText(bestScore + "");
-        currentNumText = (TextView) findViewById(R.id.currentNumText);
-        currentNumText.setText(current + "");
-        upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
-        upDisplayText.setText(UP + "");
 
 
         //321 animation
@@ -242,37 +167,6 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
         intent.putExtra(Onetwothree.UPDIGIT, UP);
         startActivity(intent);
 
-
-        final TextView timer = (TextView) findViewById(R.id.countdown);
-        timer.setText("-- : --");
-        cdt = new CountDownTimerPausable(timeLeft, 100, true) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timer.setText("" + String.format("%02d : %02d",
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
-
-            @Override
-            public void onFinish() {
-                timer.setText("00 : 00");
-                cdt.cancel();
-                editor.putInt("bestScore", Math.max(score, gameDataLame.getInt("bestScore", -1))).commit();
-                editor.putInt("score", score).commit();
-                GameOver(1);
-            }
-        };
-
-
-        final Handler handler = new Handler();
-        final Runnable counter = new Runnable() {
-            @Override
-            public void run() {
-                cdt.create();
-            }
-        };
-        handler.postDelayed(counter, 5000);
 
         final Handler handler2 = new Handler();
         final Runnable counter2 = new Runnable() {
@@ -282,61 +176,15 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
             }
         };
         handler2.postDelayed(counter2, 5001);
-
-
-        //TODO: Back press from 321 not working!!! :((((((
-
-
-     /*
-        final AtomicInteger n = new AtomicInteger(15);
-
-        final Handler handler3 = new Handler();
-         final TextView textView = (TextView) findViewById(R.id.currentScore);
-         final AtomicInteger n = new AtomicInteger(3);
-        final Runnable check = new Runnable() {
-
-            @Override
-            public void run() {
-                boolean isBackPressed = getIntent().getBooleanExtra(BACKPRESSED, false);
-                int test = getIntent().getIntExtra(TEST, 100);
-
-                if (isBackPressed){
-                    //      cdt.cancel();
-                    //     finish();
-
-                }
-                else if(test < 0){
-                    n.getAndIncrement();
-                         TextView v = (TextView) findViewById(R.id.currentScore);
-                        v.setText(Integer.toString(test));
-                    handler3.postDelayed(this, 500);
-                }
-                else if(n.get() > 0){
-                    n.getAndDecrement();
-                        TextView v = (TextView) findViewById(R.id.currentScore);
-                      v.setText(Integer.toString(n.get()));
-                    handler3.postDelayed(this, 500);
-                }
-            }
-        };
-        handler3.postDelayed(check, 1);
-    }
-
- */
-
-
     }
 
 
     private void startPause() {
         if (isApplicationSentToBackground(getApplicationContext())) {
             // Do what you want to do on detecting Home Key being Pressed
-            cdt.pause();
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
-            pause.putExtra(Pause.SCORE, score);
             pause.putExtra(Pause.CURRENT, current);
-            pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CALLEE, 1);
             this.startActivity(pause);
@@ -358,6 +206,34 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
     }
 
     @Override
+    protected void onStart(){
+        super.onStart();
+
+        currentGameDb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                MultiplayerGame game = dataSnapshot.getValue(MultiplayerGame.class);
+
+                UP = game.getUpDigit();
+                opponent_score = game.getJoiner_score();
+                my_score = game.getCreator_score();
+                myScoreText = (TextView) findViewById(R.id.myScore);
+                myScoreText.setText(my_score + "");
+                opponentScoreText = (TextView) findViewById(R.id.opponentScore);
+                opponentScoreText.setText(opponent_score + "");
+                upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
+                upDisplayText.setText(UP + "");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
 
@@ -367,14 +243,10 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
         if (isApplicationSentToBackground(this)) {
             // Do what you want to do on detecting Home Key being Pressed
-            cdt.pause();
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
-            pause.putExtra(Pause.SCORE, score);
             pause.putExtra(Pause.CURRENT, current);
-            pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.CALLEE, 1);
-        //    this.startActivity(pause);
         }
 
     }
@@ -382,56 +254,8 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
     @Override
     public void onBackPressed() {
-        cdt.pause();
-
-        TextView t;
-        t = (TextView) findViewById(R.id.btn1);
-        editor.putString("btn1", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn2);
-        editor.putString("btn2", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn3);
-        editor.putString("btn3", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn4);
-        editor.putString("btn4", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn5);
-        editor.putString("btn5", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn6);
-        editor.putString("btn6", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn7);
-        editor.putString("btn7", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn8);
-        editor.putString("btn8", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn9);
-        editor.putString("btn9", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn10);
-        editor.putString("btn10", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn11);
-        editor.putString("btn11", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn12);
-        editor.putString("btn12", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn13);
-        editor.putString("btn13", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn14);
-        editor.putString("btn14", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn15);
-        editor.putString("btn15", t.getText().toString()).commit();
-        t = (TextView) findViewById(R.id.btn16);
-        editor.putString("btn16", t.getText().toString()).commit();
-        editor.putInt("UPdigit", UP).commit();
-        editor.putInt("score", score).commit();
-        editor.putInt("bestScore", Math.max(score, gameDataLame.getInt("bestScore", -1))).commit();
-     //   editor.putInt("life", life).commit();
-        editor.putInt("current", current).commit();
-        editor.putLong("timeLeft", cdt.timeLeft()).commit();
-        fillArrContent = "";
-        for (Integer i : fillArr) {
-            fillArrContent += i + ",";
-        }
-        editor.putString("FILLARR_CONTENT", fillArrContent).commit();
         Intent i = new Intent(this, Pause.class);
         i.putExtra(Pause.UPDIGIT, UP);
-        i.putExtra(Pause.TIME, cdt.timeLeft());
-        i.putExtra(Pause.SCORE, score);
         i.putExtra(Pause.CURRENT, current);
         i.putExtra(Pause.CALLEE, 1);
         this.startActivity(i);
@@ -444,8 +268,6 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
         super.onResume();
         continueMusic = false;
         MusicManager.start(this, MusicManager.MUSIC_GAME);
-
-        cdt.resume();
 
         ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
         pause.setImageResource(R.drawable.pause_button);
@@ -492,54 +314,6 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        cdt.pause();
-        TextView t;
-        t = (TextView) findViewById(R.id.btn1);
-        outState.putCharSequence("btn1", t.getText());
-        t = (TextView) findViewById(R.id.btn2);
-        outState.putCharSequence("btn2", t.getText());
-        t = (TextView) findViewById(R.id.btn3);
-        outState.putCharSequence("btn3", t.getText());
-        t = (TextView) findViewById(R.id.btn4);
-        outState.putCharSequence("btn4", t.getText());
-        t = (TextView) findViewById(R.id.btn5);
-        outState.putCharSequence("btn5", t.getText());
-        t = (TextView) findViewById(R.id.btn6);
-        outState.putCharSequence("btn6", t.getText());
-        t = (TextView) findViewById(R.id.btn7);
-        outState.putCharSequence("btn7", t.getText());
-        t = (TextView) findViewById(R.id.btn8);
-        outState.putCharSequence("btn8", t.getText());
-        t = (TextView) findViewById(R.id.btn9);
-        outState.putCharSequence("btn9", t.getText());
-        t = (TextView) findViewById(R.id.btn10);
-        outState.putCharSequence("btn10", t.getText());
-        t = (TextView) findViewById(R.id.btn11);
-        outState.putCharSequence("btn11", t.getText());
-        t = (TextView) findViewById(R.id.btn12);
-        outState.putCharSequence("btn12", t.getText().toString());
-        t = (TextView) findViewById(R.id.btn13);
-        outState.putCharSequence("btn13", t.getText().toString());
-        t = (TextView) findViewById(R.id.btn14);
-        outState.putCharSequence("btn14", t.getText());
-        t = (TextView) findViewById(R.id.btn15);
-        outState.putCharSequence("btn15", t.getText());
-        t = (TextView) findViewById(R.id.btn16);
-        outState.putCharSequence("btn16", t.getText());
-
-
-        outState.putIntegerArrayList("fillArr", fillArr);
-        outState.putInt("UP", UP);
-        //Log.d("checkstate","UP saved as "+UP);
-        outState.putInt("pressedNum", pressedNum);
-        //Log.d("checkstate","pressedNum saved as "+pressedNum);
-        outState.putInt("score", score);
-        //Log.d("checkstate","score saved as "+score);
-     //   outState.putInt("life", life);
-        //Log.d("checkstate","life saved as "+life);
-        outState.putInt("current", current);
-        //Log.d("checkstate","current saved as "+current);
-
     }
 
     @Override
@@ -585,7 +359,6 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
         //Log.d("checkstate","UP restored as "+UP);
         pressedNum = savedInstanceState.getInt("pressedNum");
         //Log.d("checkstate","pressedNum restored as "+pressedNum);
-        score = savedInstanceState.getInt("score");
         //Log.d("checkstate","score restored as "+score);
      //   life = savedInstanceState.getInt("life");
         //Log.d("checkstate","life restored as "+life);
@@ -606,7 +379,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
         hint_handler = new Handler();
 
-        hint_handler.postDelayed(hint_counter, 5000);
+        hint_handler.postDelayed(hint_counter, 3000);
     }
 
     private void shakeHintTile() {
@@ -714,11 +487,9 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
                     v.vibrate(200);
                 }
 
-                score += current;
                 findCurrent();
-                currentScore.setText(score + "");
                 current++;
-                currentNumText.setText(current + "");
+                currentGameDb.child("creator_score").setValue(current);
 
                 hintTimer();
 
@@ -762,30 +533,6 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
                 }
  */               //Shake screen
                 pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
-  /*              if (life > 1) {
-                    final Toast toast1 = Toast.makeText(MainLame4.this, "You have " + life + " more lives!", Toast.LENGTH_SHORT);
-                    new CountDownTimer(1200, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            toast1.show();
-                        }
-
-                        public void onFinish() {
-                            toast1.cancel();
-                        }
-                    }.start();
-                } else {
-                    final Toast toast2 = Toast.makeText(MainLame4.this, "You have " + life + " more life!", Toast.LENGTH_SHORT);
-                    new CountDownTimer(1200, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            toast2.show();
-                        }
-
-                        public void onFinish() {
-                            toast2.cancel();
-                        }
-                    }.start();
-                }
-*/
             }
         } else {   //Not UP num
             if (pressedNum == current) {      //Correct
@@ -811,12 +558,9 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
                     v.vibrate(200);
                 }
 
-
-                score += pressedNum;
                 changeNo(pressedButton);
-                currentScore.setText(score + "");
                 current++;
-                currentNumText.setText(current + "");
+                currentGameDb.child("creator_score").setValue(current);
 
                 hintTimer();
 
@@ -844,41 +588,9 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
                     // Vibrate for 500 milliseconds
                     v.vibrate(1000);
                 }
-/*
-                life--;
-                if (life <= 0) {
-                    cdt.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameDataLame.getInt("bestScore", -1))).commit();
-                    editor.putInt("score", score).commit();
-                    GameOver(3);
-                    return;
-                }
- */               //Shake screen
+
+               //Shake screen
                 pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
-  /*              if (life > 1) {
-                    final Toast toast1 = Toast.makeText(MainLame4.this, "You have " + life + " more lives!", Toast.LENGTH_SHORT);
-                    new CountDownTimer(1200, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            toast1.show();
-                        }
-
-                        public void onFinish() {
-                            toast1.cancel();
-                        }
-                    }.start();
-                } else {
-                    final Toast toast2 = Toast.makeText(MainLame4.this, "You have " + life + " more life!", Toast.LENGTH_SHORT);
-                    new CountDownTimer(1200, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            toast2.show();
-                        }
-
-                        public void onFinish() {
-                            toast2.cancel();
-                        }
-                    }.start();
-                }
-                */
             }
         }
     }
@@ -1095,56 +807,8 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
         Button temp;
         switch (v.getId()) {
             case R.id.pause_btn:
-                cdt.pause();
-
-                TextView t;
-                t = (TextView) findViewById(R.id.btn1);
-                editor.putString("btn1", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn2);
-                editor.putString("btn2", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn3);
-                editor.putString("btn3", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn4);
-                editor.putString("btn4", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn5);
-                editor.putString("btn5", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn6);
-                editor.putString("btn6", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn7);
-                editor.putString("btn7", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn8);
-                editor.putString("btn8", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn9);
-                editor.putString("btn9", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn10);
-                editor.putString("btn10", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn11);
-                editor.putString("btn11", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn12);
-                editor.putString("btn12", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn13);
-                editor.putString("btn13", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn14);
-                editor.putString("btn14", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn15);
-                editor.putString("btn15", t.getText().toString()).commit();
-                t = (TextView) findViewById(R.id.btn16);
-                editor.putString("btn16", t.getText().toString()).commit();
-                editor.putInt("UPdigit", UP).commit();
-                editor.putInt("score", score).commit();
-                editor.putInt("bestScore", Math.max(score, gameDataLame.getInt("bestScore", -1))).commit();
-         //       editor.putInt("life", life).commit();
-                editor.putInt("current", current).commit();
-                editor.putLong("timeLeft", cdt.timeLeft()).commit();
-                fillArrContent = "";
-                for (Integer i : fillArr) {
-                    fillArrContent += i + ",";
-                }
-                editor.putString("FILLARR_CONTENT", fillArrContent).commit();
                 Intent i = new Intent(this, Pause.class);
                 i.putExtra(Pause.UPDIGIT, UP);
-                i.putExtra(Pause.TIME, cdt.timeLeft());
-                i.putExtra(Pause.SCORE, score);
                 i.putExtra(Pause.CURRENT, current);
                 i.putExtra(Pause.CALLEE, 1);
                 this.startActivity(i);

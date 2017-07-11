@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * Created by BTW on 5/24/2017.
  */

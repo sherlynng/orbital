@@ -2,21 +2,17 @@ package com.example.btw.whatsup;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,26 +20,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
-
-import static com.example.btw.whatsup.R.id.UPDisplayText;
-import static com.example.btw.whatsup.R.id.btn1;
-import static com.example.btw.whatsup.R.id.countdown;
-import static com.example.btw.whatsup.R.id.time;
 
 /**
- * Created by BTW on 5/24/2017.
+ * Created by BTW on 6/23/2017.
  */
 
 
-public class Main6 extends Activity implements OnClickListener {
+public class MainTeamUp extends Activity implements View.OnClickListener {
 
     private boolean continueFromLast;
-    protected SharedPreferences gameData;
+    protected SharedPreferences gameDataTeamUp;
     protected SharedPreferences.Editor editor;
     protected boolean continueMusic = true;
 
@@ -62,11 +51,15 @@ public class Main6 extends Activity implements OnClickListener {
     public CountDownTimerPausable cdt;
 
 
-    protected TextView currentScore;
-    //   protected TextView best;
-    protected TextView currentNumText;
-    protected TextView upDisplayText;
-    protected Button upBtn;
+    protected TextView currentScoreUp;
+    protected TextView currentScoreBottom;
+    protected TextView currentNumTextUp;
+    protected TextView currentNumTextBottom;
+    protected TextView upDisplayTextUp;
+    protected TextView upDisplayTextBottom;
+    protected Button UpButtonPlayerUp;
+    protected Button UpButtonPlayerBottom;
+
     protected Button btn1;
     protected Button btn2;
     protected Button btn3;
@@ -105,179 +98,150 @@ public class Main6 extends Activity implements OnClickListener {
     protected Button btn36;
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main6);
+        setContentView(R.layout.mainteamup);
 
-        upBtn = (Button) this.findViewById(R.id.up_button);
+        UpButtonPlayerUp = (Button) this.findViewById(R.id.up_button_playerUp);
+        UpButtonPlayerBottom = (Button) this.findViewById(R.id.up_button_playerBottom);
         btn1 = (Button) this.findViewById(R.id.btn1);
-        btn1.setBackgroundResource(R.drawable.yellow_spark);
         btn2 = (Button) this.findViewById(R.id.btn2);
-        btn2.setBackgroundResource(R.drawable.orange_spark);
         btn3 = (Button) this.findViewById(R.id.btn3);
-        btn3.setBackgroundResource(R.drawable.pink_spark);
         btn4 = (Button) this.findViewById(R.id.btn4);
-        btn4.setBackgroundResource(R.drawable.blue_spark);
         btn5 = (Button) this.findViewById(R.id.btn5);
-        btn5.setBackgroundResource(R.drawable.green_spark);
         btn6 = (Button) this.findViewById(R.id.btn6);
-        btn6.setBackgroundResource(R.drawable.purple_spark);
         btn7 = (Button) this.findViewById(R.id.btn7);
-        btn7.setBackgroundResource(R.drawable.purple_spark);
         btn8 = (Button) this.findViewById(R.id.btn8);
-        btn8.setBackgroundResource(R.drawable.yellow_spark);
         btn9 = (Button) this.findViewById(R.id.btn9);
-        btn9.setBackgroundResource(R.drawable.orange_spark);
         btn10 = (Button) this.findViewById(R.id.btn10);
-        btn10.setBackgroundResource(R.drawable.pink_spark);
         btn11 = (Button) this.findViewById(R.id.btn11);
-        btn11.setBackgroundResource(R.drawable.blue_spark);
         btn12 = (Button) this.findViewById(R.id.btn12);
-        btn12.setBackgroundResource(R.drawable.green_spark);
         btn13 = (Button) this.findViewById(R.id.btn13);
-        btn13.setBackgroundResource(R.drawable.green_spark);
         btn14 = (Button) this.findViewById(R.id.btn14);
-        btn14.setBackgroundResource(R.drawable.purple_spark);
         btn15 = (Button) this.findViewById(R.id.btn15);
-        btn15.setBackgroundResource(R.drawable.yellow_spark);
         btn16 = (Button) this.findViewById(R.id.btn16);
-        btn16.setBackgroundResource(R.drawable.orange_spark);
         btn17 = (Button) this.findViewById(R.id.btn17);
-        btn17.setBackgroundResource(R.drawable.pink_spark);
         btn18 = (Button) this.findViewById(R.id.btn18);
-        btn18.setBackgroundResource(R.drawable.blue_spark);
         btn19 = (Button) this.findViewById(R.id.btn19);
-        btn19.setBackgroundResource(R.drawable.blue_spark);
         btn20 = (Button) this.findViewById(R.id.btn20);
-        btn20.setBackgroundResource(R.drawable.green_spark);
         btn21 = (Button) this.findViewById(R.id.btn21);
-        btn21.setBackgroundResource(R.drawable.purple_spark);
         btn22 = (Button) this.findViewById(R.id.btn22);
-        btn22.setBackgroundResource(R.drawable.yellow_spark);
         btn23 = (Button) this.findViewById(R.id.btn23);
-        btn23.setBackgroundResource(R.drawable.orange_spark);
         btn24 = (Button) this.findViewById(R.id.btn24);
-        btn24.setBackgroundResource(R.drawable.pink_spark);
         btn25 = (Button) this.findViewById(R.id.btn25);
-        btn25.setBackgroundResource(R.drawable.pink_spark);
         btn26 = (Button) this.findViewById(R.id.btn26);
-        btn26.setBackgroundResource(R.drawable.blue_spark);
         btn27 = (Button) this.findViewById(R.id.btn27);
-        btn27.setBackgroundResource(R.drawable.green_spark);
         btn28 = (Button) this.findViewById(R.id.btn28);
-        btn28.setBackgroundResource(R.drawable.purple_spark);
         btn29 = (Button) this.findViewById(R.id.btn29);
-        btn29.setBackgroundResource(R.drawable.yellow_spark);
         btn30 = (Button) this.findViewById(R.id.btn30);
-        btn30.setBackgroundResource(R.drawable.orange_spark);
         btn31 = (Button) this.findViewById(R.id.btn31);
-        btn31.setBackgroundResource(R.drawable.orange_spark);
         btn32 = (Button) this.findViewById(R.id.btn32);
-        btn32.setBackgroundResource(R.drawable.pink_spark);
         btn33 = (Button) this.findViewById(R.id.btn33);
-        btn33.setBackgroundResource(R.drawable.blue_spark);
         btn34 = (Button) this.findViewById(R.id.btn34);
-        btn34.setBackgroundResource(R.drawable.green_spark);
         btn35 = (Button) this.findViewById(R.id.btn35);
-        btn35.setBackgroundResource(R.drawable.purple_spark);
         btn36 = (Button) this.findViewById(R.id.btn36);
-        btn36.setBackgroundResource(R.drawable.yellow_spark);
 
-        gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
-        editor = gameData.edit();
+        gameDataTeamUp = getSharedPreferences("gameDataTeamUp", Context.MODE_PRIVATE);
+        editor = gameDataTeamUp.edit();
 
-        continueFromLast = gameData.getBoolean("CONTINUE_FROM_LAST", false);
+        continueFromLast = gameDataTeamUp.getBoolean("continuefromlastTeamUp", false);
         if (continueFromLast) {
-            //   Log.d("Debug", "cotinue from last=true");
-            UP = gameData.getInt("UPdigit", 1);
-            score = gameData.getInt("score", 0);
-            life = gameData.getInt("life", 3);
-            current = gameData.getInt("current", 1);
-            timeLeft = gameData.getLong("timeLeft", 120000);
-            fillArrContent = gameData.getString("FILLARR_CONTENT", "");
-            String[] strArray = fillArrContent.split(",");
-            fillArr.clear();
-            for (int i = 0; i < strArray.length; i++) {
-                fillArr.add(0, Integer.parseInt(strArray[i]));
+            Log.d("SAVE","retrieved and restarted TeamUp");
+            UP = gameDataTeamUp.getInt("UPdigit", 1);
+            score = gameDataTeamUp.getInt("score", 0);
+            life = gameDataTeamUp.getInt("life", 3);
+            current = gameDataTeamUp.getInt("current", 1);
+            timeLeft = gameDataTeamUp.getLong("timeLeft", 120000);
+            fillArrContent = gameDataTeamUp.getString("FILLARR_CONTENT", "");
+            if (!fillArrContent.equals("")) {
+                String[] strArray = fillArrContent.split(",");
+                fillArr.clear();
+
+                for (int i = 0; i < strArray.length; i++) {
+                    fillArr.add(0, Integer.parseInt(strArray[i]));
+                }
             }
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
-            t.setText(gameData.getString("btn1", ""));
+            t.setText(gameDataTeamUp.getString("btn1", ""));
             t = (TextView) findViewById(R.id.btn2);
-            t.setText(gameData.getString("btn2", ""));
+            t.setText(gameDataTeamUp.getString("btn2", ""));
             t = (TextView) findViewById(R.id.btn3);
-            t.setText(gameData.getString("btn3", ""));
+            t.setText(gameDataTeamUp.getString("btn3", ""));
             t = (TextView) findViewById(R.id.btn4);
-            t.setText(gameData.getString("btn4", ""));
+            t.setText(gameDataTeamUp.getString("btn4", ""));
             t = (TextView) findViewById(R.id.btn5);
-            t.setText(gameData.getString("btn5", ""));
+            t.setText(gameDataTeamUp.getString("btn5", ""));
             t = (TextView) findViewById(R.id.btn6);
-            t.setText(gameData.getString("btn6", ""));
+            t.setText(gameDataTeamUp.getString("btn6", ""));
             t = (TextView) findViewById(R.id.btn7);
-            t.setText(gameData.getString("btn7", ""));
+            t.setText(gameDataTeamUp.getString("btn7", ""));
             t = (TextView) findViewById(R.id.btn8);
-            t.setText(gameData.getString("btn8", ""));
+            t.setText(gameDataTeamUp.getString("btn8", ""));
             t = (TextView) findViewById(R.id.btn9);
-            t.setText(gameData.getString("btn9", ""));
+            t.setText(gameDataTeamUp.getString("btn9", ""));
             t = (TextView) findViewById(R.id.btn10);
-            t.setText(gameData.getString("btn10", ""));
+            t.setText(gameDataTeamUp.getString("btn10", ""));
             t = (TextView) findViewById(R.id.btn11);
-            t.setText(gameData.getString("btn11", ""));
+            t.setText(gameDataTeamUp.getString("btn11", ""));
             t = (TextView) findViewById(R.id.btn12);
-            t.setText(gameData.getString("btn12", ""));
+            t.setText(gameDataTeamUp.getString("btn12", ""));
             t = (TextView) findViewById(R.id.btn13);
-            t.setText(gameData.getString("btn13", ""));
+            t.setText(gameDataTeamUp.getString("btn13", ""));
             t = (TextView) findViewById(R.id.btn14);
-            t.setText(gameData.getString("btn14", ""));
+            t.setText(gameDataTeamUp.getString("btn14", ""));
             t = (TextView) findViewById(R.id.btn15);
-            t.setText(gameData.getString("btn15", ""));
+            t.setText(gameDataTeamUp.getString("btn15", ""));
             t = (TextView) findViewById(R.id.btn16);
-            t.setText(gameData.getString("btn16", ""));
+            t.setText(gameDataTeamUp.getString("btn16", ""));
             t = (TextView) findViewById(R.id.btn17);
-            t.setText(gameData.getString("btn17", ""));
+            t.setText(gameDataTeamUp.getString("btn17", ""));
             t = (TextView) findViewById(R.id.btn18);
-            t.setText(gameData.getString("btn18", ""));
+            t.setText(gameDataTeamUp.getString("btn18", ""));
             t = (TextView) findViewById(R.id.btn19);
-            t.setText(gameData.getString("btn19", ""));
+            t.setText(gameDataTeamUp.getString("btn19", ""));
             t = (TextView) findViewById(R.id.btn20);
-            t.setText(gameData.getString("btn20", ""));
+            t.setText(gameDataTeamUp.getString("btn20", ""));
             t = (TextView) findViewById(R.id.btn21);
-            t.setText(gameData.getString("btn21", ""));
+            t.setText(gameDataTeamUp.getString("btn21", ""));
             t = (TextView) findViewById(R.id.btn22);
-            t.setText(gameData.getString("btn22", ""));
+            t.setText(gameDataTeamUp.getString("btn22", ""));
             t = (TextView) findViewById(R.id.btn23);
-            t.setText(gameData.getString("btn23", ""));
+            t.setText(gameDataTeamUp.getString("btn23", ""));
             t = (TextView) findViewById(R.id.btn24);
-            t.setText(gameData.getString("btn24", ""));
+            t.setText(gameDataTeamUp.getString("btn24", ""));
             t = (TextView) findViewById(R.id.btn25);
-            t.setText(gameData.getString("btn25", ""));
+            t.setText(gameDataTeamUp.getString("btn25", ""));
             t = (TextView) findViewById(R.id.btn26);
-            t.setText(gameData.getString("btn26", ""));
+            t.setText(gameDataTeamUp.getString("btn26", ""));
             t = (TextView) findViewById(R.id.btn27);
-            t.setText(gameData.getString("btn27", ""));
+            t.setText(gameDataTeamUp.getString("btn27", ""));
             t = (TextView) findViewById(R.id.btn28);
-            t.setText(gameData.getString("btn28", ""));
+            t.setText(gameDataTeamUp.getString("btn28", ""));
             t = (TextView) findViewById(R.id.btn29);
-            t.setText(gameData.getString("btn29", ""));
+            t.setText(gameDataTeamUp.getString("btn29", ""));
             t = (TextView) findViewById(R.id.btn30);
-            t.setText(gameData.getString("btn30", ""));
+            t.setText(gameDataTeamUp.getString("btn30", ""));
             t = (TextView) findViewById(R.id.btn31);
-            t.setText(gameData.getString("btn31", ""));
+            t.setText(gameDataTeamUp.getString("btn31", ""));
             t = (TextView) findViewById(R.id.btn32);
-            t.setText(gameData.getString("btn32", ""));
+            t.setText(gameDataTeamUp.getString("btn32", ""));
             t = (TextView) findViewById(R.id.btn33);
-            t.setText(gameData.getString("btn33", ""));
+            t.setText(gameDataTeamUp.getString("btn33", ""));
             t = (TextView) findViewById(R.id.btn34);
-            t.setText(gameData.getString("btn34", ""));
+            t.setText(gameDataTeamUp.getString("btn34", ""));
             t = (TextView) findViewById(R.id.btn35);
-            t.setText(gameData.getString("btn35", ""));
+            t.setText(gameDataTeamUp.getString("btn35", ""));
             t = (TextView) findViewById(R.id.btn36);
-            t.setText(gameData.getString("btn36", ""));
+            t.setText(gameDataTeamUp.getString("btn36", ""));
             populateArr(current + 36);
         } else {
-            //   Log.d("Debug", "cotinue from last=false");
-            UP = getIntent().getIntExtra("UPDIGIT", 1);
+            Log.d("SAVE", "new game of TeamUp");
+            Random rand = new Random();
+            // nextInt is normally exclusive of the top value,
+            // so add 1 to make it inclusive
+            UP = rand.nextInt((9 - 3) + 1) + 3;
+          //  UP= ThreadLocalRandom.current().nextInt(3, 9 + 1);
             score = 0;
             life = 3;
             current = 1;
@@ -286,15 +250,19 @@ public class Main6 extends Activity implements OnClickListener {
             populateArr(37);
         }
 
-        currentScore = (TextView) findViewById(R.id.currentScore);
-        currentScore.setText(score + "");
-        //  best = (TextView) findViewById(R.id.bestScore);
-        //  bestScore = gameData.getInt("bestScore", 0);
-        //    best.setText(bestScore + "");
-        currentNumText = (TextView) findViewById(R.id.currentNumText);
-        currentNumText.setText(current+"");
-        upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
-        upDisplayText.setText(UP + "");
+        currentScoreUp = (TextView) findViewById(R.id.currentScoreUp);
+        currentScoreUp.setText(score + "");
+        currentNumTextUp = (TextView) findViewById(R.id.currentNumTextUp);
+        currentNumTextUp.setText(current + "");
+        upDisplayTextUp = (TextView) findViewById(R.id.UPDisplayTextUp);
+        upDisplayTextUp.setText(UP + "");
+
+        currentScoreBottom = (TextView) findViewById(R.id.currentScoreBottom);
+        currentScoreBottom.setText(score + "");
+        currentNumTextBottom = (TextView) findViewById(R.id.currentNumTextBottom);
+        currentNumTextBottom.setText(current + "");
+        upDisplayTextBottom = (TextView) findViewById(R.id.UPDisplayTextBottom);
+        upDisplayTextBottom.setText(UP + "");
 
 
         //321 animation
@@ -303,12 +271,20 @@ public class Main6 extends Activity implements OnClickListener {
         startActivity(intent);
 
 
-        final TextView timer = (TextView) findViewById(R.id.countdown);
-        timer.setText("-- : --");
+        final TextView timerLeft = (TextView) findViewById(R.id.countdownLeft);
+        final TextView timerRight = (TextView) findViewById(R.id.countdownRight);
+
+        timerLeft.setText("-- : --");
+        timerRight.setText("-- : --");
+
         cdt = new CountDownTimerPausable(timeLeft, 100, true) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timer.setText("" + String.format("%02d : %02d",
+                timerLeft.setText("" + String.format("%02d : %02d",
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                timerRight.setText("" + String.format("%02d : %02d",
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
@@ -316,9 +292,10 @@ public class Main6 extends Activity implements OnClickListener {
 
             @Override
             public void onFinish() {
-                timer.setText("00 : 00");
+                timerLeft.setText("00 : 00");
+               timerRight.setText("00 : 00");
                 cdt.cancel();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                editor.putInt("bestScore", Math.max(score, gameDataTeamUp.getInt("bestScore", -1))).commit();
                 editor.putInt("score", score).commit();
                 GameOver(1);
             }
@@ -344,42 +321,6 @@ public class Main6 extends Activity implements OnClickListener {
         handler2.postDelayed(counter2, 5001);
 
 
-
-        /* TODO: Back press from 321 not working!!! :((((((
-        final AtomicInteger n = new AtomicInteger(15);
-        final Handler handler3 = new Handler();
-        //   final TextView textView = (TextView) findViewById(R.id.currentScore);
-        // final AtomicInteger n = new AtomicInteger(3);
-        final Runnable check = new Runnable() {
-
-            @Override
-            public void run() {
-                boolean isBackPressed = getIntent().getBooleanExtra(BACKPRESSED, false);
-                int test = getIntent().getIntExtra(TEST, 100);
-
-                if (isBackPressed){
-                    //      cdt.cancel();
-                    //     finish();
-
-                }
-                else if(test < 0){
-                    n.getAndIncrement();
-                    //         TextView v = (TextView) findViewById(R.id.currentScore);
-                    //       v.setText(Integer.toString(test));
-                    handler3.postDelayed(this, 500);
-                }
-                else if(n.get() > 0){
-                    n.getAndDecrement();
-                    //     TextView v = (TextView) findViewById(R.id.currentScore);
-                    //   v.setText(Integer.toString(n.get()));
-                    handler3.postDelayed(this, 500);
-                }
-            }
-        };
-        handler3.postDelayed(check, 1);
-    }
-    */
-
     }
 
     private void startPause() {
@@ -389,8 +330,9 @@ public class Main6 extends Activity implements OnClickListener {
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
             pause.putExtra(Pause.SCORE, score);
-            pause.putExtra(Pause.TIME, cdt.timeLeft());
+            pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
+            pause.putExtra(Pause.CALLEE, 6);
             this.startActivity(pause); //hereeee
 
         }
@@ -422,7 +364,9 @@ public class Main6 extends Activity implements OnClickListener {
             Intent i = new Intent(this, Pause.class);
             i.putExtra(Pause.UPDIGIT, UP);
             i.putExtra(Pause.SCORE, score);
+            i.putExtra(Pause.CURRENT, current);
             i.putExtra(Pause.TIME, cdt.timeLeft());
+            i.putExtra(Pause.CALLEE, 6);
             this.startActivity(i);
         }
 
@@ -467,10 +411,11 @@ public class Main6 extends Activity implements OnClickListener {
         editor.putString("btn16", t.getText().toString()).commit();
         editor.putInt("UPdigit", UP).commit();
         editor.putInt("score", score).commit();
-        editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+        editor.putInt("bestScore", Math.max(score, gameDataTeamUp.getInt("bestScore", -1))).commit();
         editor.putInt("life", life).commit();
         editor.putInt("current", current).commit();
         editor.putLong("timeLeft", cdt.timeLeft()).commit();
+        fillArrContent = "";
         for (Integer i : fillArr) {
             fillArrContent += i + ",";
         }
@@ -479,6 +424,9 @@ public class Main6 extends Activity implements OnClickListener {
         i.putExtra(Pause.UPDIGIT, UP);
         i.putExtra(Pause.TIME, cdt.timeLeft());
         i.putExtra(Pause.SCORE, score);
+        i.putExtra(Pause.CURRENT, current);
+        i.putExtra(Pause.CURRENT, current);
+        i.putExtra(Pause.CALLEE, 6);
         this.startActivity(i);
     }
 
@@ -494,9 +442,9 @@ public class Main6 extends Activity implements OnClickListener {
         pause.setImageResource(R.drawable.pause_button);
         pause.setOnClickListener(this);
 
-        //set onClickListeners for all buttons
 
-        upBtn.setOnClickListener(this);
+        UpButtonPlayerUp.setOnClickListener(this);
+        UpButtonPlayerBottom.setOnClickListener(this);
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
@@ -616,15 +564,10 @@ public class Main6 extends Activity implements OnClickListener {
 
         outState.putIntegerArrayList("fillArr", fillArr);
         outState.putInt("UP", UP);
-        //Log.d("checkstate","UP saved as "+UP);
         outState.putInt("pressedNum", pressedNum);
-        //Log.d("checkstate","pressedNum saved as "+pressedNum);
         outState.putInt("score", score);
-        //Log.d("checkstate","score saved as "+score);
         outState.putInt("life", life);
-        //Log.d("checkstate","life saved as "+life);
         outState.putInt("current", current);
-        //Log.d("checkstate","current saved as "+current);
 
     }
 
@@ -720,27 +663,35 @@ public class Main6 extends Activity implements OnClickListener {
 
     }
 
+
     public void Game() {
 
-        boolean isUp;
-        isUp = checkUp();
+        boolean isUp = checkUp();
+        boolean rightUpButton;
+        /*
+        for TeamUp mode:
+        correct situations are:
+        1)press number in order
+        2)press the UP button on the correct side
+         */
         if (isUp) {   //UP num
-            if (pressedID == R.id.up_button) {  //Correct
+            rightUpButton = checkRightUpButton();
+            if (rightUpButton) {  //Correct
                 score += current;
-                findCurrent();
-                currentScore.setText(score + "");
+                findCurrentAndUpdate();
+                currentScoreUp.setText(score + "");
+                currentScoreBottom.setText(score + "");
+
                 current++;
-                currentNumText.setText(current+"");
+                currentNumTextUp.setText(current + "");
+                currentNumTextBottom.setText(current + "");
+
             } else {//Wrong
-               /*cdt.cancel();
-               editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
-                editor.putInt("score", score).commit();
-                GameOver(2);
-                */
+
                 life--;
                 if (life <= 0) {
                     cdt.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataTeamUp.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
                     GameOver(2);
                     return;
@@ -748,43 +699,46 @@ public class Main6 extends Activity implements OnClickListener {
                 //Shake screen
                 pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
                 if (life > 1) {
-                    final Toast toast1=Toast.makeText(Main6.this, "You have " + life + " more lives!", Toast.LENGTH_SHORT);
-                    new CountDownTimer(1200, 1000)
-                    {
-                        public void onTick(long millisUntilFinished) {toast1.show();}
-                        public void onFinish() {toast1.cancel();}
+                    final Toast toast1 = Toast.makeText(com.example.btw.whatsup.MainTeamUp.this, "You have " + life + " more lives!", Toast.LENGTH_SHORT);
+                    new CountDownTimer(1200, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            toast1.show();
+                        }
+
+                        public void onFinish() {
+                            toast1.cancel();
+                        }
                     }.start();
                 } else {
-                    final Toast toast2=Toast.makeText(Main6.this, "You have " + life + " more life!", Toast.LENGTH_SHORT);
-                    new CountDownTimer(1200, 1000)
-                    {
-                        public void onTick(long millisUntilFinished) {toast2.show();}
-                        public void onFinish() {toast2.cancel();}
+                    final Toast toast2 = Toast.makeText(com.example.btw.whatsup.MainTeamUp.this, "You have " + life + " more life!", Toast.LENGTH_SHORT);
+                    new CountDownTimer(1200, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            toast2.show();
+                        }
+
+                        public void onFinish() {
+                            toast2.cancel();
+                        }
                     }.start();
                 }
 
             }
         } else {   //Not UP num
             if (pressedNum == current) {      //Correct
-
-                //Spark animation
-                AnimationDrawable anim = (AnimationDrawable)pressedButton.getBackground();
-
-                if (anim.isRunning()) {
-                    anim.stop();
-                }
-                anim.start();
-
                 score += pressedNum;
                 changeNo(pressedButton);
-                currentScore.setText(score + "");
+                currentScoreUp.setText(score + "");
+                currentScoreBottom.setText(score + "");
+
                 current++;
-                currentNumText.setText(current+"");
+                currentNumTextUp.setText(current + "");
+                currentNumTextBottom.setText(current + "");
+
             } else {                            //Wrong
                 life--;
                 if (life <= 0) {
                     cdt.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataTeamUp.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
                     GameOver(3);
                     return;
@@ -792,26 +746,86 @@ public class Main6 extends Activity implements OnClickListener {
                 //Shake screen
                 pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
                 if (life > 1) {
-                    final Toast toast1=Toast.makeText(Main6.this, "You have " + life + " more lives!", Toast.LENGTH_SHORT);
-                    new CountDownTimer(1200, 1000)
-                    {
-                        public void onTick(long millisUntilFinished) {toast1.show();}
-                        public void onFinish() {toast1.cancel();}
+                    final Toast toast1 = Toast.makeText(com.example.btw.whatsup.MainTeamUp.this, "You have " + life + " more lives!", Toast.LENGTH_SHORT);
+                    new CountDownTimer(1200, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            toast1.show();
+                        }
+
+                        public void onFinish() {
+                            toast1.cancel();
+                        }
                     }.start();
                 } else {
-                    final Toast toast2=Toast.makeText(Main6.this, "You have " + life + " more life!", Toast.LENGTH_SHORT);
-                    new CountDownTimer(1200, 1000)
-                    {
-                        public void onTick(long millisUntilFinished) {toast2.show();}
-                        public void onFinish() {toast2.cancel();}
+                    final Toast toast2 = Toast.makeText(com.example.btw.whatsup.MainTeamUp.this, "You have " + life + " more life!", Toast.LENGTH_SHORT);
+                    new CountDownTimer(1200, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            toast2.show();
+                        }
+
+                        public void onFinish() {
+                            toast2.cancel();
+                        }
                     }.start();
                 }
             }
         }
     }
 
-    public boolean checkUp() {
+    private boolean checkUp() {
         return (current % UP == 0) || checkDigit();
+    }
+
+    private boolean checkRightUpButton() {
+        Button upNumber = findCurrent();
+        if (pressedButton == UpButtonPlayerUp) {
+            if (upNumber == btn1 ||
+                    upNumber == btn2 ||
+                    upNumber == btn3 ||
+                    upNumber == btn4 ||
+                    upNumber == btn5 ||
+                    upNumber == btn6 ||
+                    upNumber == btn7 ||
+                    upNumber == btn8 ||
+                    upNumber == btn9 ||
+                    upNumber == btn10 ||
+                    upNumber == btn11 ||
+                    upNumber == btn12 ||
+                    upNumber == btn13 ||
+                    upNumber == btn14 ||
+                    upNumber == btn15 ||
+                    upNumber == btn16 ||
+                    upNumber == btn17 ||
+                    upNumber == btn18) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } else if (pressedButton == UpButtonPlayerBottom) {
+            if (
+                    upNumber == btn19 ||
+                            upNumber == btn20 ||
+                            upNumber == btn21 ||
+                            upNumber == btn22 ||
+                            upNumber == btn23 ||
+                            upNumber == btn24 ||
+                            upNumber == btn25 ||
+                            upNumber == btn26 ||
+                            upNumber == btn27 ||
+                            upNumber == btn28 ||
+                            upNumber == btn29 ||
+                            upNumber == btn30 ||
+                            upNumber == btn31 ||
+                            upNumber == btn32
+                    ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
     }
 
     public boolean checkDigit() {
@@ -823,7 +837,7 @@ public class Main6 extends Activity implements OnClickListener {
 
     //Brute force
     //Finds and change the digit for UP num
-    public void findCurrent() {
+    public void findCurrentAndUpdate() {
         if (Integer.parseInt(btn1.getText().toString()) == current) {
             changeNo(btn1);
             return;
@@ -970,9 +984,122 @@ public class Main6 extends Activity implements OnClickListener {
         }
     }
 
+    public Button findCurrent() {
+        if (Integer.parseInt(btn1.getText().toString()) == current) {
+            return btn1;
+        }
+        if (Integer.parseInt(btn2.getText().toString()) == current) {
+            return btn2;
+        }
+        if (Integer.parseInt(btn3.getText().toString()) == current) {
+            return btn3;
+        }
+        if (Integer.parseInt(btn4.getText().toString()) == current) {
+            return btn4;
+        }
+        if (Integer.parseInt(btn5.getText().toString()) == current) {
+            return btn5;
+        }
+        if (Integer.parseInt(btn6.getText().toString()) == current) {
+            return btn6;
+        }
+        if (Integer.parseInt(btn7.getText().toString()) == current) {
+            return btn7;
+        }
+        if (Integer.parseInt(btn8.getText().toString()) == current) {
+            return btn8;
+        }
+        if (Integer.parseInt(btn9.getText().toString()) == current) {
+            return btn9;
+        }
+        if (Integer.parseInt(btn10.getText().toString()) == current) {
+            return btn10;
+        }
+        if (Integer.parseInt(btn11.getText().toString()) == current) {
+            return btn11;
+        }
+        if (Integer.parseInt(btn12.getText().toString()) == current) {
+            return btn12;
+        }
+        if (Integer.parseInt(btn13.getText().toString()) == current) {
+            return btn13;
+        }
+        if (Integer.parseInt(btn14.getText().toString()) == current) {
+            return btn14;
+        }
+        if (Integer.parseInt(btn15.getText().toString()) == current) {
+            return btn15;
+        }
+        if (Integer.parseInt(btn16.getText().toString()) == current) {
+            return btn16;
+        }
+        if (Integer.parseInt(btn17.getText().toString()) == current) {
+            return btn17;
+        }
+        if (Integer.parseInt(btn18.getText().toString()) == current) {
+            return btn18;
+        }
+        if (Integer.parseInt(btn19.getText().toString()) == current) {
+            return btn19;
+        }
+        if (Integer.parseInt(btn20.getText().toString()) == current) {
+            return btn20;
+        }
+        if (Integer.parseInt(btn21.getText().toString()) == current) {
+            return btn21;
+        }
+        if (Integer.parseInt(btn22.getText().toString()) == current) {
+            return btn22;
+        }
+        if (Integer.parseInt(btn23.getText().toString()) == current) {
+            return btn23;
+        }
+        if (Integer.parseInt(btn24.getText().toString()) == current) {
+            return btn24;
+        }
+        if (Integer.parseInt(btn25.getText().toString()) == current) {
+            return btn25;
+        }
+        if (Integer.parseInt(btn26.getText().toString()) == current) {
+            return btn26;
+        }
+        if (Integer.parseInt(btn27.getText().toString()) == current) {
+            return btn27;
+        }
+        if (Integer.parseInt(btn28.getText().toString()) == current) {
+            return btn28;
+        }
+        if (Integer.parseInt(btn29.getText().toString()) == current) {
+            return btn29;
+        }
+        if (Integer.parseInt(btn30.getText().toString()) == current) {
+            return btn30;
+        }
+        if (Integer.parseInt(btn31.getText().toString()) == current) {
+            return btn31;
+        }
+        if (Integer.parseInt(btn32.getText().toString()) == current) {
+            return btn32;
+        }
+        if (Integer.parseInt(btn33.getText().toString()) == current) {
+            return btn33;
+        }
+        if (Integer.parseInt(btn34.getText().toString()) == current) {
+            return btn34;
+        }
+        if (Integer.parseInt(btn35.getText().toString()) == current) {
+            return btn35;
+        }
+        else if (Integer.parseInt(btn36.getText().toString()) == current) {
+            return btn36;
+        }
+        return null;
+    }
+
     public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
         i.putExtra(GameOver.REASON, r);
+        i.putExtra(GameOver.CALLEE, 6);
         this.startActivity(i);
     }
 
@@ -1125,10 +1252,11 @@ public class Main6 extends Activity implements OnClickListener {
                 editor.putString("btn36", t.getText().toString()).commit();
                 editor.putInt("UPdigit", UP).commit();
                 editor.putInt("score", score).commit();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                editor.putInt("bestScore", Math.max(score, gameDataTeamUp.getInt("bestScore", -1))).commit();
                 editor.putInt("life", life).commit();
                 editor.putInt("current", current).commit();
                 editor.putLong("timeLeft", cdt.timeLeft()).commit();
+                fillArrContent = "";
                 for (Integer i : fillArr) {
                     fillArrContent += i + ",";
                 }
@@ -1137,9 +1265,12 @@ public class Main6 extends Activity implements OnClickListener {
                 i.putExtra(Pause.UPDIGIT, UP);
                 i.putExtra(Pause.TIME, cdt.timeLeft());
                 i.putExtra(Pause.SCORE, score);
+                i.putExtra(Pause.CURRENT, current);
+                i.putExtra(Pause.CALLEE, 6);
                 this.startActivity(i);
                 break;
-            case R.id.up_button:
+            case R.id.up_button_playerBottom:
+            case R.id.up_button_playerUp:
                 temp = (Button) v;
                 pressedButton = temp;
                 pressedID = temp.getId();
@@ -1401,3 +1532,4 @@ public class Main6 extends Activity implements OnClickListener {
         }
     }
 }
+

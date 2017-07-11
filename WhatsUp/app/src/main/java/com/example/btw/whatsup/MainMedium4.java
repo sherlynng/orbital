@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class MainMedium4 extends Activity implements OnClickListener, View.OnTouchListener {
 
     private boolean continueFromLast;
-    protected SharedPreferences gameData;
+    protected SharedPreferences gameDataMedium;
     protected SharedPreferences.Editor editor;
     protected boolean continueMusic = true;
 
@@ -66,6 +67,11 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
 
     private LinearLayout bg;
     private boolean hasRotated;
+    private boolean hasRotated1;
+    private boolean hasRotated2;
+    private boolean hasChangedUp;
+    private boolean gameSaved;
+    private boolean isOpposite;
 
     protected TextView currentScore;
     //   protected TextView best;
@@ -124,6 +130,10 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         checkVibration(this);
         checkMusic(this);
         hasRotated = false;
+        hasRotated1 = false;
+        hasRotated2 = false;
+        hasChangedUp= false;
+        isOpposite = false;
   //      explode_sound = MediaPlayer.create(this, R.raw.explode);
    //     up_sound = MediaPlayer.create(this, R.raw.up);
   //      tap_sound = MediaPlayer.create(this, R.raw.tap);
@@ -170,61 +180,108 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         btn16.setBackgroundResource(R.drawable.yellow_spark);
 
 
-        gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
-        editor = gameData.edit();
+        gameDataMedium = getSharedPreferences("gameDataMedium", Context.MODE_PRIVATE);
+        editor = gameDataMedium.edit();
 
-        continueFromLast = gameData.getBoolean("CONTINUE_FROM_LAST", false);
+        continueFromLast = gameDataMedium.getBoolean("continuefromlastMedium", false);
         if (continueFromLast) {
+            gameSaved = true;
             //   Log.d("Debug", "cotinue from last=true");
-            UP = gameData.getInt("UPdigit", 1);
-            score = gameData.getInt("score", 0);
-            life = gameData.getInt("life", 3);
-            current = gameData.getInt("current", 1);
-            timeLeft = gameData.getLong("timeLeft", 120000);
-            changeUpTimeLeft = gameData.getLong("changeUpTimeLeft", 60000);
-            rotateTimeLeft1 = gameData.getLong("rotatetimeLeft1", 30000);
-            rotateTimeLeft2 = gameData.getLong("rotatetimeLeft2", 90000);
-            fillArrContent = gameData.getString("FILLARR_CONTENT", "");
-            String[] strArray = fillArrContent.split(",");
-            fillArr.clear();
-            for (int i = 0; i < strArray.length; i++) {
-                fillArr.add(0, Integer.parseInt(strArray[i]));
+            UP = gameDataMedium.getInt("UPdigit", 1);
+            hasRotated = gameDataMedium.getBoolean("hasRotated", false);
+            hasRotated1 = gameDataMedium.getBoolean("hasRotated1", false);
+            hasRotated2 = gameDataMedium.getBoolean("hasRotated2", false);
+            hasChangedUp = gameDataMedium.getBoolean("hasChangedUp", false);
+            score = gameDataMedium.getInt("score", 0);
+            life = gameDataMedium.getInt("life", 3);
+            current = gameDataMedium.getInt("current", 1);
+            timeLeft = gameDataMedium.getLong("timeLeft", 120000);
+            changeUpTimeLeft = gameDataMedium.getLong("changeUpTimeLeft", 60000);
+            rotateTimeLeft1 = gameDataMedium.getLong("rotatetimeLeft1", 30000);
+            rotateTimeLeft2 = gameDataMedium.getLong("rotatetimeLeft2", 90000);
+            fillArrContent = gameDataMedium.getString("FILLARR_CONTENT", "");
+            if (!fillArrContent.equals("")) {
+                String[] strArray = fillArrContent.split(",");
+                fillArr.clear();
+
+                for (int i = 0; i < strArray.length; i++) {
+                    fillArr.add(0, Integer.parseInt(strArray[i]));
+                }
             }
+
+            life3 = (ImageView) findViewById(R.id.life3);
+            life3.setImageResource(R.drawable.life3);
+            life2 = (ImageView) findViewById(R.id.life2);
+            life2.setImageResource(R.drawable.life2);
+            life1 = (ImageView) findViewById(R.id.life1);
+            life1.setImageResource(R.drawable.life1);
+
+            if (life == 2) {
+                life3.setVisibility(View.INVISIBLE);
+            }
+            else if(life == 1) {
+                life3.setVisibility(View.INVISIBLE);
+                life2.setVisibility(View.INVISIBLE);
+            }
+
+            if(hasRotated){
+                isOpposite = true;
+                LinearLayout grid = (LinearLayout) this.findViewById(R.id.mainGrid);
+                grid.setRotation(180F);
+                btn1.setRotation(180F);
+                btn2.setRotation(180F);
+                btn3.setRotation(180F);
+                btn4.setRotation(180F);
+                btn5.setRotation(180F);
+                btn6.setRotation(180F);
+                btn7.setRotation(180F);
+                btn8.setRotation(180F);
+                btn9.setRotation(180F);
+                btn10.setRotation(180F);
+                btn11.setRotation(180F);
+                btn12.setRotation(180F);
+                btn13.setRotation(180F);
+                btn14.setRotation(180F);
+                btn15.setRotation(180F);
+                btn16.setRotation(180F);
+            }
+
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
-            t.setText(gameData.getString("btn1", ""));
+            t.setText(gameDataMedium.getString("btn1", ""));
             t = (TextView) findViewById(R.id.btn2);
-            t.setText(gameData.getString("btn2", ""));
+            t.setText(gameDataMedium.getString("btn2", ""));
             t = (TextView) findViewById(R.id.btn3);
-            t.setText(gameData.getString("btn3", ""));
+            t.setText(gameDataMedium.getString("btn3", ""));
             t = (TextView) findViewById(R.id.btn4);
-            t.setText(gameData.getString("btn4", ""));
+            t.setText(gameDataMedium.getString("btn4", ""));
             t = (TextView) findViewById(R.id.btn5);
-            t.setText(gameData.getString("btn5", ""));
+            t.setText(gameDataMedium.getString("btn5", ""));
             t = (TextView) findViewById(R.id.btn6);
-            t.setText(gameData.getString("btn6", ""));
+            t.setText(gameDataMedium.getString("btn6", ""));
             t = (TextView) findViewById(R.id.btn7);
-            t.setText(gameData.getString("btn7", ""));
+            t.setText(gameDataMedium.getString("btn7", ""));
             t = (TextView) findViewById(R.id.btn8);
-            t.setText(gameData.getString("btn8", ""));
+            t.setText(gameDataMedium.getString("btn8", ""));
             t = (TextView) findViewById(R.id.btn9);
-            t.setText(gameData.getString("btn9", ""));
+            t.setText(gameDataMedium.getString("btn9", ""));
             t = (TextView) findViewById(R.id.btn10);
-            t.setText(gameData.getString("btn10", ""));
+            t.setText(gameDataMedium.getString("btn10", ""));
             t = (TextView) findViewById(R.id.btn11);
-            t.setText(gameData.getString("btn11", ""));
+            t.setText(gameDataMedium.getString("btn11", ""));
             t = (TextView) findViewById(R.id.btn12);
-            t.setText(gameData.getString("btn12", ""));
+            t.setText(gameDataMedium.getString("btn12", ""));
             t = (TextView) findViewById(R.id.btn13);
-            t.setText(gameData.getString("btn13", ""));
+            t.setText(gameDataMedium.getString("btn13", ""));
             t = (TextView) findViewById(R.id.btn14);
-            t.setText(gameData.getString("btn14", ""));
+            t.setText(gameDataMedium.getString("btn14", ""));
             t = (TextView) findViewById(R.id.btn15);
-            t.setText(gameData.getString("btn15", ""));
+            t.setText(gameDataMedium.getString("btn15", ""));
             t = (TextView) findViewById(R.id.btn16);
-            t.setText(gameData.getString("btn16", ""));
-            populateArr(current + 16);
+            t.setText(gameDataMedium.getString("btn16", ""));
+        //    populateArr(current + 16);
         } else {
+            gameSaved = false;
             //   Log.d("Debug", "cotinue from last=false");
             UP = getIntent().getIntExtra("UPDIGIT", 1);
             score = 0;
@@ -241,7 +298,7 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         currentScore = (TextView) findViewById(R.id.currentScore);
         currentScore.setText(score + "");
         //  best = (TextView) findViewById(R.id.bestScore);
-        //  bestScore = gameData.getInt("bestScore", 0);
+        //  bestScore = gameDataMedium.getInt("bestScore", 0);
         //    best.setText(bestScore + "");
         currentNumText = (TextView) findViewById(R.id.currentNumText);
         currentNumText.setText(current + "");
@@ -270,106 +327,125 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
             public void onFinish() {
                 timer.setText("00 : 00");
                 cdt.cancel();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                editor.putInt("bestScore", Math.max(score, gameDataMedium.getInt("bestScore", -1))).commit();
                 editor.putInt("score", score).commit();
                 GameOver(1);
             }
         };
 
-        //Change UP Timer
-        changeUpTimer = new CountDownTimerPausable(changeUpTimeLeft, 100, true){
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
+        if(!hasChangedUp) {
+            //Change UP Timer
+            changeUpTimer = new CountDownTimerPausable(changeUpTimeLeft, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
 
-            @Override
-            public void onFinish() {
+                @Override
+                public void onFinish() {
 
-                changeUpTimer.cancel();
+                    changeUpTimer.cancel();
+                    hasChangedUp = true;
 
-                int newUpDigit;
-                Random rand = new Random();
+                    int newUpDigit;
+                    Random rand = new Random();
 
-                do {
-                    newUpDigit = rand.nextInt((9 - 3) + 1) + 3;
-                }while(newUpDigit == UP);
+                    do {
+                        newUpDigit = rand.nextInt((9 - 3) + 1) + 3;
+                    } while (newUpDigit == UP);
 
-                UP = newUpDigit;
+                    UP = newUpDigit;
 
-             //   upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
-                upDisplayText.setText(UP + "");
+                    //   upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
+                    upDisplayText.setText(UP + "");
 
-                cdt.pause();
-                rotateTimer2.pause();
-                startChangeUpDigit();
+                    cdt.pause();
+                    rotateTimer2.pause();
+                    startChangeUpDigit();
 
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                            if(!hasRotated2){
+                                rotateTimer2.resume();
+                            }
+                        }
+                    };
+                    handler.postDelayed(counter, 1500);
+                }
+            };
+        }
+
+        if(!hasRotated1) {
+            //First Rotate Timer
+            rotateTimer1 = new CountDownTimerPausable(rotateTimeLeft1, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+
+                @Override
+                public void onFinish() {
+
+                    rotateTimer1.cancel();
+                    hasRotated1 = true;
+
+                    cdt.pause();
+                    if(!hasChangedUp) {
+                        changeUpTimer.pause();
                     }
-                };
-                handler.postDelayed(counter, 1500);
-            }
-        };
-
-        //First Rotate Timer
-        rotateTimer1 = new CountDownTimerPausable(rotateTimeLeft1, 100, true){
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
-
-            @Override
-            public void onFinish() {
-
-                rotateTimer1.cancel();
-
-                cdt.pause();
-                changeUpTimer.pause();
-                rotateTimer2.pause();
-
-                startRotate1();
-
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
-                        changeUpTimer.resume();
-                        rotateTimer2.resume();
+                    if(!hasRotated2) {
+                        rotateTimer2.pause();
                     }
-                };
-                handler.postDelayed(counter, 2500);
-            }
-        };
 
-        //Second Rotate Timer
-        rotateTimer2 = new CountDownTimerPausable(rotateTimeLeft2, 100, true){
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
+                    startRotate1();
 
-            @Override
-            public void onFinish() {
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                            if(!hasChangedUp) {
+                                changeUpTimer.resume();
+                            }
+                            if(!hasRotated2) {
+                                rotateTimer2.resume();
+                            }
+                        }
+                    };
+                    handler.postDelayed(counter, 2500);
+                }
+            };
+        }
 
-                rotateTimer2.cancel();
+        if(!hasRotated2) {
+            //Second Rotate Timer
+            rotateTimer2 = new CountDownTimerPausable(rotateTimeLeft2, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
 
-                cdt.pause();
+                @Override
+                public void onFinish() {
 
-                startRotate2();
+                    rotateTimer2.cancel();
+                    hasRotated2 = true;
 
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
-                    }
-                };
-                handler.postDelayed(counter, 2500);
-            }
-        };
+                    cdt.pause();
 
+                    startRotate2();
+
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                        }
+                    };
+                    handler.postDelayed(counter, 2500);
+                }
+            };
+        }
 
         final Handler handler = new Handler();
         final Runnable counter = new Runnable() {
@@ -384,7 +460,9 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         final Runnable counter3 = new Runnable() {
             @Override
             public void run() {
-                changeUpTimer.create();
+                if(!hasChangedUp) {
+                    changeUpTimer.create();
+                }
             }
         };
         handler3.postDelayed(counter3, 5000);
@@ -393,7 +471,9 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         final Runnable counter4 = new Runnable() {
             @Override
             public void run() {
-                rotateTimer1.create();
+                if(!hasRotated1) {
+                    rotateTimer1.create();
+                }
             }
         };
         handler4.postDelayed(counter4, 5000);
@@ -402,7 +482,9 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         final Runnable counter5 = new Runnable() {
             @Override
             public void run() {
-                rotateTimer2.create();
+                if(!hasRotated2) {
+                    rotateTimer2.create();
+                }
             }
         };
         handler5.postDelayed(counter5, 5000);
@@ -511,12 +593,25 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
 
         //Grid rotate
         LinearLayout grid = (LinearLayout) this.findViewById(R.id.mainGrid);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_secondhalf);
+        Animation animation;
+        if(gameSaved){
+            animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_firsthalf);
+        }
+        else {
+            animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_secondhalf);
+        }
         grid.startAnimation(animation);
 
+        RotateAnimation rotateAnimation;
         //Button rotate
-        RotateAnimation rotateAnimation = new RotateAnimation(180f, 360f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        if(gameSaved) {
+            rotateAnimation = new RotateAnimation(0f, 180f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        }
+        else{
+            rotateAnimation = new RotateAnimation(180f, 360f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        }
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setDuration(2500);
         rotateAnimation.setFillAfter(true);
@@ -566,15 +661,22 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         if (isApplicationSentToBackground(getApplicationContext())) {
             // Do what you want to do on detecting Home Key being Pressed
             cdt.pause();
-            changeUpTimer.pause();
-            rotateTimer1.pause();
-            rotateTimer2.pause();
+            if(!hasChangedUp) {
+                changeUpTimer.pause();
+            }
+            if(!hasRotated1) {
+                rotateTimer1.pause();
+            }
+            if(!hasRotated2) {
+                rotateTimer2.pause();
+            }
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
             pause.putExtra(Pause.SCORE, score);
+            pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.TIME, cdt.timeLeft());
-            pause.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
+            pause.putExtra(Pause.CALLEE, 3);
             this.startActivity(pause);
 
         }
@@ -604,14 +706,21 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         if (isApplicationSentToBackground(this)) {
             // Do what you want to do on detecting Home Key being Pressed
             cdt.pause();
-            changeUpTimer.pause();
-            rotateTimer1.pause();
-            rotateTimer2.pause();
+            if(!hasChangedUp) {
+                changeUpTimer.pause();
+            }
+            if(!hasRotated1) {
+                rotateTimer1.pause();
+            }
+            if(!hasRotated2) {
+                rotateTimer2.pause();
+            }
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
             pause.putExtra(Pause.SCORE, score);
+            pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.TIME, cdt.timeLeft());
-            pause.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
+            pause.putExtra(Pause.CALLEE, 3);
         //    this.startActivity(pause);
         }
 
@@ -621,9 +730,15 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
     @Override
     public void onBackPressed() {
         cdt.pause();
-        changeUpTimer.pause();
-        rotateTimer1.pause();
-        rotateTimer2.pause();
+        if(!hasChangedUp) {
+            changeUpTimer.pause();
+        }
+        if(!hasRotated1) {
+            rotateTimer1.pause();
+        }
+        if(!hasRotated2) {
+            rotateTimer2.pause();
+        }
 
         TextView t;
         t = (TextView) findViewById(R.id.btn1);
@@ -660,13 +775,24 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         editor.putString("btn16", t.getText().toString()).commit();
         editor.putInt("UPdigit", UP).commit();
         editor.putInt("score", score).commit();
-        editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+        editor.putInt("bestScore", Math.max(score, gameDataMedium.getInt("bestScore", -1))).commit();
         editor.putInt("life", life).commit();
         editor.putInt("current", current).commit();
         editor.putLong("timeLeft", cdt.timeLeft()).commit();
-        editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
-        editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
-        editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+        editor.putBoolean("hasRotated", hasRotated).commit();
+        editor.putBoolean("hasRotated1", hasRotated1).commit();
+        editor.putBoolean("hasRotated2", hasRotated2).commit();
+        editor.putBoolean("hasChangedUp", hasChangedUp).commit();
+        if(!hasChangedUp) {
+            editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
+        }
+        if (!hasRotated1) {
+            editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
+        }
+        if (!hasRotated2) {
+            editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+        }
+        fillArrContent = "";
         for (Integer i : fillArr) {
             fillArrContent += i + ",";
         }
@@ -674,8 +800,9 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         Intent i = new Intent(this, Pause.class);
         i.putExtra(Pause.UPDIGIT, UP);
         i.putExtra(Pause.TIME, cdt.timeLeft());
-        i.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
         i.putExtra(Pause.SCORE, score);
+        i.putExtra(Pause.CURRENT, current);
+        i.putExtra(Pause.CALLEE, 3);
         this.startActivity(i);
     }
 
@@ -688,9 +815,15 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
         MusicManager.start(this, MusicManager.MUSIC_GAME);
 
         cdt.resume();
-        changeUpTimer.resume();
-        rotateTimer1.resume();
-        rotateTimer2.resume();
+        if(!hasChangedUp) {
+            changeUpTimer.resume();
+        }
+        if(!hasRotated1) {
+            rotateTimer1.resume();
+        }
+        if(!hasRotated2) {
+            rotateTimer2.resume();
+        }
 
         ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
         pause.setImageResource(R.drawable.pause_button);
@@ -745,9 +878,15 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         cdt.pause();
-        changeUpTimer.pause();
-        rotateTimer1.pause();
-        rotateTimer2.pause();
+        if(!hasChangedUp) {
+            changeUpTimer.pause();
+        }
+        if(!hasRotated1) {
+            rotateTimer1.pause();
+        }
+        if(!hasRotated2) {
+            rotateTimer2.pause();
+        }
 
         TextView t;
         t = (TextView) findViewById(R.id.btn1);
@@ -892,7 +1031,7 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
 
             } else {//Wrong
                /*cdt.cancel();
-               editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+               editor.putInt("bestScore", Math.max(score, gameDataMedium.getInt("bestScore", -1))).commit();
                 editor.putInt("score", score).commit();
                 GameOver(2);
                 */
@@ -922,23 +1061,29 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
                 life--;
 
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
                 }
-                else if(life==1){
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
                 }
 
                 else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
-                    changeUpTimer.cancel();
-                    rotateTimer1.cancel();
-                    rotateTimer2.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    if(!hasChangedUp) {
+                        changeUpTimer.cancel();
+                    }
+                    if(!hasRotated1) {
+                        rotateTimer1.cancel();
+                    }
+                    if(!hasRotated2) {
+                        rotateTimer2.cancel();
+                    }
+                    editor.putInt("bestScore", Math.max(score, gameDataMedium.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
                     GameOver(2);
                     return;
@@ -1029,23 +1174,29 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
                 life--;
 
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
                 }
-                else if(life==1){
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
                 }
 
                 else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
-                    changeUpTimer.cancel();
-                    rotateTimer1.cancel();
-                    rotateTimer2.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    if(!hasChangedUp) {
+                        changeUpTimer.cancel();
+                    }
+                    if(!hasRotated1) {
+                        rotateTimer1.cancel();
+                    }
+                    if(!hasRotated2) {
+                        rotateTimer2.cancel();
+                    }
+                    editor.putInt("bestScore", Math.max(score, gameDataMedium.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
                     GameOver(3);
                     return;
@@ -1162,6 +1313,7 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
     public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
         i.putExtra(GameOver.REASON, r);
+        i.putExtra(GameOver.CALLEE, 3);
         this.startActivity(i);
     }
 
@@ -1215,7 +1367,7 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent)
     {
-        if(hasRotated){
+        if((!hasRotated && isOpposite) || (hasRotated && !isOpposite)){
             switch (view.getId())
             {
                 case R.id.btn1:
@@ -1393,14 +1545,20 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
 
         Button temp;
 
-        if(hasRotated){
+        if((!hasRotated && isOpposite) || (hasRotated && !isOpposite)){
             switch (v.getId()) {
 
                 case R.id.pause_btn:
                     cdt.pause();
-                    changeUpTimer.pause();
-                    rotateTimer1.pause();
-                    rotateTimer2.pause();
+                    if(!hasChangedUp) {
+                        changeUpTimer.pause();
+                    }
+                    if(!hasRotated1) {
+                        rotateTimer1.pause();
+                    }
+                    if(!hasRotated2) {
+                        rotateTimer2.pause();
+                    }
 
                     TextView t;
                     t = (TextView) findViewById(R.id.btn1);
@@ -1437,13 +1595,25 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
                     editor.putString("btn16", t.getText().toString()).commit();
                     editor.putInt("UPdigit", UP).commit();
                     editor.putInt("score", score).commit();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataMedium.getInt("bestScore", -1))).commit();
                     editor.putInt("life", life).commit();
                     editor.putInt("current", current).commit();
+                    editor.putBoolean("hasRotated", hasRotated).commit();
+                    editor.putBoolean("hasRotated1", hasRotated1).commit();
+                    editor.putBoolean("hasRotated2", hasRotated2).commit();
+                    editor.putBoolean("hasChangedUp", hasChangedUp).commit();
                     editor.putLong("timeLeft", cdt.timeLeft()).commit();
-                    editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
-                    editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
-                    editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+                    if(!hasChangedUp) {
+                        editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
+                        Log.d("changedUp", "timeLeft = " + changeUpTimeLeft);
+                    }
+                    if (!hasRotated1) {
+                        editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
+                    }
+                    if (!hasRotated2) {
+                        editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+                    }
+                    fillArrContent = "";
                     for (Integer i : fillArr) {
                         fillArrContent += i + ",";
                     }
@@ -1451,8 +1621,9 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
                     Intent i = new Intent(this, Pause.class);
                     i.putExtra(Pause.UPDIGIT, UP);
                     i.putExtra(Pause.TIME, cdt.timeLeft());
-                    i.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
                     i.putExtra(Pause.SCORE, score);
+                    i.putExtra(Pause.CURRENT, current);
+                    i.putExtra(Pause.CALLEE, 3);
                     this.startActivity(i);
                     break;
                 case R.id.up_button:
@@ -1595,9 +1766,15 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
             switch (v.getId()) {
                 case R.id.pause_btn:
                     cdt.pause();
-                    changeUpTimer.pause();
-                    rotateTimer1.pause();
-                    rotateTimer2.pause();
+                    if(!hasChangedUp) {
+                        changeUpTimer.pause();
+                    }
+                    if(!hasRotated1) {
+                        rotateTimer1.pause();
+                    }
+                    if(!hasRotated2) {
+                        rotateTimer2.pause();
+                    }
 
                     TextView t;
                     t = (TextView) findViewById(R.id.btn1);
@@ -1634,13 +1811,25 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
                     editor.putString("btn16", t.getText().toString()).commit();
                     editor.putInt("UPdigit", UP).commit();
                     editor.putInt("score", score).commit();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataMedium.getInt("bestScore", -1))).commit();
                     editor.putInt("life", life).commit();
                     editor.putInt("current", current).commit();
+                    editor.putBoolean("hasRotated", hasRotated).commit();
+                    editor.putBoolean("hasRotated1", hasRotated1).commit();
+                    editor.putBoolean("hasRotated2", hasRotated2).commit();
+                    editor.putBoolean("hasChangedUp", hasChangedUp).commit();
                     editor.putLong("timeLeft", cdt.timeLeft()).commit();
-                    editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
-                    editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
-                    editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+                    if(!hasChangedUp) {
+                        editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
+                        Log.d("changedUp", "timeLeft = " + changeUpTimeLeft);
+                    }
+                    if (!hasRotated1) {
+                        editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
+                    }
+                    if (!hasRotated2) {
+                        editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+                    }
+                    fillArrContent = "";
                     for (Integer i : fillArr) {
                         fillArrContent += i + ",";
                     }
@@ -1648,8 +1837,9 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
                     Intent i = new Intent(this, Pause.class);
                     i.putExtra(Pause.UPDIGIT, UP);
                     i.putExtra(Pause.TIME, cdt.timeLeft());
-                    i.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
                     i.putExtra(Pause.SCORE, score);
+                    i.putExtra(Pause.CURRENT, current);
+                    i.putExtra(Pause.CALLEE, 3);
                     this.startActivity(i);
                     break;
                 case R.id.up_button:

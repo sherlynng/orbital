@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-
-import java.util.Random;
 
 /**
  * Created by BTW on 6/11/2017.
@@ -122,8 +117,8 @@ public class ChooseLevel extends Activity implements OnClickListener {
     private void chooseGridEasy() {
         switch (gridSize) {
             case 4:
-                Intent fourbyfour = new Intent(this, Main4.class);
-                fourbyfour.putExtra(Main4.UPDIGIT, upDigit);
+                Intent fourbyfour = new Intent(this, MainEasy4.class);
+                fourbyfour.putExtra(MainEasy4.UPDIGIT, upDigit);
                 startActivity(fourbyfour);
                 break;
             case 5:

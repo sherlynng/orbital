@@ -3,25 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/home_screen4"
+    android:background="@mipmap/home_screen4"
 
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
->
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_weight="3"
         android:orientation="vertical">
 
 
         <ImageView
             android:id="@+id/whatsup_logo"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="130dp"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@mipmap/whatsup_logo" />
@@ -32,48 +31,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="20"
+        android:layout_weight="1"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/continue_button"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@mipmap/continue_"
-            android:paddingRight="200dp" />
 
         <Button
-            android:id="@+id/new_button"
+            android:id="@+id/WhatsUp_button"
             android:layout_width="200dp"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp"
+            android:text="Whats UP"
             android:layout_gravity="center_horizontal"
-            android:background="@mipmap/new_game" />
+        />
 
         <Button
-            android:id="@+id/settings_button"
+            android:id="@+id/TeamUp_button"
             android:layout_width="200dp"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp"
+            android:text="TEAM Up"
             android:layout_gravity="center_horizontal"
-            android:background="@mipmap/settings" />
+            />
 
         <Button
-            android:id="@+id/exit_button"
+            android:id="@+id/hurryUp_button"
             android:layout_width="200dp"
             android:layout_height="60dp"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@mipmap/exit" />
-     <!--   <Button
-            android:id="@+id/auth_button"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal"
-           android:text="Log in" />
+            android:text="Hurry UP"
+            android:layout_gravity="center_horizontal"/>
 
+        <Button
+            android:id="@+id/UpAndDown_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:text="up and down "
+            android:layout_gravity="center_horizontal" />
+        <!--
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="600dp"
@@ -89,8 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-
-        android:layout_weight="3"
+        android:layout_marginTop="90dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <Button
@@ -98,14 +89,14 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="35dp"
             android:background="@mipmap/about4" />
 
         <Button
             android:id="@+id/howtoplay_button"
             android:layout_width="130dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="80dp"
             android:layout_gravity="right"
             android:background="@mipmap/howtoplay4" />
 

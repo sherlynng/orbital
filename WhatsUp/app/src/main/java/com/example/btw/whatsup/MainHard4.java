@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class MainHard4 extends Activity implements OnClickListener, View.OnTouchListener {
 
     private boolean continueFromLast;
-    protected SharedPreferences gameData;
+    protected SharedPreferences gameDataHard;
     protected SharedPreferences.Editor editor;
     protected boolean continueMusic = true;
 
@@ -79,6 +80,11 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
 
     private LinearLayout bg;
     private boolean hasRotated;
+    private boolean hasRotated1;
+    private boolean hasRotated2;
+    private boolean hasChangedUp;
+    private boolean gameSaved;
+    private boolean isOpposite;
 
     protected TextView currentScore;
     //   protected TextView best;
@@ -137,7 +143,11 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         checkVibration(this);
         checkMusic(this);
         hasRotated = false;
+        hasRotated1 = false;
+        hasRotated2 = false;
+        hasChangedUp= false;
         secondUP_start = false;
+        isOpposite = false;
         secondUP = -1;
 
         /* First initialisation of frozen grids.
@@ -195,66 +205,116 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         btn16.setBackgroundResource(R.drawable.yellow_spark);
 
 
-        gameData = getSharedPreferences("GameData", Context.MODE_PRIVATE);
-        editor = gameData.edit();
+        gameDataHard = getSharedPreferences("gameDataHard", Context.MODE_PRIVATE);
+        editor = gameDataHard.edit();
 
-        continueFromLast = gameData.getBoolean("CONTINUE_FROM_LAST", false);
+        continueFromLast = gameDataHard.getBoolean("continuefromlastHard", false);
         if (continueFromLast) {
+            gameSaved = true;
+
             //   Log.d("Debug", "cotinue from last=true");
-            UP = gameData.getInt("UPdigit", 1);
-            score = gameData.getInt("score", 0);
-            life = gameData.getInt("life", 3);
-            current = gameData.getInt("current", 1);
-            timeLeft = gameData.getLong("timeLeft", 120000);
-            changeUpTimeLeft = gameData.getLong("changeUpTimeLeft", 60000);
-            rotateTimeLeft1 = gameData.getLong("rotatetimeLeft1", 30000);
-            rotateTimeLeft2 = gameData.getLong("rotatetimeLeft2", 90000);
-            freezeTimeLeft1 = gameData.getLong("freezetimeLeft1", 15000);
-            freezeTimeLeft2 = gameData.getLong("freezetimeLeft2", 45000);
-            freezeTimeLeft3 = gameData.getLong("freezetimeLeft3", 75000);
-            freezeTimeLeft4 = gameData.getLong("freezetimeLeft4", 105000);
-            fillArrContent = gameData.getString("FILLARR_CONTENT", "");
-            String[] strArray = fillArrContent.split(",");
-            fillArr.clear();
-            for (int i = 0; i < strArray.length; i++) {
-                fillArr.add(0, Integer.parseInt(strArray[i]));
+            UP = gameDataHard.getInt("UPdigit", 1);
+            secondUP = gameDataHard.getInt("UPdigit2", -1);
+            secondUP_start = gameDataHard.getBoolean("UPdigit2_start", false);
+            hasRotated = gameDataHard.getBoolean("hasRotated", false);
+            hasRotated1 = gameDataHard.getBoolean("hasRotated1", false);
+            hasRotated2 = gameDataHard.getBoolean("hasRotated2", false);
+            hasChangedUp = gameDataHard.getBoolean("hasChangedUp", false);
+            score = gameDataHard.getInt("score", 0);
+            life = gameDataHard.getInt("life", 3);
+            current = gameDataHard.getInt("current", 1);
+            timeLeft = gameDataHard.getLong("timeLeft", 120000);
+            changeUpTimeLeft = gameDataHard.getLong("changeUpTimeLeft", 60000);
+            rotateTimeLeft1 = gameDataHard.getLong("rotatetimeLeft1", 30000);
+            rotateTimeLeft2 = gameDataHard.getLong("rotatetimeLeft2", 90000);
+            freezeTimeLeft1 = gameDataHard.getLong("freezetimeLeft1", 15000);
+            freezeTimeLeft2 = gameDataHard.getLong("freezetimeLeft2", 45000);
+            freezeTimeLeft3 = gameDataHard.getLong("freezetimeLeft3", 75000);
+            freezeTimeLeft4 = gameDataHard.getLong("freezetimeLeft4", 105000);
+            fillArrContent = gameDataHard.getString("FILLARR_CONTENT", "");
+            if (!fillArrContent.equals("")) {
+                String[] strArray = fillArrContent.split(",");
+                fillArr.clear();
+
+                for (int i = 0; i < strArray.length; i++) {
+                    fillArr.add(0, Integer.parseInt(strArray[i]));
+                }
+            }
+
+            life3 = (ImageView) findViewById(R.id.life3);
+            life3.setImageResource(R.drawable.life3);
+            life2 = (ImageView) findViewById(R.id.life2);
+            life2.setImageResource(R.drawable.life2);
+            life1 = (ImageView) findViewById(R.id.life1);
+            life1.setImageResource(R.drawable.life1);
+
+            if (life == 2) {
+                life3.setVisibility(View.INVISIBLE);
+            }
+            else if(life == 1) {
+                life3.setVisibility(View.INVISIBLE);
+                life2.setVisibility(View.INVISIBLE);
+            }
+
+            if(hasRotated){
+                isOpposite = true;
+                LinearLayout grid = (LinearLayout) this.findViewById(R.id.mainGrid);
+                grid.setRotation(180F);
+                btn1.setRotation(180F);
+                btn2.setRotation(180F);
+                btn3.setRotation(180F);
+                btn4.setRotation(180F);
+                btn5.setRotation(180F);
+                btn6.setRotation(180F);
+                btn7.setRotation(180F);
+                btn8.setRotation(180F);
+                btn9.setRotation(180F);
+                btn10.setRotation(180F);
+                btn11.setRotation(180F);
+                btn12.setRotation(180F);
+                btn13.setRotation(180F);
+                btn14.setRotation(180F);
+                btn15.setRotation(180F);
+                btn16.setRotation(180F);
             }
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
-            t.setText(gameData.getString("btn1", ""));
+            t.setText(gameDataHard.getString("btn1", ""));
             t = (TextView) findViewById(R.id.btn2);
-            t.setText(gameData.getString("btn2", ""));
+            t.setText(gameDataHard.getString("btn2", ""));
             t = (TextView) findViewById(R.id.btn3);
-            t.setText(gameData.getString("btn3", ""));
+            t.setText(gameDataHard.getString("btn3", ""));
             t = (TextView) findViewById(R.id.btn4);
-            t.setText(gameData.getString("btn4", ""));
+            t.setText(gameDataHard.getString("btn4", ""));
             t = (TextView) findViewById(R.id.btn5);
-            t.setText(gameData.getString("btn5", ""));
+            t.setText(gameDataHard.getString("btn5", ""));
             t = (TextView) findViewById(R.id.btn6);
-            t.setText(gameData.getString("btn6", ""));
+            t.setText(gameDataHard.getString("btn6", ""));
             t = (TextView) findViewById(R.id.btn7);
-            t.setText(gameData.getString("btn7", ""));
+            t.setText(gameDataHard.getString("btn7", ""));
             t = (TextView) findViewById(R.id.btn8);
-            t.setText(gameData.getString("btn8", ""));
+            t.setText(gameDataHard.getString("btn8", ""));
             t = (TextView) findViewById(R.id.btn9);
-            t.setText(gameData.getString("btn9", ""));
+            t.setText(gameDataHard.getString("btn9", ""));
             t = (TextView) findViewById(R.id.btn10);
-            t.setText(gameData.getString("btn10", ""));
+            t.setText(gameDataHard.getString("btn10", ""));
             t = (TextView) findViewById(R.id.btn11);
-            t.setText(gameData.getString("btn11", ""));
+            t.setText(gameDataHard.getString("btn11", ""));
             t = (TextView) findViewById(R.id.btn12);
-            t.setText(gameData.getString("btn12", ""));
+            t.setText(gameDataHard.getString("btn12", ""));
             t = (TextView) findViewById(R.id.btn13);
-            t.setText(gameData.getString("btn13", ""));
+            t.setText(gameDataHard.getString("btn13", ""));
             t = (TextView) findViewById(R.id.btn14);
-            t.setText(gameData.getString("btn14", ""));
+            t.setText(gameDataHard.getString("btn14", ""));
             t = (TextView) findViewById(R.id.btn15);
-            t.setText(gameData.getString("btn15", ""));
+            t.setText(gameDataHard.getString("btn15", ""));
             t = (TextView) findViewById(R.id.btn16);
-            t.setText(gameData.getString("btn16", ""));
-            populateArr(current + 16);
+            t.setText(gameDataHard.getString("btn16", ""));
+            Log.d("rotate", "(continue) hasRotated = " + hasRotated);
+      //      populateArr(current + 16);
         } else {
             //   Log.d("Debug", "cotinue from last=false");
+            gameSaved = false;
             UP = getIntent().getIntExtra("UPDIGIT", 1);
             score = 0;
             life = 3;
@@ -279,12 +339,16 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         currentScore = (TextView) findViewById(R.id.currentScore);
         currentScore.setText(score + "");
         //  best = (TextView) findViewById(R.id.bestScore);
-        //  bestScore = gameData.getInt("bestScore", 0);
+        //  bestScore = gameDataHard.getInt("bestScore", 0);
         //    best.setText(bestScore + "");
         currentNumText = (TextView) findViewById(R.id.currentNumText);
         currentNumText.setText(current + "");
         upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
-        upDisplayText.setText(UP + "");
+        if (secondUP == -1) { //SecondUP has not started
+            upDisplayText.setText(UP + "");
+        } else {
+            upDisplayText.setText(UP + ", " + secondUP);
+        }
 
 
         //321 animation
@@ -308,119 +372,132 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
             public void onFinish() {
                 timer.setText("00 : 00");
                 cdt.cancel();
-                editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
                 editor.putInt("score", score).commit();
                 GameOver(1);
             }
         };
 
         //Change UP Timer
-        changeUpTimer = new CountDownTimerPausable(changeUpTimeLeft, 100, true){
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
+        if(changeUpTimeLeft != 0) {
+            changeUpTimer = new CountDownTimerPausable(changeUpTimeLeft, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
 
-            @Override
-            public void onFinish() {
+                @Override
+                public void onFinish() {
 
-                changeUpTimer.cancel();
+                    hasChangedUp = true;
+                    changeUpTimer.cancel();
 
-                int newUpDigit;
-                Random rand = new Random();
+                    int newUpDigit;
+                    Random rand = new Random();
 
-                do {
-                    newUpDigit = rand.nextInt((9 - 3) + 1) + 3;
-                }while(newUpDigit == UP);
+                    do {
+                        newUpDigit = rand.nextInt((9 - 3) + 1) + 3;
+                    } while (newUpDigit == UP);
 
-                secondUP = newUpDigit;
+                    secondUP = newUpDigit;
 
-             //   upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
-                upDisplayText.setText(UP + ", " + secondUP);
+                    //   upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
+                    upDisplayText.setText(UP + ", " + secondUP);
 
-                cdt.pause();
-                rotateTimer2.pause();
-                freezeTimer3.pause();
-                freezeTimer4.pause();
+                    cdt.pause();
+                    rotateTimer2.pause();
+                    freezeTimer3.pause();
+                    freezeTimer4.pause();
 
-                startChangeUpDigit();
-                secondUP_start = true;
+                    startChangeUpDigit();
+                    secondUP_start = true;
 
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
-                        freezeTimer3.resume();
-                        freezeTimer4.resume();
-                    }
-                };
-                handler.postDelayed(counter, 1500);
-            }
-        };
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                            freezeTimer3.resume();
+                            freezeTimer4.resume();
+                        }
+                    };
+                    handler.postDelayed(counter, 1500);
+                }
+            };
+        }
 
         //First Rotate Timer
-        rotateTimer1 = new CountDownTimerPausable(rotateTimeLeft1, 100, true){
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
+        if(rotateTimeLeft1 != 0) {
+            rotateTimer1 = new CountDownTimerPausable(rotateTimeLeft1, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
 
-            @Override
-            public void onFinish() {
+                @Override
+                public void onFinish() {
 
-                rotateTimer1.cancel();
+                    hasRotated1 = true;
+                    rotateTimer1.cancel();
 
-                cdt.pause();
-                changeUpTimer.pause();
-                rotateTimer2.pause();
-                freezeTimer2.pause();
-                freezeTimer3.pause();
-                freezeTimer4.pause();
+                    cdt.pause();
+                    changeUpTimer.pause();
+                    rotateTimer2.pause();
+                    freezeTimer2.pause();
+                    freezeTimer3.pause();
+                    freezeTimer4.pause();
 
-                startRotate1();
+                    startRotate1();
 
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
-                        changeUpTimer.resume();
-                        rotateTimer2.resume();
-                        freezeTimer2.resume();
-                        freezeTimer3.resume();
-                        freezeTimer4.resume();
-                    }
-                };
-                handler.postDelayed(counter, 2500);
-            }
-        };
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                            if(!hasChangedUp) {
+                                changeUpTimer.resume();
+                            }
+                            if(!hasRotated2) {
+                                rotateTimer2.resume();
+                            }
+                            freezeTimer2.resume();
+                            freezeTimer3.resume();
+                            freezeTimer4.resume();
+                        }
+                    };
+                    handler.postDelayed(counter, 2500);
+                }
+            };
+        }
 
         //Second Rotate Timer
-        rotateTimer2 = new CountDownTimerPausable(rotateTimeLeft2, 100, true){
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
+        if(rotateTimeLeft2 != 0) {
+            rotateTimer2 = new CountDownTimerPausable(rotateTimeLeft2, 100, true) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
 
-            @Override
-            public void onFinish() {
+                @Override
+                public void onFinish() {
 
-                rotateTimer2.cancel();
+                    hasRotated2 = true;
+                    rotateTimer2.cancel();
 
-                cdt.pause();
-                freezeTimer4.pause();
+                    cdt.pause();
+                    freezeTimer4.pause();
 
-                startRotate2();
+                    startRotate2();
 
-                final Handler handler = new Handler();
-                final Runnable counter = new Runnable() {
-                    @Override
-                    public void run() {
-                        cdt.resume();
-                        freezeTimer4.resume();
-                    }
-                };
-                handler.postDelayed(counter, 2500);
-            }
-        };
+                    final Handler handler = new Handler();
+                    final Runnable counter = new Runnable() {
+                        @Override
+                        public void run() {
+                            cdt.resume();
+                            freezeTimer4.resume();
+                        }
+                    };
+                    handler.postDelayed(counter, 2500);
+                }
+            };
+        }
 
         //First Freeze Timer
         freezeTimer1 = new CountDownTimerPausable(freezeTimeLeft1, 100, true){
@@ -496,7 +573,9 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         final Runnable counter3 = new Runnable() {
             @Override
             public void run() {
-                changeUpTimer.create();
+                if(!hasChangedUp) {
+                    changeUpTimer.create();
+                }
             }
         };
         handler3.postDelayed(counter3, 5000);
@@ -505,7 +584,9 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         final Runnable counter4 = new Runnable() {
             @Override
             public void run() {
-                rotateTimer1.create();
+                if(!hasRotated1) {
+                    rotateTimer1.create();
+                }
             }
         };
         handler4.postDelayed(counter4, 5000);
@@ -514,7 +595,9 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         final Runnable counter5 = new Runnable() {
             @Override
             public void run() {
-                rotateTimer2.create();
+                if(!hasRotated2) {
+                    rotateTimer2.create();
+                }
             }
         };
         handler5.postDelayed(counter5, 5000);
@@ -915,12 +998,25 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
 
         //Grid rotate
         LinearLayout grid = (LinearLayout) this.findViewById(R.id.mainGrid);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_secondhalf);
+        Animation animation;
+        if(gameSaved){
+            animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_firsthalf);
+        }
+        else {
+            animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_secondhalf);
+        }
         grid.startAnimation(animation);
 
+        RotateAnimation rotateAnimation;
         //Button rotate
-        RotateAnimation rotateAnimation = new RotateAnimation(180f, 360f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        if(gameSaved) {
+            rotateAnimation = new RotateAnimation(0f, 180f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        }
+        else{
+            rotateAnimation = new RotateAnimation(180f, 360f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        }
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setDuration(2500);
         rotateAnimation.setFillAfter(true);
@@ -971,9 +1067,15 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         if (isApplicationSentToBackground(getApplicationContext())) {
             // Do what you want to do on detecting Home Key being Pressed
             cdt.pause();
-            changeUpTimer.pause();
-            rotateTimer1.pause();
-            rotateTimer2.pause();
+            if(!hasChangedUp) {
+                changeUpTimer.pause();
+            }
+            if(!hasRotated1) {
+                rotateTimer1.pause();
+            }
+            if(!hasRotated2) {
+                rotateTimer2.pause();
+            }
             freezeTimer1.pause();
             freezeTimer2.pause();
             freezeTimer3.pause();
@@ -985,6 +1087,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
             pause.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CURRENT, current);
+            pause.putExtra(Pause.CALLEE, 4);
             this.startActivity(pause);
 
         }
@@ -1014,9 +1117,15 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         if (isApplicationSentToBackground(this)) {
             // Do what you want to do on detecting Home Key being Pressed
             cdt.pause();
-            changeUpTimer.pause();
-            rotateTimer1.pause();
-            rotateTimer2.pause();
+            if(!hasChangedUp) {
+                changeUpTimer.pause();
+            }
+            if(!hasRotated1) {
+                rotateTimer1.pause();
+            }
+            if(!hasRotated2) {
+                rotateTimer2.pause();
+            }
             freezeTimer1.pause();
             freezeTimer2.pause();
             freezeTimer3.pause();
@@ -1027,6 +1136,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
             pause.putExtra(Pause.CURRENT, current);
+            pause.putExtra(Pause.CALLEE, 4);
         //    this.startActivity(pause);
         }
 
@@ -1036,9 +1146,15 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     @Override
     public void onBackPressed() {
         cdt.pause();
-        changeUpTimer.pause();
-        rotateTimer1.pause();
-        rotateTimer2.pause();
+        if(!hasChangedUp) {
+            changeUpTimer.pause();
+        }
+        if(!hasRotated1) {
+            rotateTimer1.pause();
+        }
+        if(!hasRotated2) {
+            rotateTimer2.pause();
+        }
         freezeTimer1.pause();
         freezeTimer2.pause();
         freezeTimer3.pause();
@@ -1079,17 +1195,28 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         editor.putString("btn16", t.getText().toString()).commit();
         editor.putInt("UPdigit", UP).commit();
         editor.putInt("score", score).commit();
-        editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+        editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
         editor.putInt("life", life).commit();
         editor.putInt("current", current).commit();
+        editor.putBoolean("hasRotated", hasRotated).commit();
+        editor.putBoolean("hasRotated1", hasRotated1).commit();
+        editor.putBoolean("hasRotated2", hasRotated2).commit();
+        editor.putBoolean("hasChangedUp", hasChangedUp).commit();
         editor.putLong("timeLeft", cdt.timeLeft()).commit();
-        editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
-        editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
-        editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+        if(!hasChangedUp) {
+            editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
+        }
+        if (!hasRotated1) {
+            editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
+        }
+        if (!hasRotated2) {
+            editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+        }
         editor.putLong("freezetimeLeft1", freezeTimer1.timeLeft()).commit();
         editor.putLong("freezetimeLeft2", freezeTimer2.timeLeft()).commit();
         editor.putLong("freezetimeLeft3", freezeTimer3.timeLeft()).commit();
         editor.putLong("freezetimeLeft4", freezeTimer4.timeLeft()).commit();
+        fillArrContent = "";
         for (Integer i : fillArr) {
             fillArrContent += i + ",";
         }
@@ -1100,6 +1227,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         i.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
         i.putExtra(Pause.SCORE, score);
         i.putExtra(Pause.CURRENT, current);
+        i.putExtra(Pause.CALLEE, 4);
         this.startActivity(i);
     }
 
@@ -1112,9 +1240,15 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         MusicManager.start(this, MusicManager.MUSIC_GAME);
 
         cdt.resume();
-        changeUpTimer.resume();
-        rotateTimer1.resume();
-        rotateTimer2.resume();
+        if(!hasChangedUp) {
+            changeUpTimer.resume();
+        }
+        if(!hasRotated1) {
+            rotateTimer1.resume();
+        }
+        if(!hasRotated2) {
+            rotateTimer2.resume();
+        }
         freezeTimer1.resume();
         freezeTimer2.resume();
         freezeTimer3.resume();
@@ -1173,9 +1307,15 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         cdt.pause();
-        changeUpTimer.pause();
-        rotateTimer1.pause();
-        rotateTimer2.pause();
+        if(!hasChangedUp) {
+            changeUpTimer.pause();
+        }
+        if(!hasRotated1) {
+            rotateTimer1.pause();
+        }
+        if(!hasRotated2) {
+            rotateTimer2.pause();
+        }
         freezeTimer1.pause();
         freezeTimer2.pause();
         freezeTimer3.pause();
@@ -1324,7 +1464,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
 
             } else {//Wrong
                /*cdt.cancel();
-               editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+               editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
                 editor.putInt("score", score).commit();
                 GameOver(2);
                 */
@@ -1354,17 +1494,17 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                 life--;
 
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
                 }
-                else if(life==1){
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
                 }
 
                 else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
                     changeUpTimer.cancel();
@@ -1374,7 +1514,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     freezeTimer2.cancel();
                     freezeTimer3.cancel();
                     freezeTimer4.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
                     GameOver(2);
                     return;
@@ -1465,17 +1605,17 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                 life--;
 
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
                 }
-                else if(life==1){
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
                 }
 
                 else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
                     changeUpTimer.cancel();
@@ -1485,7 +1625,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     freezeTimer2.cancel();
                     freezeTimer3.cancel();
                     freezeTimer4.cancel();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
                     editor.putInt("score", score).commit();
                     GameOver(3);
                     return;
@@ -1613,6 +1753,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
         i.putExtra(GameOver.REASON, r);
+        i.putExtra(GameOver.CALLEE, 4);
         this.startActivity(i);
     }
 
@@ -1666,7 +1807,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent)
     {
-        if(hasRotated){
+        if((!hasRotated && isOpposite) || (hasRotated && !isOpposite)){
             switch (view.getId())
             {
                 case R.id.btn1:
@@ -1856,15 +1997,20 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     public void onClick(View v) {
 
         Button temp;
-
-        if(hasRotated){
+        if((!hasRotated && isOpposite) || (hasRotated && !isOpposite)){
             switch (v.getId()) {
 
                 case R.id.pause_btn:
                     cdt.pause();
-                    changeUpTimer.pause();
-                    rotateTimer1.pause();
-                    rotateTimer2.pause();
+                    if(!hasChangedUp) {
+                        changeUpTimer.pause();
+                    }
+                    if(!hasRotated1) {
+                        rotateTimer1.pause();
+                    }
+                    if(!hasRotated2) {
+                        rotateTimer2.pause();
+                    }
                     freezeTimer1.pause();
                     freezeTimer2.pause();
                     freezeTimer3.pause();
@@ -1907,17 +2053,28 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     editor.putInt("UPdigit2", secondUP).commit();
                     editor.putBoolean("UPdigit2_start", secondUP_start).commit();
                     editor.putInt("score", score).commit();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
                     editor.putInt("life", life).commit();
                     editor.putInt("current", current).commit();
+                    editor.putBoolean("hasRotated", hasRotated).commit();
+                    editor.putBoolean("hasRotated1", hasRotated1).commit();
+                    editor.putBoolean("hasRotated2", hasRotated2).commit();
+                    editor.putBoolean("hasChangedUp", hasChangedUp).commit();
                     editor.putLong("timeLeft", cdt.timeLeft()).commit();
-                    editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
-                    editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
-                    editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+                    if(!hasChangedUp) {
+                        editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
+                    }
+                    if (!hasRotated1) {
+                        editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
+                    }
+                    if (!hasRotated2) {
+                        editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+                    }
                     editor.putLong("freezetimeLeft1", freezeTimer1.timeLeft()).commit();
                     editor.putLong("freezetimeLeft2", freezeTimer2.timeLeft()).commit();
                     editor.putLong("freezetimeLeft3", freezeTimer3.timeLeft()).commit();
                     editor.putLong("freezetimeLeft4", freezeTimer4.timeLeft()).commit();
+                    fillArrContent = "";
                     for (Integer i : fillArr) {
                         fillArrContent += i + ",";
                     }
@@ -1929,6 +2086,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     i.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
                     i.putExtra(Pause.SCORE, score);
                     i.putExtra(Pause.CURRENT, current);
+                    i.putExtra(Pause.CALLEE, 4);
                     this.startActivity(i);
                     break;
                 case R.id.up_button:
@@ -2279,9 +2437,15 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
             switch (v.getId()) {
                 case R.id.pause_btn:
                     cdt.pause();
-                    changeUpTimer.pause();
-                    rotateTimer1.pause();
-                    rotateTimer2.pause();
+                    if(!hasChangedUp) {
+                        changeUpTimer.pause();
+                    }
+                    if(!hasRotated1) {
+                        rotateTimer1.pause();
+                    }
+                    if(!hasRotated2) {
+                        rotateTimer2.pause();
+                    }
                     freezeTimer1.pause();
                     freezeTimer2.pause();
                     freezeTimer3.pause();
@@ -2324,17 +2488,28 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     editor.putInt("UPdigit2", secondUP).commit();
                     editor.putBoolean("UPdigit2_start", secondUP_start).commit();
                     editor.putInt("score", score).commit();
-                    editor.putInt("bestScore", Math.max(score, gameData.getInt("bestScore", -1))).commit();
+                    editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
                     editor.putInt("life", life).commit();
                     editor.putInt("current", current).commit();
+                    editor.putBoolean("hasRotated", hasRotated).commit();
+                    editor.putBoolean("hasRotated1", hasRotated1).commit();
+                    editor.putBoolean("hasRotated2", hasRotated2).commit();
+                    editor.putBoolean("hasChangedUp", hasChangedUp).commit();
                     editor.putLong("timeLeft", cdt.timeLeft()).commit();
-                    editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
-                    editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
-                    editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+                    if(!hasChangedUp) {
+                        editor.putLong("changeUpTimeLeft", changeUpTimer.timeLeft()).commit();
+                    }
+                    if (!hasRotated1) {
+                        editor.putLong("rotatetimeLeft1", rotateTimer1.timeLeft()).commit();
+                    }
+                    if (!hasRotated2) {
+                        editor.putLong("rotatetimeLeft2", rotateTimer2.timeLeft()).commit();
+                    }
                     editor.putLong("freezetimeLeft1", freezeTimer1.timeLeft()).commit();
                     editor.putLong("freezetimeLeft2", freezeTimer2.timeLeft()).commit();
                     editor.putLong("freezetimeLeft3", freezeTimer3.timeLeft()).commit();
                     editor.putLong("freezetimeLeft4", freezeTimer4.timeLeft()).commit();
+                    fillArrContent = "";
                     for (Integer i : fillArr) {
                         fillArrContent += i + ",";
                     }
@@ -2346,6 +2521,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     i.putExtra(Pause.CHANGEUPTIME, changeUpTimer.timeLeft());
                     i.putExtra(Pause.SCORE, score);
                     i.putExtra(Pause.CURRENT, current);
+                    i.putExtra(Pause.CALLEE, 4);
                     this.startActivity(i);
                     break;
                 case R.id.up_button:
