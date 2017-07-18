@@ -145,11 +145,11 @@ public class GameOver extends Activity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.restart_btn:
-                Intent i = new Intent(this, ChooseGameMode.class);
+                Intent i = new Intent(this, ChooseLevel.class);
                 this.startActivity(i);
                 break;
             case R.id.mainMenu_btn:
-                Intent j = new Intent(this, WhatsUp.class);
+                Intent j = new Intent(this, MainMenu.class);
                 this.startActivity(j);
                 break;
         }

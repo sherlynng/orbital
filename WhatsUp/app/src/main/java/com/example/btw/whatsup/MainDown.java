@@ -2,8 +2,10 @@ package com.example.btw.whatsup;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,7 +55,10 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
     DatabaseReference currentGameDb;
     private int opponent_score;
     private int my_score;
+    private int opponent_current;
+    private int my_current;
     private String state;
+    private ValueEventListener listener;
 
     protected TextView myScoreText;
     protected TextView opponentScoreText;
@@ -115,7 +121,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         checkMusic(this);
 
         key = getIntent().getExtras().getString(KEY, KEY_DEFAULT);
-        currentGameDb = FirebaseDatabase.getInstance().getReference("games").child(key);
+        currentGameDb = FirebaseDatabase.getInstance().getReference("updown_games").child(key);
 
         mSoundPoolHelper = new SoundPoolHelper(1, this);
         explodeId = mSoundPoolHelper.load(this, R.raw.explode, 1);
@@ -166,32 +172,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         Intent intent = new Intent(this, Onetwothree.class);
         intent.putExtra(Onetwothree.UPDIGIT, UP);
         startActivity(intent);
-
-
-        final Handler handler2 = new Handler();
-        final Runnable counter2 = new Runnable() {
-            @Override
-            public void run() {
-                startPause();
-            }
-        };
-        handler2.postDelayed(counter2, 5001);
     }
-
-
-    private void startPause() {
-        if (isApplicationSentToBackground(getApplicationContext())) {
-            // Do what you want to do on detecting Home Key being Pressed
-            Intent pause = new Intent(this, Pause.class);
-            pause.putExtra(Pause.UPDIGIT, UP);
-            pause.putExtra(Pause.CURRENT, current);
-            pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
-            pause.putExtra(Pause.CALLEE, 1);
-            this.startActivity(pause);
-
-        }
-    }
-
 
     public boolean isApplicationSentToBackground(final Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -209,27 +190,48 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
     protected void onStart(){
         super.onStart();
 
-        currentGameDb.addValueEventListener(new ValueEventListener() {
+        listener = currentGameDb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 MultiplayerGame game = dataSnapshot.getValue(MultiplayerGame.class);
 
                 state = game.getState();
+
+                if(state.equals("ENDGAME")){
+                    currentGameDb.removeEventListener(listener);
+                    Toast.makeText(MainDown.this, "Multiplayer game exited", Toast.LENGTH_SHORT).show();
+                    backToMainMenu();
+                    return;
+                }
+
                 UP = game.getUpDigit();
 
                 if(state.equals("PLAY1")) {
-                    opponent_score = game.getCreator_current();
-                    my_score = game.getJoiner_current();
+                    opponent_current = game.getCreator_current();
+                    my_current = game.getJoiner_current();
+
+                    int creatorScore = opponent_current - 1;
+                    int joinerScore = 100 - my_current;
+
+                    if(my_current < opponent_current){
+                        currentGameDb.child("creator_score").setValue(creatorScore);
+                        currentGameDb.child("joiner_score").setValue(joinerScore);
+                        currentGameDb.child("state").setValue("END_ROUND1");
+                    }
                 }
                 else{
-                    opponent_score = game.getJoiner_current();
-                    my_score = game.getCreator_current();
+                    opponent_current = game.getJoiner_current();
+                    my_current = game.getCreator_current();
+
+                    if(my_current < opponent_current){
+                        currentGameDb.child("state").setValue("END_ROUND2");
+                    }
                 }
                 myScoreText = (TextView) findViewById(R.id.myScore);
-                myScoreText.setText(my_score + "");
+                myScoreText.setText(my_current + "");
                 opponentScoreText = (TextView) findViewById(R.id.opponentScore);
-                opponentScoreText.setText(opponent_score + "");
+                opponentScoreText.setText(opponent_current + "");
                 upDisplayText = (TextView) findViewById(R.id.UPDisplayText);
                 upDisplayText.setText(UP + "");
             }
@@ -248,38 +250,42 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         if (!continueMusic) {
             MusicManager.pause();
         }
-
-        if (isApplicationSentToBackground(this)) {
-            // Do what you want to do on detecting Home Key being Pressed
-            Intent pause = new Intent(this, Pause.class);
-            pause.putExtra(Pause.UPDIGIT, UP);
-            pause.putExtra(Pause.CURRENT, current);
-            pause.putExtra(Pause.CALLEE, 1);
-        }
-
     }
-
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, Pause.class);
-        i.putExtra(Pause.UPDIGIT, UP);
-        i.putExtra(Pause.CURRENT, current);
-        i.putExtra(Pause.CALLEE, 1);
-        this.startActivity(i);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure you want to exit multiplayer game?");
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Toast.makeText(MainDown.this, "Multiplayer game exited", Toast.LENGTH_SHORT).show();
+                        currentGameDb.child("state").setValue("ENDGAME");
+                        backToMainMenu();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
-
+    private void backToMainMenu(){
+        Intent i = new Intent(this, MainMenu.class);
+        this.startActivity(i);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
         continueMusic = false;
         MusicManager.start(this, MusicManager.MUSIC_GAME);
-
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
-        pause.setOnClickListener(this);
 
         //set onClickListeners for all buttons
 
@@ -472,6 +478,17 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         if (isUp) {   //UP num
             if (pressedID == R.id.up_button) {  //Correct
 
+                // Pass our animation drawable to our custom drawable class
+                CustomAnimationDrawableNew cad = new CustomAnimationDrawableNew(
+                        (AnimationDrawable) getResources().getDrawable(
+                                R.drawable.up_animation));
+
+                // Set the views drawable to our custom drawable
+                bg.setBackgroundDrawable(cad);
+
+                // Start the animation
+                cad.start(cad);
+          /*
                 //Background animation
                 bg.setBackgroundResource(R.drawable.up_animation);
                 AnimationDrawable anim = (AnimationDrawable)bg.getBackground();
@@ -480,7 +497,8 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                     anim.stop();
                 }
                 anim.start();
-
+                anim.setCallback(null);
+*/
                 //Sound effect
                 if(playMusic) {
               //      up_sound.start();
@@ -498,10 +516,10 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                 findCurrent();
                 current--;
                 if(state.equals("PLAY1")) {
-                    currentGameDb.child("joiner_current").setValue(current+1);
+                    currentGameDb.child("joiner_current").setValue(current);
                 }
                 else{
-                    currentGameDb.child("creator_current").setValue(current+1);
+                    currentGameDb.child("creator_current").setValue(current);
                 }
 
                 hintTimer();
@@ -514,6 +532,18 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                 GameOver(2);
                 */
 
+                // Pass our animation drawable to our custom drawable class
+                CustomAnimationDrawableNew cad = new CustomAnimationDrawableNew(
+                        (AnimationDrawable) getResources().getDrawable(
+                                R.drawable.bomb));
+
+                // Set the views drawable to our custom drawable
+                bg.setBackgroundDrawable(cad);
+
+                // Start the animation
+                cad.start(cad);
+
+               /*
                //Background effect
                 bg.setBackgroundResource(R.drawable.bomb);
                 AnimationDrawable anim = (AnimationDrawable)bg.getBackground();
@@ -522,7 +552,8 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                     anim.stop();
                 }
                 anim.start();
-
+                anim.setCallback(null);
+*/
                 //Sound effect
                 if(playMusic){
         //             explode_sound.start();
@@ -555,8 +586,10 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
                 if (anim.isRunning()) {
                     anim.stop();
+                    anim.setCallback(null);
                 }
                 anim.start();
+     //           anim.setCallback(null);
 
                 //Sound effect
                 if(playMusic) {
@@ -574,10 +607,10 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                 changeNo(pressedButton);
                 current--;
                 if(state.equals("PLAY1")) {
-                    currentGameDb.child("joiner_current").setValue(current+1);
+                    currentGameDb.child("joiner_current").setValue(current);
                 }
                 else{
-                    currentGameDb.child("creator_current").setValue(current+1);
+                    currentGameDb.child("creator_current").setValue(current);
                 }
 
                 hintTimer();
@@ -585,6 +618,17 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
             } else {                            //Wrong
 
+                // Pass our animation drawable to our custom drawable class
+                CustomAnimationDrawableNew cad = new CustomAnimationDrawableNew(
+                        (AnimationDrawable) getResources().getDrawable(
+                                R.drawable.bomb));
+
+                // Set the views drawable to our custom drawable
+                bg.setBackgroundDrawable(cad);
+
+                // Start the animation
+                cad.start(cad);
+       /*
                 //Background effect
                 bg.setBackgroundResource(R.drawable.bomb);
                 AnimationDrawable anim = (AnimationDrawable)bg.getBackground();
@@ -593,7 +637,8 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                     anim.stop();
                 }
                 anim.start();
-
+                anim.setCallback(null);
+*/
                 //Sound effect
                 if(playMusic) {
           //          explode_sound.start();
@@ -825,13 +870,6 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
         Button temp;
         switch (v.getId()) {
-            case R.id.pause_btn:
-                Intent i = new Intent(this, Pause.class);
-                i.putExtra(Pause.UPDIGIT, UP);
-                i.putExtra(Pause.CURRENT, current);
-                i.putExtra(Pause.CALLEE, 1);
-                this.startActivity(i);
-                break;
             case R.id.up_button:
                 temp = (Button) v;
                 pressedButton = temp;

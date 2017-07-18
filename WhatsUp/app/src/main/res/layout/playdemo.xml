@@ -39,7 +39,7 @@
                     android:layout_height="50dp"
                     android:layout_alignParentLeft="true"
                     android:adjustViewBounds="true"
-                    android:background="@mipmap/help"
+                    android:background="@drawable/help_default"
                     />
 
                 <Button
@@ -48,7 +48,7 @@
                     android:layout_height="50dp"
                     android:layout_alignParentRight="true"
                     android:adjustViewBounds="true"
-                    android:background="@mipmap/home"
+                    android:background="@drawable/home_default"
                     />
 
 

@@ -231,7 +231,7 @@ public class ContinueScreen extends Activity implements View.OnClickListener {
     }
 
     public void backToHomePage() {
-        Intent i = new Intent(ContinueScreen.this, WhatsUp.class);
+        Intent i = new Intent(ContinueScreen.this, MainMenu.class);
         this.startActivity(i);
     }
 

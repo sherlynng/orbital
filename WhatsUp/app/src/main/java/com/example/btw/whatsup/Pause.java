@@ -14,6 +14,8 @@ import android.os.Process;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -66,10 +68,14 @@ public class Pause extends Activity implements View.OnClickListener {
     protected SharedPreferences.Editor editorExtreme;
     protected SharedPreferences.Editor editorTeamUp;
 
+    FirebaseAuth auth;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pause);
+
+        auth = FirebaseAuth.getInstance();
 
         UP = getIntent().getIntExtra(UPDIGIT, UPD_DEFAULT);
         secondUP = getIntent().getIntExtra(UPDIGIT2, UPD2_DEFAULT);
@@ -113,8 +119,10 @@ public class Pause extends Activity implements View.OnClickListener {
 
         View resumeButton = this.findViewById(R.id.resume_btn);
         resumeButton.setOnClickListener(this);
-        View contButton = this.findViewById(R.id.endgame_btn);
-        contButton.setOnClickListener(this);
+        resumeButton.setBackgroundResource(R.drawable.resume_btn_state);
+        View endGameButton = this.findViewById(R.id.endgame_btn);
+        endGameButton.setBackgroundResource(R.drawable.endgame_btn_state);
+        endGameButton.setOnClickListener(this);
 
 
         if (paused_123)
@@ -128,7 +136,12 @@ public class Pause extends Activity implements View.OnClickListener {
                 this.finish();
                 break;
             case R.id.endgame_btn:
-                openDialog();
+                if (auth.getCurrentUser() == null){
+                    backToHomePage();
+                }
+                else {
+                    openDialog();
+                }
                 break;
         }
     }
@@ -234,7 +247,7 @@ public class Pause extends Activity implements View.OnClickListener {
     }
 
     public void backToHomePage() {
-        Intent i = new Intent(Pause.this, WhatsUp.class);
+        Intent i = new Intent(Pause.this, MainMenu.class);
         this.startActivity(i);
     }
 

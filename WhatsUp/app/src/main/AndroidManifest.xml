@@ -8,9 +8,10 @@
         android:icon="@drawable/coloured_bear"
         android:label="@string/app_name"
         android:roundIcon="@drawable/coloured_bear"
+
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".WhatsUp">
+        <activity android:name=".MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,13 +24,12 @@
 
 
         <activity
-            android:name=".ChooseUpMode"
-
+            android:name=".ChooseMultiplayerGame"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
         <activity
-            android:name=".ChooseGameMode"
+            android:name=".ChoosePlayerMode"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
@@ -39,7 +39,22 @@
         </activity>
 
         <activity
+            android:name=".UpDownGameStates"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".HurryUpGameStates"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
             android:name=".WaitingForPlayer"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".WaitingForPlayerHurryUp"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
@@ -49,15 +64,7 @@
         </activity>
 
         <activity
-            android:name=".ChooseUpManual"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
-
-        <activity
-            android:name=".ChooseUpRandom"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
-
-        <activity
-            android:name=".ChooseGridSize"
+            android:name=".PlayerVsPlayerHurryUp"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
@@ -123,14 +130,31 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
 
         <activity
-            android:name=".Onetwothree"
+            android:name=".MainHurryUp"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
+
+        <activity
+            android:name=".EndRoundOne"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
-
         </activity>
 
         <activity
-            android:name=".ChangeUpDigit"
+            android:name=".EndRoundTwo"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".EndRoundHurryUp"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".Onetwothree"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>

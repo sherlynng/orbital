@@ -187,7 +187,7 @@ public class PlayDemo extends Activity implements OnClickListener {
 
     private void backToStartMenu() {
         if (isApplicationSentToBackground(getApplicationContext())) {
-            Intent backToStartMenu = new Intent(this, WhatsUp.class);
+            Intent backToStartMenu = new Intent(this, MainMenu.class);
             this.startActivity(backToStartMenu); //hereeee
         }
     }
@@ -237,7 +237,9 @@ public class PlayDemo extends Activity implements OnClickListener {
         retrieveInstBtn.setOnClickListener(this);
 */
         backToHomeBtn.setOnClickListener(this);
+        backToHomeBtn.setBackgroundResource(R.drawable.home_btn_state);
         retrieveInstBtn.setOnClickListener(this);
+        retrieveInstBtn.setBackgroundResource(R.drawable.help_btn_state);
         upBtn.setOnClickListener(this);
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
@@ -649,7 +651,7 @@ public class PlayDemo extends Activity implements OnClickListener {
         Button temp;
         switch (v.getId()) {
             case R.id.back_to_home_btn:
-                Intent i = new Intent(this, WhatsUp.class);
+                Intent i = new Intent(this, MainMenu.class);
                 this.startActivity(i);
                 break;
             case R.id.retrieve_inst_btn:

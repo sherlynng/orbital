@@ -606,7 +606,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
         hint_handler = new Handler();
 
-        hint_handler.postDelayed(hint_counter, 5000);
+        hint_handler.postDelayed(hint_counter, 3000);
     }
 
     private void shakeHintTile() {

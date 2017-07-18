@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.renderscript.Sampler;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,31 +29,41 @@ public class PlayerVsPlayer extends Activity {
     public static final String IDENTITY = "IDENTITY";
     public static final String IDENTITY_DEFAULT = "null";
     String identity;
+    private boolean vsScreen;
     protected boolean continueMusic = true;
     DatabaseReference currentGameDb;
     int upDigit;
+    private ValueEventListener listener;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playervsplayer);
         key = getIntent().getExtras().getString(KEY, KEY_DEFAULT);
         identity = getIntent().getExtras().getString(IDENTITY, IDENTITY_DEFAULT);
-        currentGameDb = FirebaseDatabase.getInstance().getReference("games").child(key);
+        currentGameDb = FirebaseDatabase.getInstance().getReference("updown_games").child(key);
 
         final TextView creator = (TextView) findViewById(R.id.creator_name);
         final TextView joiner = (TextView) findViewById(R.id.joiner_name);
         final TextView up = (TextView) findViewById(R.id.vs);
+        vsScreen = true;
 
-
-        currentGameDb.addValueEventListener(new ValueEventListener() {
+        listener = currentGameDb.addValueEventListener(new ValueEventListener() {
             MultiplayerGame game;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 game = dataSnapshot.getValue(MultiplayerGame.class);
+
+                if(game == null){
+                    return;
+                }
                 upDigit = game.getUpDigit();
-                creator.setText(game.getCreator());
-                joiner.setText(game.getJoiner());
+
+                if(vsScreen) {
+                    creator.setText(game.getCreator());
+                    joiner.setText(game.getJoiner());
+                    vsScreen = false;
+                }
             }
 
             @Override
@@ -83,7 +94,8 @@ public class PlayerVsPlayer extends Activity {
     }
 
     private void startGame(){
-        currentGameDb.child("status").setValue("PLAY1");
+        currentGameDb.child("state").setValue("PLAY1");
+        currentGameDb.removeEventListener(listener);
 
         if(identity.equals("creator")) {
             Intent i = new Intent(this, MainUp.class);

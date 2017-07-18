@@ -20,30 +20,22 @@ public class ChooseLevel extends Activity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chooselevel);
-/*
-        gridSize = Settings.getGridSize(this);
-        upDigit = Settings.getUpDigit(this);
-
-        if(upDigit == 0) {
-            Random rand = new Random();
-
-            // nextInt is normally exclusive of the top value,
-            // so add 1 to make it inclusive
-            upDigit = rand.nextInt((9 - 3) + 1) + 3;
-        }
-*/
-   //     UP = getIntent().getIntExtra("UPDIGIT", 1);
+        setContentView(R.layout.oneplayer);
 
         View lame = this.findViewById(R.id.lame);
+        lame.setBackgroundResource(R.drawable.lame_btn_state);
         lame.setOnClickListener(this);
         View easy = this.findViewById(R.id.easy);
+        easy.setBackgroundResource(R.drawable.easy_btn_state);
         easy.setOnClickListener(this);
         View medium = this.findViewById(R.id.medium);
+        medium.setBackgroundResource(R.drawable.medium_btn_state);
         medium.setOnClickListener(this);
         View hard = this.findViewById(R.id.hard);
+        hard.setBackgroundResource(R.drawable.hard_btn_state);
         hard.setOnClickListener(this);
         View extreme = this.findViewById(R.id.extreme);
+        extreme.setBackgroundResource(R.drawable.extreme_btn_state);
         extreme.setOnClickListener(this);
     }
 
@@ -93,47 +85,6 @@ public class ChooseLevel extends Activity implements OnClickListener {
                 break;
         }
     }
-/*
-    private void chooseGridLame() {
-        switch (gridSize) {
-            case 4:
-                Intent fourbyfour = new Intent(this, MainLame4.class);
-                fourbyfour.putExtra(MainLame4.UPDIGIT, upDigit);
-                startActivity(fourbyfour);
-                break;
-            case 5:
-                Intent fivebyfive = new Intent(this, MainLame4.class);
-                fivebyfive.putExtra(MainLame4.UPDIGIT, upDigit);
-                startActivity(fivebyfive);
-                break;
-            case 6:
-                Intent sixbysix = new Intent(this, MainLame4.class);
-                sixbysix.putExtra(MainLame4.UPDIGIT, upDigit);
-                startActivity(sixbysix);
-                break;
-        }
-    }
-
-    private void chooseGridEasy() {
-        switch (gridSize) {
-            case 4:
-                Intent fourbyfour = new Intent(this, MainEasy4.class);
-                fourbyfour.putExtra(MainEasy4.UPDIGIT, upDigit);
-                startActivity(fourbyfour);
-                break;
-            case 5:
-                Intent fivebyfive = new Intent(this, Main5.class);
-                fivebyfive.putExtra(Main5.UPDIGIT, upDigit);
-                startActivity(fivebyfive);
-                break;
-            case 6:
-                Intent sixbysix = new Intent(this, Main6.class);
-                sixbysix.putExtra(Main6.UPDIGIT, upDigit);
-                startActivity(sixbysix);
-                break;
-        }
-    }
-    */
 
     @Override
     protected void onPause() {

@@ -140,7 +140,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:background="@mipmap/resume"
+            android:background="@drawable/resume_default"
             />
 
         <Button
@@ -148,6 +148,6 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginLeft="70dp"
-            android:background="@mipmap/end_game2" />
+            android:background="@drawable/endgame_default" />
     </LinearLayout>
 </LinearLayout>

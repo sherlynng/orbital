@@ -1,6 +1,8 @@
 package com.example.btw.whatsup;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,12 +30,13 @@ import java.util.Random;
 public class MultiplayerGameStates extends Activity {
 
     ListView listViewGames;
-    Button createGameBtn;
+    View createGameBtn;
     String identity;
 
     List<MultiplayerGame> games;
 
     DatabaseReference databaseGames;
+    ValueEventListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,9 @@ public class MultiplayerGameStates extends Activity {
 
 //getting views
         listViewGames = (ListView) findViewById(R.id.game_list);
-        createGameBtn = (Button) findViewById(R.id.create_game);
+
+        createGameBtn = this.findViewById(R.id.create_game);
+        createGameBtn.setBackgroundResource(R.drawable.creategame_btn_state);
 
 //list to store games
         games = new ArrayList<>();
@@ -60,6 +66,8 @@ public class MultiplayerGameStates extends Activity {
                 createGame();
             }
         });
+
+
 
         listViewGames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -103,10 +111,18 @@ public class MultiplayerGameStates extends Activity {
 
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     MultiplayerGame game = postSnapshot.getValue(MultiplayerGame.class);
-                    games.add(game);
+                    Log.d("game", "is = " + game);
+                    Log.d("game state", "is = " + game.getState());
+                    if(game.getState() == null){
+                        return;
+                    }
+                    else if(game.getState().equals("OPEN")) {
+                        games.add(game);
+                    }
                 }
                 GameList gameAdapter = new GameList(MultiplayerGameStates.this, games);
                 listViewGames.setAdapter(gameAdapter);
+
             }
 
             @Override
@@ -118,11 +134,16 @@ public class MultiplayerGameStates extends Activity {
 
     protected void watchGame(final String key){
         final DatabaseReference game_status = databaseGames.child(key).child("state");
-        game_status.addValueEventListener(new ValueEventListener() {
+        listener = game_status.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String state = dataSnapshot.getValue(String.class);
                 Log.d("status", "game status = " + state);
+
+                if(state == null){
+                    databaseGames.child(key).removeEventListener(listener);
+                    return;
+                }
 
                 switch (state){
                     case "OPEN":
@@ -142,11 +163,23 @@ public class MultiplayerGameStates extends Activity {
                         };
                         handler.postDelayed(counter, 3000); */
                         break;
-                    case "PLAY":
-                        startUpDown(key);
+                    case "END_ROUND1":
+                        endRoundOne(key);
                         break;
-                    case "GAMEOVER":
-                        gameOver(key);
+                    case "PLAY2":
+                        if(identity.equals("creator")) {
+                            startDown(key);
+                        }
+                        else{ //joiner
+                            startUp(key);
+                        }
+                        break;
+                    case "END_ROUND2":
+                        endRoundTwo(key);
+                        break;
+                    case "ENDGAME":
+                        removeGame(key);
+                        databaseGames.child(key).removeEventListener(listener);
                         break;
                 }
             }
@@ -171,13 +204,43 @@ public class MultiplayerGameStates extends Activity {
         this.startActivity(i);
     }
 
-    private void startUpDown(String key){
-        Intent i = new Intent(this, MainLame4.class);
-   //     i.putExtra(WaitingForPlayer.KEY, key);
+    private void endRoundOne(String key){
+        Intent i = new Intent(this, EndRoundOne.class);
+        i.putExtra(EndRoundOne.KEY, key);
+        i.putExtra(EndRoundOne.IDENTITY, identity);
         this.startActivity(i);
     }
 
-    private void gameOver(String key){
+    private void startUp(String key){
+        Intent i = new Intent(this, MainUp.class);
+        i.putExtra(MainUp.KEY, key);
+        this.startActivity(i);
+        databaseGames.child(key).child("creator_current").setValue(100);
+        databaseGames.child(key).child("joiner_current").setValue(1);
+    }
+
+    private void startDown(String key){
+        Intent j = new Intent(this, MainDown.class);
+        j.putExtra(MainDown.KEY, key);
+        this.startActivity(j);
+    }
+
+    private void endRoundTwo(String key){
+        Intent i = new Intent(this, EndRoundTwo.class);
+        i.putExtra(EndRoundTwo.KEY, key);
+        i.putExtra(EndRoundTwo.IDENTITY, identity);
+        this.startActivity(i);
+    }
+
+    private void removeGame(final String key){
+        final Handler handler = new Handler();
+        final Runnable counter = new Runnable() {
+            @Override
+            public void run() {
+                databaseGames.child(key).removeValue();
+            }
+        };
+        handler.postDelayed(counter, 10000);
 
     }
 }

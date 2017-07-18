@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/home_screen4"
+
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/whatsup_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@mipmap/whatsup_logo" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_weight="20"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/continue_default"
+            android:paddingRight="200dp" />
+
+        <Button
+            android:id="@+id/new_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/newgame_default" />
+
+
+     <!--   <Button
+            android:id="@+id/auth_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+           android:text="Log in" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="600dp"
+                android:layout_height="190dp"
+                android:layout_gravity="center_horizontal"
+                app:srcCompat="@mipmap/brickwall_withBear_transparent" />
+           -->
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/more_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/more_default" />
+
+        <Button
+            android:id="@+id/about_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/about_default" />
+
+        <Button
+            android:id="@+id/settings_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/settings_default" />
+
+        <Button
+            android:id="@+id/howtoplay_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/howtoplay_default" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/cancel_default" />
+
+    </LinearLayout>
+
+
+
+</android.widget.LinearLayout>
