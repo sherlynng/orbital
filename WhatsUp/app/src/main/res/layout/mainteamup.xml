@@ -354,16 +354,16 @@
 
 
 
-        <ImageButton
+        <Button
             android:id="@+id/pause_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="45dp"
             android:adjustViewBounds="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@color/transparent"
+            android:background="@drawable/pause_default"
             android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/pause_button2" />
+             />
 
         <TextView
             android:id="@+id/countdownRight"

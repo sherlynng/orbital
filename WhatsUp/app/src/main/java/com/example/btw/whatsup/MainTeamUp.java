@@ -438,8 +438,8 @@ public class MainTeamUp extends Activity implements View.OnClickListener {
 
         cdt.resume();
 
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
+        Button pause = (Button) findViewById(R.id.pause_btn);
+        pause.setBackgroundResource(R.drawable.pause_btn_state);
         pause.setOnClickListener(this);
 
 

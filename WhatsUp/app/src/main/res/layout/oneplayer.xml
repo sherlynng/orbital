@@ -33,13 +33,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="2"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/lame"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="55dp"
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
@@ -47,31 +47,31 @@
 
         <Button
             android:id="@+id/easy"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="55dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/easy_default" />
 
         <Button
             android:id="@+id/medium"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="55dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/medium_default" />
         <Button
             android:id="@+id/hard"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="55dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/hard_default" />
         <Button
             android:id="@+id/extreme"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="55dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/extreme_default" />
 

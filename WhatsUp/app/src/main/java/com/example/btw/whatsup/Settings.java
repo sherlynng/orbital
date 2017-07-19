@@ -32,8 +32,8 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
     private static final boolean OPT_HINTS_DEF = true;
     private static final String OPT_VIBRATION = "vibration";
     private static final boolean OPT_VIBRATION_DEF = true;
-    private static final String OPT_GRID = "gridSize";
-    private static final String OPT_GRID_DEF = "4";
+ //   private static final String OPT_GRID = "gridSize";
+ //   private static final String OPT_GRID_DEF = "4";
     private static final String OPT_UP = "upDigit";
     private static final String OPT_UP_DEF = "0";
     private static final String OPT_GAMEID = "gameID";
@@ -103,11 +103,11 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
         return PreferenceManager.getDefaultSharedPreferences(context).
                 getBoolean(OPT_LOGIN, OPT_LOGIN_DEF);
     }
-
+/*
     public static int getGridSize(Context context) {
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(OPT_GRID, OPT_GRID_DEF));
     }
-
+*/
     public static int getUpDigit(Context context) {
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(OPT_UP, OPT_UP_DEF));
     }

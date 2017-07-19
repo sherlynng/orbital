@@ -269,10 +269,6 @@ public class MainUpDown extends Activity implements OnClickListener, View.OnTouc
         continueMusic = false;
         MusicManager.start(this, MusicManager.MUSIC_GAME);
 
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
-        pause.setOnClickListener(this);
-
         //set onClickListeners for all buttons
 
         upBtn.setOnClickListener(this);

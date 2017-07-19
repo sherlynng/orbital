@@ -54,6 +54,7 @@ public class UpDownGameStates extends Activity {
 //getting views
         listViewGames = (ListView) findViewById(R.id.game_list);
         createGameBtn = (Button) findViewById(R.id.create_game);
+        createGameBtn.setBackgroundResource(R.drawable.creategame_btn_state);
 
 //list to store games
         games = new ArrayList<>();

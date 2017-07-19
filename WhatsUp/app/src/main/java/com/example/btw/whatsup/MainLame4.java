@@ -447,8 +447,8 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
         cdt.resume();
 
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
+        Button pause = (Button) findViewById(R.id.pause_btn);
+        pause.setBackgroundResource(R.drawable.pause_btn_state);
         pause.setOnClickListener(this);
 
         //set onClickListeners for all buttons

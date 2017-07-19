@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
 
@@ -34,13 +34,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:layout_weight="20"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/hurryUp_button"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
@@ -48,7 +48,7 @@
 
         <Button
             android:id="@+id/UpAndDown_button"
-            android:layout_width="wrap_content"
+            android:layout_width="165dp"
             android:layout_height="55dp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
@@ -56,7 +56,7 @@
 
         <Button
             android:id="@+id/TeamUp_button"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="55dp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"

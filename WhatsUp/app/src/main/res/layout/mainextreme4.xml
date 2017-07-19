@@ -590,16 +590,15 @@
             android:scaleType="centerCrop" />
         <!-- TODO: UP button should change color when pressed-->
 
-        <ImageButton
+        <Button
             android:id="@+id/pause_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="45dp"
             android:layout_alignBottom="@+id/up_button"
             android:layout_alignParentEnd="true"
             android:adjustViewBounds="true"
-            android:background="@color/transparent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/pause_button2" />
+            android:background="@drawable/pause_default"
+            />
 
         <ImageView
             android:id="@+id/life1"

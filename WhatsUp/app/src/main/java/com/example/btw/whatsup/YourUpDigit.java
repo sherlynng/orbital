@@ -29,7 +29,7 @@ public class YourUpDigit extends Activity implements View.OnClickListener {
        // gridSize = getIntent().getIntExtra("GRIDSIZE", 1);
         difficulty = getIntent().getIntExtra("DIFFICULTY", 1);
 
-        gridSize = Settings.getGridSize(this);
+    //    gridSize = Settings.getGridSize(this);
         upDigit = Settings.getUpDigit(this);
 
         if(upDigit == 0) {

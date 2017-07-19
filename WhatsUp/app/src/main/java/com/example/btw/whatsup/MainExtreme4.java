@@ -1368,8 +1368,8 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         freezeTimer3.resume();
         freezeTimer4.resume();
 
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
+        Button pause = (Button) findViewById(R.id.pause_btn);
+        pause.setBackgroundResource(R.drawable.pause_btn_state);
         pause.setOnClickListener(this);
 
         life3 = (ImageView) findViewById(R.id.life3);
