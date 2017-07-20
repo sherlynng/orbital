@@ -7,11 +7,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -119,6 +121,8 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
         checkVibration(this);
         checkMusic(this);
+
+
 
         key = getIntent().getExtras().getString(KEY, KEY_DEFAULT);
         currentGameDb = FirebaseDatabase.getInstance().getReference("updown_games").child(key);
@@ -241,6 +245,23 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
             }
         });
+
+        /*
+        Display display = getWindowManager().getDefaultDisplay();
+        int displayWidth = display.getWidth();
+        int displayHeight = display.getHeight();
+        Log.d("Display Width", displayWidth + "");
+        Log.d("Display Height", displayHeight + "");
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.background, options);
+        int width = options.outWidth;
+        int height = options.outHeight;
+        Log.d("Background Width", width + "");
+        Log.d("Background Height", height + "");
+*/
+
     }
 
     @Override

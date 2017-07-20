@@ -2,6 +2,7 @@ package com.example.btw.whatsup;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -30,6 +31,7 @@ public class UpDownGameStates extends Activity {
     ListView listViewGames;
     Button createGameBtn;
     String identity;
+    protected SharedPreferences settings;
 
     List<MultiplayerGame> games;
 
@@ -44,6 +46,9 @@ public class UpDownGameStates extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.multiplayer_create_game);
+
+        final String PREFS_NAME = "MyPrefsFile";
+        settings = getSharedPreferences(PREFS_NAME, 0);
 
         game_type = (TextView) findViewById(R.id.game_type);
         game_type.setText("Up and Down");
@@ -76,6 +81,10 @@ public class UpDownGameStates extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final MultiplayerGame game = games.get(position);
                 identity = "joiner";
+                String joiner_game_id = settings.getString("game_id", "");
+                if(joiner_game_id != ""){
+                    databaseGames.child(game.getGameId()).child("joiner").setValue(joiner_game_id);
+                }
          //       Intent start_game = new Intent(this, JoinGame.class);
                 databaseGames.child(game.getGameId()).child("state").setValue("JOINED");
 
@@ -92,10 +101,17 @@ public class UpDownGameStates extends Activity {
     }
 
     private void createGame(){
+        MultiplayerGame game;
         String gameID = databaseGames.push().getKey();
         identity = "creator";
         //Game state open
-        MultiplayerGame game = new MultiplayerGame(gameID, "matcha", "latte");
+        String creator_game_id = settings.getString("game_id", "");
+        if(creator_game_id != "") {
+            game = new MultiplayerGame(gameID, creator_game_id, "Joiner");
+        }
+        else{
+            game = new MultiplayerGame(gameID, "Creator", "Joiner");
+        }
         databaseGames.child(gameID).setValue(game);
         databaseGames.child(gameID).child("state").setValue("OPEN");
         watchGame(gameID);

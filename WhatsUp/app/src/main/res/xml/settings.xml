@@ -36,14 +36,7 @@
     <PreferenceCategory android:title="Account">
 
     </PreferenceCategory>
-    <EditTextPreference
-        android:inputType="text"
-        android:defaultValue="Gamer1"
-        android:key="edit_text_preference_1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Game ID"
-        android:summary="%s"/>
+
 
     <Preference android:title="Log Out"
         android:key="loginlogout"

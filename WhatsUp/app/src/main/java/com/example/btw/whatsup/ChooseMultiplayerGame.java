@@ -2,8 +2,11 @@ package com.example.btw.whatsup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,20 +47,36 @@ public class ChooseMultiplayerGame extends Activity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.hurryUp_button:
+                /*
                 if (auth.getCurrentUser() != null) {
                     Intent game = new Intent(this, HurryUpGameStates.class);
                     this.startActivity(game);
                 } else {
                     openAuthDialog();
+                } */
+                if (isOnline()) {
+                    Intent game = new Intent(this, HurryUpGameStates.class);
+                    this.startActivity(game);
+                } else {
+                    openConnectInternetDialog();
                 }
+
                 break;
 
             case R.id.UpAndDown_button:
+                /*
                 if (auth.getCurrentUser() != null) {
                     Intent game2 = new Intent(this, UpDownGameStates.class);
                     this.startActivity(game2);
                 } else {
                     openAuthDialog();
+                }
+                */
+                if (isOnline()) {
+                    Intent game2 = new Intent(this, UpDownGameStates.class);
+                    this.startActivity(game2);
+                } else {
+                    openConnectInternetDialog();
                 }
                 break;
 
@@ -87,6 +106,27 @@ public class ChooseMultiplayerGame extends Activity implements OnClickListener {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public void openConnectInternetDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Unable to play without Internet connection.");
+        alertDialogBuilder.setPositiveButton("Got it!",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    protected boolean isOnline(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
     @Override

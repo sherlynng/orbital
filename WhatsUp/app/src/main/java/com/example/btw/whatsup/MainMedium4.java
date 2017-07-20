@@ -677,7 +677,7 @@ public class MainMedium4 extends Activity implements OnClickListener, View.OnTou
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CALLEE, 3);
-            this.startActivity(pause);
+         //   this.startActivity(pause);
 
         }
     }

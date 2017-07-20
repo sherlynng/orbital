@@ -141,6 +141,9 @@ public class MainHurryUp extends Activity implements OnClickListener, View.OnTou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainup);
 
+        TextView title = (TextView)findViewById(R.id.countdownText);
+        title.setText("Hurry Up");
+
         checkVibration(this);
         checkMusic(this);
 

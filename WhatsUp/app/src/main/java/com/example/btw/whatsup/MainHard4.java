@@ -1088,7 +1088,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.CALLEE, 4);
-            this.startActivity(pause);
+         //   this.startActivity(pause);
 
         }
     }

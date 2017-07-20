@@ -36,8 +36,8 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
  //   private static final String OPT_GRID_DEF = "4";
     private static final String OPT_UP = "upDigit";
     private static final String OPT_UP_DEF = "0";
-    private static final String OPT_GAMEID = "gameID";
-    private static final String OPT_GAMEID_DEF = "Gamer1";
+ //   private static final String OPT_GAMEID = "gameID";
+  //  private static final String OPT_GAMEID_DEF = "Gamer1";
     protected boolean continueMusic = true;
     ViewGroup main;
     View loginlogoutButtonView;
@@ -111,11 +111,11 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
     public static int getUpDigit(Context context) {
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(OPT_UP, OPT_UP_DEF));
     }
-
+/*
     public static String getGameID(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getString(OPT_GAMEID, OPT_GAMEID_DEF);
     }
-
+*/
     @Override
     protected void onPause() {
         super.onPause();

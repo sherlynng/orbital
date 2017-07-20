@@ -6,20 +6,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.AnimatedStateListDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-
 /**
  * Created by BTW on 5/21/2017.
  */
@@ -32,6 +37,7 @@ public class MainMenu extends Activity implements OnClickListener {
     protected SharedPreferences gameDataHard;
     protected SharedPreferences gameDataExtreme;
     protected SharedPreferences gameDataTeamUp;
+    protected SharedPreferences settings;
     protected SharedPreferences.Editor editorLame;
     protected SharedPreferences.Editor editorEasy;
     protected SharedPreferences.Editor editorMedium;
@@ -61,7 +67,7 @@ public class MainMenu extends Activity implements OnClickListener {
     View cancelButton;
     View howToPlayButton;
     View settingsButton;
-
+    View userButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +79,12 @@ public class MainMenu extends Activity implements OnClickListener {
         //prompt the user to login if first time running the app or not already logged in
 
         final String PREFS_NAME = "MyPrefsFile";
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        settings = getSharedPreferences(PREFS_NAME, 0);
 
         if (settings.getBoolean("my_first_time", true)) {
             Intent i = new Intent(this, loginlogout.class);
             this.startActivity(i);
+            openGameIdDialog();
             settings.edit().putBoolean("my_first_time", false).commit();
         }
 
@@ -131,6 +138,9 @@ public class MainMenu extends Activity implements OnClickListener {
         newButton = this.findViewById(R.id.new_button);
         newButton.setBackgroundResource(R.drawable.new_game_btn_state);
         newButton.setOnClickListener(this);
+        userButton = this.findViewById(R.id.user_button);
+        userButton.setBackgroundResource(R.drawable.user_btn_state);
+        userButton.setOnClickListener(this);
         aboutButton = this.findViewById(R.id.about_button);
         aboutButton.setBackgroundResource(R.drawable.about_btn_state);
         aboutButton.setOnClickListener(this);
@@ -147,6 +157,7 @@ public class MainMenu extends Activity implements OnClickListener {
         cancelButton.setBackgroundResource(R.drawable.cancel_btn_state);
         cancelButton.setOnClickListener(this);
 
+        userButton.setVisibility(View.INVISIBLE);
         aboutButton.setVisibility(View.INVISIBLE);
         settingsButton.setVisibility(View.INVISIBLE);
         howToPlayButton.setVisibility(View.INVISIBLE);
@@ -181,22 +192,39 @@ public class MainMenu extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.more_button:
+                moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                userButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                aboutButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                settingsButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                howToPlayButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                cancelButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+             /*
                 moreButton.setVisibility(View.INVISIBLE);
                 aboutButton.setVisibility(View.VISIBLE);
                 settingsButton.setVisibility(View.VISIBLE);
                 howToPlayButton.setVisibility(View.VISIBLE);
-                cancelButton.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE); */
                 break;
             case R.id.cancel_button:
+                moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                userButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                aboutButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                settingsButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                howToPlayButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                cancelButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+               /*
                 moreButton.setVisibility(View.VISIBLE);
                 aboutButton.setVisibility(View.INVISIBLE);
                 settingsButton.setVisibility(View.INVISIBLE);
                 howToPlayButton.setVisibility(View.INVISIBLE);
-                cancelButton.setVisibility(View.INVISIBLE);
+                cancelButton.setVisibility(View.INVISIBLE); */
                 break;
             case R.id.settings_button:
                 Intent settings = new Intent(this, Settings.class);
                 this.startActivity(settings);
+                break;
+            case R.id.user_button:
+                openGameIdDialog();
                 break;
             case R.id.about_button:
                 Intent about = new Intent(this, About.class);
@@ -275,6 +303,44 @@ public class MainMenu extends Activity implements OnClickListener {
                 }
                 break;
         }
+    }
+
+    private void openGameIdDialog(){
+    //    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+     //   LayoutInflater inflater = this.getLayoutInflater();
+     //   final AlertDialog.Builder builder1 = builder.setView(inflater.inflate(game_id), null);
+
+        final LayoutInflater layoutInflater = this.getLayoutInflater();
+        final View view = layoutInflater.inflate(R.layout.game_id, null);
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Game ID");
+     //   alertDialog.setIcon("Icon id here");
+        alertDialog.setCancelable(false);
+     //   Constant.alertDialog.setMessage("Your Message Here");
+
+        final EditText gameID_text = (EditText) view.findViewById(R.id.game_id);
+        String prev_game_id = settings.getString("game_id", null);
+        if(prev_game_id != null){
+            gameID_text.setText(prev_game_id);
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+                String game_id = gameID_text.getText().toString();
+                settings.edit().putString("game_id", game_id).commit();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        alertDialog.setView(view);
+        alertDialog.show();
     }
 
 

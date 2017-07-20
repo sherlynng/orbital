@@ -339,7 +339,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CALLEE, 1);
-            this.startActivity(pause);
+        //    this.startActivity(pause);
 
         }
     }

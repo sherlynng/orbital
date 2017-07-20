@@ -76,13 +76,15 @@
 
 
     <LinearLayout
+        android:id="@+id/mainGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
         android:layout_weight="5"
+        android:background="@color/transparent"
         android:orientation="vertical"
-        android:padding="5dp"
-        >
-
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/yellow_grid"
+                android:background="@drawable/yellow_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -107,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/orange_grid"
+                android:background="@drawable/orange_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -117,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/pink_grid"
+                android:background="@drawable/pink_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -127,20 +129,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/green_grid"
+                android:background="@drawable/green_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
 
-            <Button
-                android:id="@+id/btn5"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/purple_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -150,11 +144,21 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btn5"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/green_spark0"
+                android:scaleType="centerCrop"
+                android:textAlignment="center"
+                android:textSize="25dp" />
+
+            <Button
                 android:id="@+id/btn6"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/purple_grid"
+                android:background="@drawable/yellow_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -164,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/yellow_grid"
+                android:background="@drawable/orange_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -174,17 +178,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/orange_grid"
+                android:background="@drawable/pink_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
 
             <Button
                 android:id="@+id/btn9"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/pink_grid"
+                android:background="@drawable/pink_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -194,24 +207,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/green_grid"
+                android:background="@drawable/green_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn11"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/green_grid"
+                android:background="@drawable/yellow_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -221,17 +227,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/purple_grid"
+                android:background="@drawable/orange_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
 
             <Button
                 android:id="@+id/btn13"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/yellow_grid"
+                android:background="@drawable/orange_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -241,7 +257,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/orange_grid"
+                android:background="@drawable/pink_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
@@ -251,125 +267,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/pink_grid"
+                android:background="@drawable/green_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn16"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/pink_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn17"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/green_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn18"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/purple_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn19"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/yellow_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn20"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/orange_grid"
+                android:background="@drawable/yellow_spark0"
                 android:scaleType="centerCrop"
                 android:textAlignment="center"
                 android:textSize="25dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn21"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/orange_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn22"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/pink_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn23"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/green_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn24"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/purple_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn25"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/yellow_grid"
-                android:scaleType="centerCrop"
-                android:textAlignment="center"
-                android:textSize="25dp" />
-        </LinearLayout>
+    </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -387,4 +301,3 @@
     </LinearLayout>
 </LinearLayout>
 
-</LinearLayout>

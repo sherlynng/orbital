@@ -7,6 +7,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -294,8 +297,36 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
         handler2.postDelayed(counter2, 5001);
 
     }
+/*
+    @Override
+    protected void onStart(){
+        super.onStart();
 
+        Display display = getWindowManager().getDefaultDisplay();
+        int displayWidth = display.getWidth();
+        int displayHeight = display.getHeight();
+        Log.d("Display Width", displayWidth + "");
+        Log.d("Display Height", displayHeight + "");
 
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.background, options);
+        int width = options.outWidth;
+        int height = options.outHeight;
+        Log.d("Background Width", width + "");
+        Log.d("Background Height", height + "");
+
+        if(width > displayWidth){
+            Log.d("Display width exceeded", "");
+            int widthRatio = Math.round((float)width / (float) displayWidth);
+            options.inSampleSize = widthRatio;
+        }
+        options.inJustDecodeBounds = false;
+        Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background, options);
+      //  bg.setBackgroundResource(scaledBitmap);
+
+    }
+*/
     private void startPause() {
         if (isApplicationSentToBackground(getApplicationContext())) {
             // Do what you want to do on detecting Home Key being Pressed
@@ -307,7 +338,7 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CALLEE, 2);
-            this.startActivity(pause);
+        //    this.startActivity(pause);
 
         }
     }

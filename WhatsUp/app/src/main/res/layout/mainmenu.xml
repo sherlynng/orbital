@@ -87,12 +87,12 @@
             android:background="@drawable/more_default" />
 
         <Button
-            android:id="@+id/about_button"
+            android:id="@+id/user_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
             android:layout_marginLeft="15dp"
-            android:background="@drawable/about_default" />
+            android:background="@drawable/user_default" />
 
         <Button
             android:id="@+id/settings_button"
@@ -109,6 +109,14 @@
             android:layout_gravity="left"
             android:layout_marginLeft="10dp"
             android:background="@drawable/howtoplay_default" />
+
+        <Button
+            android:id="@+id/about_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/about_default" />
 
         <Button
             android:id="@+id/cancel_button"
