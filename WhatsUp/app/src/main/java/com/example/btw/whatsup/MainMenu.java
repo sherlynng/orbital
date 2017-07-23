@@ -11,6 +11,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.AnimatedStateListDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -53,6 +55,8 @@ public class MainMenu extends Activity implements OnClickListener {
     boolean hasOldGameToContinueTeamUp;
 
     protected boolean continueMusic = true;
+    private boolean isMoreButton;
+    private String gameID;
 
 //    boolean hasOldGameToContinue;
     //   int oldGameType;
@@ -64,7 +68,7 @@ public class MainMenu extends Activity implements OnClickListener {
     View newButton;
     View aboutButton;
     View moreButton;
-    View cancelButton;
+    View leadershipButton;
     View howToPlayButton;
     View settingsButton;
     View userButton;
@@ -85,8 +89,9 @@ public class MainMenu extends Activity implements OnClickListener {
             Intent i = new Intent(this, loginlogout.class);
             this.startActivity(i);
             openGameIdDialog();
-            settings.edit().putBoolean("my_first_time", false).commit();
         }
+
+        isMoreButton = settings.getBoolean("isMoreButton", true);
 
         gameDataLame = getSharedPreferences("gameDataLame", Context.MODE_PRIVATE);
         gameDataEasy = getSharedPreferences("gameDataEasy", Context.MODE_PRIVATE);
@@ -150,18 +155,30 @@ public class MainMenu extends Activity implements OnClickListener {
         settingsButton = this.findViewById(R.id.settings_button);
         settingsButton.setBackgroundResource(R.drawable.settings_btn_state);
         settingsButton.setOnClickListener(this);
+        leadershipButton = this.findViewById(R.id.leadership_button);
+        leadershipButton.setBackgroundResource(R.drawable.leadership_btn_state);
+        leadershipButton.setOnClickListener(this);
         moreButton = this.findViewById(R.id.more_button);
-        moreButton.setBackgroundResource(R.drawable.more_btn_state);
+        if(isMoreButton) {
+            moreButton.setBackgroundResource(R.drawable.more_btn_state);
+            userButton.setVisibility(View.INVISIBLE);
+            aboutButton.setVisibility(View.INVISIBLE);
+            settingsButton.setVisibility(View.INVISIBLE);
+            howToPlayButton.setVisibility(View.INVISIBLE);
+            leadershipButton.setVisibility(View.INVISIBLE);
+        }
+        else{
+            moreButton.setBackgroundResource(R.drawable.cancel_btn_state);
+            userButton.setVisibility(View.VISIBLE);
+            aboutButton.setVisibility(View.VISIBLE);
+            settingsButton.setVisibility(View.VISIBLE);
+            howToPlayButton.setVisibility(View.VISIBLE);
+            leadershipButton.setVisibility(View.VISIBLE);
+        }
         moreButton.setOnClickListener(this);
-        cancelButton = this.findViewById(R.id.cancel_button);
-        cancelButton.setBackgroundResource(R.drawable.cancel_btn_state);
-        cancelButton.setOnClickListener(this);
 
-        userButton.setVisibility(View.INVISIBLE);
-        aboutButton.setVisibility(View.INVISIBLE);
-        settingsButton.setVisibility(View.INVISIBLE);
-        howToPlayButton.setVisibility(View.INVISIBLE);
-        cancelButton.setVisibility(View.INVISIBLE);
+
+
 
         ImageView logo = (ImageView) findViewById(R.id.whatsup_logo);
         logo.setImageResource(R.mipmap.whatsup_logo);
@@ -184,6 +201,11 @@ public class MainMenu extends Activity implements OnClickListener {
         }
     }
 
+    private void startDemo(){
+        Intent demo = new Intent(this, PlayDemo.class);
+        this.startActivity(demo);
+    }
+
     @Override
     public void onBackPressed() {
         openExitDialog();
@@ -192,32 +214,37 @@ public class MainMenu extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.more_button:
-                moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
-                userButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
-                aboutButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
-                settingsButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
-                howToPlayButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
-                cancelButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
-             /*
-                moreButton.setVisibility(View.INVISIBLE);
-                aboutButton.setVisibility(View.VISIBLE);
-                settingsButton.setVisibility(View.VISIBLE);
-                howToPlayButton.setVisibility(View.VISIBLE);
-                cancelButton.setVisibility(View.VISIBLE); */
+                if(isMoreButton){
+                    isMoreButton = false;
+                    settings.edit().putBoolean("isMoreButton", isMoreButton).commit();
+                //    moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                    moreButton.setBackgroundResource(R.drawable.cancel_btn_state);
+                    userButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                    aboutButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                    settingsButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                    howToPlayButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                    leadershipButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                }
+                else{
+                    isMoreButton = true;
+                    settings.edit().putBoolean("isMoreButton", isMoreButton).commit();
+             //       moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                    moreButton.setBackgroundResource(R.drawable.more_btn_state);
+                    userButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                    aboutButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                    settingsButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                    howToPlayButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                    leadershipButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                }
                 break;
-            case R.id.cancel_button:
-                moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
-                userButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
-                aboutButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
-                settingsButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
-                howToPlayButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
-                cancelButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
-               /*
-                moreButton.setVisibility(View.VISIBLE);
-                aboutButton.setVisibility(View.INVISIBLE);
-                settingsButton.setVisibility(View.INVISIBLE);
-                howToPlayButton.setVisibility(View.INVISIBLE);
-                cancelButton.setVisibility(View.INVISIBLE); */
+            case R.id.leadership_button:
+                if(isOnline()) {
+                    Intent leadership = new Intent(this, LeadershipChooseLevel.class);
+                    this.startActivity(leadership);
+                }
+                else{
+                    openConnectInternetDialog();
+                }
                 break;
             case R.id.settings_button:
                 Intent settings = new Intent(this, Settings.class);
@@ -289,20 +316,47 @@ public class MainMenu extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.new_button:
-                if (auth.getCurrentUser() != null) {
-                    Intent new_Game = new Intent(this, ChoosePlayerMode.class);
-                    editorLame.putBoolean("continuefromlastLame", false).commit();
-                    editorEasy.putBoolean("continuefromlastEasy", false).commit();
-                    editorMedium.putBoolean("continuefromlastMedium", false).commit();
-                    editorHard.putBoolean("continuefromlastHard", false).commit();
-                    editorExtreme.putBoolean("continuefromlastExtreme", false).commit();
-                    editorTeamUp.putBoolean("continuefromlastTeamUp", false).commit();
-                    this.startActivity(new_Game);
-                } else {
-                    openAuthDialog();
+                gameID = getGameID();
+                if(gameID.equals("")){
+                    openGameIdDialog();
+                    openSetGameIdDialog();
+                }
+                else{
+                    if(auth.getCurrentUser() != null){
+                        Intent new_Game = new Intent(this, ChoosePlayerMode.class);
+                        editorLame.putBoolean("continuefromlastLame", false).commit();
+                        editorEasy.putBoolean("continuefromlastEasy", false).commit();
+                        editorMedium.putBoolean("continuefromlastMedium", false).commit();
+                        editorHard.putBoolean("continuefromlastHard", false).commit();
+                        editorExtreme.putBoolean("continuefromlastExtreme", false).commit();
+                        editorTeamUp.putBoolean("continuefromlastTeamUp", false).commit();
+                        this.startActivity(new_Game);
+                    }
+                    else{
+                        openAuthDialog();
+                    }
                 }
                 break;
         }
+    }
+
+    private String getGameID(){
+       return settings.getString("game_id", "");
+    }
+
+    private void openSetGameIdDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Please set your Game ID.");
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     private void openGameIdDialog(){
@@ -330,17 +384,46 @@ public class MainMenu extends Activity implements OnClickListener {
 
                 String game_id = gameID_text.getText().toString();
                 settings.edit().putString("game_id", game_id).commit();
+                if (settings.getBoolean("my_first_time", true)){
+                    settings.edit().putBoolean("my_first_time", false).commit();
+                    startDemo();
+                }
             }
         });
 
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if (settings.getBoolean("my_first_time", true)){
+                    settings.edit().putBoolean("my_first_time", false).commit();
+                    startDemo();
+                }
             }
         });
 
         alertDialog.setView(view);
         alertDialog.show();
+    }
+
+    public void openConnectInternetDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Please turn on Internet connection.");
+        alertDialogBuilder.setPositiveButton("Got it!",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    protected boolean isOnline(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
 

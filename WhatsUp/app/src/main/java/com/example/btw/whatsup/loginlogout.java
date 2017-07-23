@@ -75,14 +75,14 @@ public class loginlogout extends AppCompatActivity {
                 // Name, email address, and profile photo Url
                 String name = profile.getDisplayName();
                 String email = profile.getEmail();
-                initaliseUser(providerId, uid, name, email);
+             //   initaliseUser(providerId, uid, name, email);
             }
             ;
         }
         finish();
 
     }
-
+/*
     private void initaliseUser(String providerId, String uid, String name, String email) {
         //  String gameID = auth.getCurrentUser().getDisplayName();
         String id = auth.getCurrentUser().getUid();
@@ -93,7 +93,7 @@ public class loginlogout extends AppCompatActivity {
 
         Toast.makeText(this, "User added", Toast.LENGTH_SHORT).show();
     }
-
+*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -37,7 +37,6 @@ public class ChoosePlayerMode extends Activity implements View.OnClickListener {
             Intent game= new Intent(this, ChooseLevel.class);
             this.startActivity(game);
         } else if(v==twoPlayerBtn) {
-
             Intent game= new Intent(this, ChooseMultiplayerGame.class);
             this.startActivity(game);
         }

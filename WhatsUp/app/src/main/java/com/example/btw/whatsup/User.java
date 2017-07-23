@@ -5,31 +5,40 @@ package com.example.btw.whatsup;
  */
 
 public class User {
-    private String providerId;
-    private String uid;
     private String name;
-    private String email;
+    private int score;
+    private String uid;
 
-    public User(String providerId, String uid, String name, String email) {
-        this.providerId = providerId;
-        this.uid = uid;
+    public User(){
+
+    }
+
+    public User(String name, int score) {
         this.name = name;
-        this.email = email;
-    }
-
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public String getUid() {
-        return uid;
+        this.score = score;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getEmail() {
-        return email;
+    public int getScore() {
+        return score;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

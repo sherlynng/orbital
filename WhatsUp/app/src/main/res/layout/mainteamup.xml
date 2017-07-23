@@ -53,17 +53,17 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="59dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="2">
 
                 <Button
                     android:id="@+id/up_button_playerUp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
                     android:layout_centerInParent="true"
-                    android:background="@mipmap/up_box2"
+                    android:layout_marginLeft="35dp"
+                    android:background="@drawable/up_bear0"
                     android:scaleType="centerCrop" />
-                <!-- TODO: UP button should change color when pressed-->
 
 
             </RelativeLayout>
@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Current"
+                    android:text="Next"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -681,17 +681,17 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="59dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="2">
 
                         <Button
                             android:id="@+id/up_button_playerBottom"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="100dp"
+                            android:layout_height="80dp"
                             android:layout_centerInParent="true"
-                            android:background="@mipmap/up_box2"
+                            android:layout_marginLeft="35dp"
+                            android:background="@drawable/up_bear0"
                             android:scaleType="centerCrop" />
-                        <!-- TODO: UP button should change color when pressed-->
 
                     </RelativeLayout>
 
@@ -735,7 +735,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:text="Current"
+                            android:text="Next"
                             android:textColor="@color/black" />
 
                         <TextView

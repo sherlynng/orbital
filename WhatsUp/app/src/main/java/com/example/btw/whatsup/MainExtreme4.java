@@ -187,77 +187,77 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
 
         upBtn = (Button) this.findViewById(R.id.up_button);
         btn1 = (Button) this.findViewById(R.id.btn1);
-        btn1.setBackgroundResource(R.drawable.yellow_spark);
+    //    btn1.setBackgroundResource(R.drawable.yellow_spark);
         btn2 = (Button) this.findViewById(R.id.btn2);
-        btn2.setBackgroundResource(R.drawable.orange_spark);
+     //   btn2.setBackgroundResource(R.drawable.orange_spark);
         btn3 = (Button) this.findViewById(R.id.btn3);
-        btn3.setBackgroundResource(R.drawable.pink_spark);
+   //     btn3.setBackgroundResource(R.drawable.pink_spark);
         btn4 = (Button) this.findViewById(R.id.btn4);
-        btn4.setBackgroundResource(R.drawable.blue_spark);
+    //    btn4.setBackgroundResource(R.drawable.blue_spark);
         btn5 = (Button) this.findViewById(R.id.btn5);
-        btn5.setBackgroundResource(R.drawable.green_spark);
+    //    btn5.setBackgroundResource(R.drawable.green_spark);
         btn6 = (Button) this.findViewById(R.id.btn6);
-        btn6.setBackgroundResource(R.drawable.purple_spark);
+    //    btn6.setBackgroundResource(R.drawable.purple_spark);
         btn7 = (Button) this.findViewById(R.id.btn7);
-        btn7.setBackgroundResource(R.drawable.purple_spark);
+    //    btn7.setBackgroundResource(R.drawable.purple_spark);
         btn8 = (Button) this.findViewById(R.id.btn8);
-        btn8.setBackgroundResource(R.drawable.yellow_spark);
+    //    btn8.setBackgroundResource(R.drawable.yellow_spark);
         btn9 = (Button) this.findViewById(R.id.btn9);
-        btn9.setBackgroundResource(R.drawable.orange_spark);
+   //     btn9.setBackgroundResource(R.drawable.orange_spark);
         btn10 = (Button) this.findViewById(R.id.btn10);
-        btn10.setBackgroundResource(R.drawable.pink_spark);
+    //    btn10.setBackgroundResource(R.drawable.pink_spark);
         btn11 = (Button) this.findViewById(R.id.btn11);
-        btn11.setBackgroundResource(R.drawable.blue_spark);
+   //     btn11.setBackgroundResource(R.drawable.blue_spark);
         btn12 = (Button) this.findViewById(R.id.btn12);
-        btn12.setBackgroundResource(R.drawable.green_spark);
+    //    btn12.setBackgroundResource(R.drawable.green_spark);
         btn13 = (Button) this.findViewById(R.id.btn13);
-        btn13.setBackgroundResource(R.drawable.green_spark);
+   //     btn13.setBackgroundResource(R.drawable.green_spark);
         btn14 = (Button) this.findViewById(R.id.btn14);
-        btn14.setBackgroundResource(R.drawable.purple_spark);
+   //     btn14.setBackgroundResource(R.drawable.purple_spark);
         btn15 = (Button) this.findViewById(R.id.btn15);
-        btn15.setBackgroundResource(R.drawable.yellow_spark);
+    //    btn15.setBackgroundResource(R.drawable.yellow_spark);
         btn16 = (Button) this.findViewById(R.id.btn16);
-        btn16.setBackgroundResource(R.drawable.orange_spark);
+    //    btn16.setBackgroundResource(R.drawable.orange_spark);
         btn17 = (Button) this.findViewById(R.id.btn17);
-        btn17.setBackgroundResource(R.drawable.pink_spark);
+    //    btn17.setBackgroundResource(R.drawable.pink_spark);
         btn18 = (Button) this.findViewById(R.id.btn18);
-        btn18.setBackgroundResource(R.drawable.blue_spark);
+  //      btn18.setBackgroundResource(R.drawable.blue_spark);
         btn19 = (Button) this.findViewById(R.id.btn19);
-        btn19.setBackgroundResource(R.drawable.blue_spark);
+   //     btn19.setBackgroundResource(R.drawable.blue_spark);
         btn20 = (Button) this.findViewById(R.id.btn20);
-        btn20.setBackgroundResource(R.drawable.green_spark);
+   //     btn20.setBackgroundResource(R.drawable.green_spark);
         btn21 = (Button) this.findViewById(R.id.btn21);
-        btn21.setBackgroundResource(R.drawable.purple_spark);
+   //     btn21.setBackgroundResource(R.drawable.purple_spark);
         btn22 = (Button) this.findViewById(R.id.btn22);
-        btn22.setBackgroundResource(R.drawable.yellow_spark);
+   //     btn22.setBackgroundResource(R.drawable.yellow_spark);
         btn23 = (Button) this.findViewById(R.id.btn23);
-        btn23.setBackgroundResource(R.drawable.orange_spark);
+    //    btn23.setBackgroundResource(R.drawable.orange_spark);
         btn24 = (Button) this.findViewById(R.id.btn24);
-        btn24.setBackgroundResource(R.drawable.pink_spark);
+   //     btn24.setBackgroundResource(R.drawable.pink_spark);
         btn25 = (Button) this.findViewById(R.id.btn25);
-        btn25.setBackgroundResource(R.drawable.pink_spark);
+  //      btn25.setBackgroundResource(R.drawable.pink_spark);
         btn26 = (Button) this.findViewById(R.id.btn26);
-        btn26.setBackgroundResource(R.drawable.blue_spark);
+  //      btn26.setBackgroundResource(R.drawable.blue_spark);
         btn27 = (Button) this.findViewById(R.id.btn27);
-        btn27.setBackgroundResource(R.drawable.green_spark);
+   //     btn27.setBackgroundResource(R.drawable.green_spark);
         btn28 = (Button) this.findViewById(R.id.btn28);
-        btn28.setBackgroundResource(R.drawable.purple_spark);
+    //    btn28.setBackgroundResource(R.drawable.purple_spark);
         btn29 = (Button) this.findViewById(R.id.btn29);
-        btn29.setBackgroundResource(R.drawable.yellow_spark);
+   //     btn29.setBackgroundResource(R.drawable.yellow_spark);
         btn30 = (Button) this.findViewById(R.id.btn30);
-        btn30.setBackgroundResource(R.drawable.orange_spark);
+   //     btn30.setBackgroundResource(R.drawable.orange_spark);
         btn31 = (Button) this.findViewById(R.id.btn31);
-        btn31.setBackgroundResource(R.drawable.orange_spark);
+   //     btn31.setBackgroundResource(R.drawable.orange_spark);
         btn32 = (Button) this.findViewById(R.id.btn32);
-        btn32.setBackgroundResource(R.drawable.pink_spark);
+   //     btn32.setBackgroundResource(R.drawable.pink_spark);
         btn33 = (Button) this.findViewById(R.id.btn33);
-        btn33.setBackgroundResource(R.drawable.blue_spark);
+   //     btn33.setBackgroundResource(R.drawable.blue_spark);
         btn34 = (Button) this.findViewById(R.id.btn34);
-        btn34.setBackgroundResource(R.drawable.green_spark);
+   //     btn34.setBackgroundResource(R.drawable.green_spark);
         btn35 = (Button) this.findViewById(R.id.btn35);
-        btn35.setBackgroundResource(R.drawable.purple_spark);
+   //     btn35.setBackgroundResource(R.drawable.purple_spark);
         btn36 = (Button) this.findViewById(R.id.btn36);
-        btn36.setBackgroundResource(R.drawable.yellow_spark);
+    //    btn36.setBackgroundResource(R.drawable.yellow_spark);
 
         gameDataExtreme = getSharedPreferences("gameDataExtreme", Context.MODE_PRIVATE);
         editor = gameDataExtreme.edit();
@@ -296,20 +296,7 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
                     fillArr.add(0, Integer.parseInt(strArray[i]));
                 }
             }
-            life3 = (ImageView) findViewById(R.id.life3);
-            life3.setImageResource(R.drawable.life3);
-            life2 = (ImageView) findViewById(R.id.life2);
-            life2.setImageResource(R.drawable.life2);
-            life1 = (ImageView) findViewById(R.id.life1);
-            life1.setImageResource(R.drawable.life1);
 
-            if (life == 2) {
-                life3.setVisibility(View.INVISIBLE);
-            }
-            else if(life == 1) {
-                life3.setVisibility(View.INVISIBLE);
-                life2.setVisibility(View.INVISIBLE);
-            }
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
             if (gameDataExtreme.getString("btn1", "99").equals("0")) {
@@ -811,6 +798,115 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
         };
         handler2.postDelayed(counter2, 5001);
 
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        upBtn.setBackgroundResource(R.drawable.up_bear);
+        btn1.setBackgroundResource(R.drawable.yellow_spark);
+        btn2.setBackgroundResource(R.drawable.orange_spark);
+        btn3.setBackgroundResource(R.drawable.pink_spark);
+        btn4.setBackgroundResource(R.drawable.blue_spark);
+        btn5.setBackgroundResource(R.drawable.green_spark);
+        btn6.setBackgroundResource(R.drawable.purple_spark);
+        btn7.setBackgroundResource(R.drawable.purple_spark);
+        btn8.setBackgroundResource(R.drawable.yellow_spark);
+        btn9.setBackgroundResource(R.drawable.orange_spark);
+        btn10.setBackgroundResource(R.drawable.pink_spark);
+        btn11.setBackgroundResource(R.drawable.blue_spark);
+        btn12.setBackgroundResource(R.drawable.green_spark);
+        btn13.setBackgroundResource(R.drawable.green_spark);
+        btn14.setBackgroundResource(R.drawable.purple_spark);
+        btn15.setBackgroundResource(R.drawable.yellow_spark);
+        btn16.setBackgroundResource(R.drawable.orange_spark);
+        btn17.setBackgroundResource(R.drawable.pink_spark);
+        btn18.setBackgroundResource(R.drawable.blue_spark);
+        btn19.setBackgroundResource(R.drawable.blue_spark);
+        btn20.setBackgroundResource(R.drawable.green_spark);
+        btn21.setBackgroundResource(R.drawable.purple_spark);
+        btn22.setBackgroundResource(R.drawable.yellow_spark);
+        btn23.setBackgroundResource(R.drawable.orange_spark);
+        btn24.setBackgroundResource(R.drawable.pink_spark);
+        btn25.setBackgroundResource(R.drawable.pink_spark);
+        btn26.setBackgroundResource(R.drawable.blue_spark);
+        btn27.setBackgroundResource(R.drawable.green_spark);
+        btn28.setBackgroundResource(R.drawable.purple_spark);
+        btn29.setBackgroundResource(R.drawable.yellow_spark);
+        btn30.setBackgroundResource(R.drawable.orange_spark);
+        btn31.setBackgroundResource(R.drawable.orange_spark);
+        btn32.setBackgroundResource(R.drawable.pink_spark);
+        btn33.setBackgroundResource(R.drawable.blue_spark);
+        btn34.setBackgroundResource(R.drawable.green_spark);
+        btn35.setBackgroundResource(R.drawable.purple_spark);
+        btn36.setBackgroundResource(R.drawable.yellow_spark);
+
+        life3 = (ImageView) findViewById(R.id.life3);
+        life3.setImageResource(R.drawable.life3);
+        life2 = (ImageView) findViewById(R.id.life2);
+        life2.setImageResource(R.drawable.life2);
+        life1 = (ImageView) findViewById(R.id.life1);
+        life1.setImageResource(R.drawable.life1);
+
+        if (life == 2) {
+            life3.setVisibility(View.INVISIBLE);
+        }
+        else if(life == 1) {
+            life3.setVisibility(View.INVISIBLE);
+            life2.setVisibility(View.INVISIBLE);
+        }
+
+        bg.setBackgroundResource(R.drawable.background);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        upBtn.setBackgroundResource(0);
+        btn1.setBackgroundResource(0);
+        btn2.setBackgroundResource(0);
+        btn3.setBackgroundResource(0);
+        btn4.setBackgroundResource(0);
+        btn5.setBackgroundResource(0);
+        btn6.setBackgroundResource(0);
+        btn7.setBackgroundResource(0);
+        btn8.setBackgroundResource(0);
+        btn9.setBackgroundResource(0);
+        btn10.setBackgroundResource(0);
+        btn11.setBackgroundResource(0);
+        btn12.setBackgroundResource(0);
+        btn13.setBackgroundResource(0);
+        btn14.setBackgroundResource(0);
+        btn15.setBackgroundResource(0);
+        btn16.setBackgroundResource(0);
+        btn17.setBackgroundResource(0);
+        btn18.setBackgroundResource(0);
+        btn19.setBackgroundResource(0);
+        btn20.setBackgroundResource(0);
+        btn21.setBackgroundResource(0);
+        btn22.setBackgroundResource(0);
+        btn23.setBackgroundResource(0);
+        btn24.setBackgroundResource(0);
+        btn25.setBackgroundResource(0);
+        btn26.setBackgroundResource(0);
+        btn27.setBackgroundResource(0);
+        btn28.setBackgroundResource(0);
+        btn29.setBackgroundResource(0);
+        btn30.setBackgroundResource(0);
+        btn31.setBackgroundResource(0);
+        btn32.setBackgroundResource(0);
+        btn33.setBackgroundResource(0);
+        btn34.setBackgroundResource(0);
+        btn35.setBackgroundResource(0);
+        btn36.setBackgroundResource(0);
+
+        life3.setImageResource(0);
+        life2.setImageResource(0);
+        life1.setImageResource(0);
+
+        bg.setBackgroundResource(0);
     }
 
     private void startFreeze() {
@@ -1675,6 +1771,15 @@ public class MainExtreme4 extends Activity implements OnClickListener, View.OnTo
                     anim.stop();
                 }
                 anim.start();
+
+                //Up bear animation
+                upBtn.setBackgroundResource(R.drawable.up_bear);
+                AnimationDrawable anim2 = (AnimationDrawable)upBtn.getBackground();
+
+                if (anim2.isRunning()) {
+                    anim2.stop();
+                }
+                anim2.start();
 
                 //Sound effect
                 if (playMusic) {

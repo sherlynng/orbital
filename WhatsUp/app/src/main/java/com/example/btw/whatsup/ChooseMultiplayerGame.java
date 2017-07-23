@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +26,8 @@ import static com.firebase.ui.auth.ui.AcquireEmailHelper.RC_SIGN_IN;
 public class ChooseMultiplayerGame extends Activity implements OnClickListener {
     protected boolean continueMusic = true;
     FirebaseAuth auth;
+    protected SharedPreferences settings;
+    String game_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,9 @@ public class ChooseMultiplayerGame extends Activity implements OnClickListener {
         setContentView(R.layout.twoplayer);
 
         auth = FirebaseAuth.getInstance();
+
+        final String PREFS_NAME = "MyPrefsFile";
+        settings = getSharedPreferences(PREFS_NAME, 0);
 
         View hurryUpBtn = this.findViewById(R.id.hurryUp_button);
         hurryUpBtn.setBackgroundResource(R.drawable.hurryup_btn_state);
@@ -54,10 +62,17 @@ public class ChooseMultiplayerGame extends Activity implements OnClickListener {
                 } else {
                     openAuthDialog();
                 } */
+                game_id = settings.getString("game_id", "");
                 if (isOnline()) {
-                    Intent game = new Intent(this, HurryUpGameStates.class);
-                    this.startActivity(game);
-                } else {
+                    if(game_id.equals("")){
+                        openGameIdDialog();
+                        openSetGameIdDialog();
+                    }
+                    else {
+                        Intent game = new Intent(this, HurryUpGameStates.class);
+                        this.startActivity(game);
+                    }
+                } else{
                     openConnectInternetDialog();
                 }
 
@@ -72,9 +87,16 @@ public class ChooseMultiplayerGame extends Activity implements OnClickListener {
                     openAuthDialog();
                 }
                 */
+                game_id = settings.getString("game_id", "");
                 if (isOnline()) {
-                    Intent game2 = new Intent(this, UpDownGameStates.class);
-                    this.startActivity(game2);
+                    if(game_id.equals("")){
+                        openGameIdDialog();
+                        openSetGameIdDialog();
+                    }
+                    else {
+                        Intent game2 = new Intent(this, UpDownGameStates.class);
+                        this.startActivity(game2);
+                    }
                 } else {
                     openConnectInternetDialog();
                 }
@@ -105,6 +127,59 @@ public class ChooseMultiplayerGame extends Activity implements OnClickListener {
                 });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void openSetGameIdDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Please set your Game ID.");
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void openGameIdDialog(){
+        //    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //   LayoutInflater inflater = this.getLayoutInflater();
+        //   final AlertDialog.Builder builder1 = builder.setView(inflater.inflate(game_id), null);
+
+        final LayoutInflater layoutInflater = this.getLayoutInflater();
+        final View view = layoutInflater.inflate(R.layout.game_id, null);
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Game ID");
+        //   alertDialog.setIcon("Icon id here");
+        alertDialog.setCancelable(false);
+        //   Constant.alertDialog.setMessage("Your Message Here");
+
+        final EditText gameID_text = (EditText) view.findViewById(R.id.game_id);
+        String prev_game_id = settings.getString("game_id", null);
+        if(prev_game_id != null){
+            gameID_text.setText(prev_game_id);
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+                String game_id = gameID_text.getText().toString();
+                settings.edit().putString("game_id", game_id).commit();
+            }
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        alertDialog.setView(view);
         alertDialog.show();
     }
 

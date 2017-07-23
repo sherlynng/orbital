@@ -100,8 +100,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
     public static void checkMusic(Context context) {
         if (Settings.getMusic(context)) {
             playMusic = true;
-        }
-        else{
+        } else {
             playMusic = false;
         }
     }
@@ -109,8 +108,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
     public static void checkVibration(Context context) {
         if (Settings.getVibration(context)) {
             vibrationOn = true;
-        }
-        else{
+        } else {
             vibrationOn = false;
         }
     }
@@ -123,7 +121,6 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         checkMusic(this);
 
 
-
         key = getIntent().getExtras().getString(KEY, KEY_DEFAULT);
         currentGameDb = FirebaseDatabase.getInstance().getReference("updown_games").child(key);
 
@@ -132,40 +129,42 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         upId = mSoundPoolHelper.load(this, R.raw.up, 1);
         tapId = mSoundPoolHelper.load(this, R.raw.tap, 1);
 
-        bg = (LinearLayout)this.findViewById(R.id.main);
+        bg = (LinearLayout) this.findViewById(R.id.main);
 
         upBtn = (Button) this.findViewById(R.id.up_button);
         btn1 = (Button) this.findViewById(R.id.btn1);
+        //   btn1.setBackgroundResource(R.drawable.yellow_spark);
         btn2 = (Button) this.findViewById(R.id.btn2);
-        btn2.setBackgroundResource(R.drawable.orange_spark);
+        //    btn2.setBackgroundResource(R.drawable.orange_spark);
         btn3 = (Button) this.findViewById(R.id.btn3);
-        btn3.setBackgroundResource(R.drawable.pink_spark);
+        //    btn3.setBackgroundResource(R.drawable.pink_spark);
         btn4 = (Button) this.findViewById(R.id.btn4);
-        btn4.setBackgroundResource(R.drawable.green_spark);
+        //    btn4.setBackgroundResource(R.drawable.green_spark);
         btn5 = (Button) this.findViewById(R.id.btn5);
-        btn5.setBackgroundResource(R.drawable.green_spark);
+        //   btn5.setBackgroundResource(R.drawable.green_spark);
         btn6 = (Button) this.findViewById(R.id.btn6);
-        btn6.setBackgroundResource(R.drawable.yellow_spark);
+        //     btn6.setBackgroundResource(R.drawable.yellow_spark);
         btn7 = (Button) this.findViewById(R.id.btn7);
-        btn7.setBackgroundResource(R.drawable.orange_spark);
+        //     btn7.setBackgroundResource(R.drawable.orange_spark);
         btn8 = (Button) this.findViewById(R.id.btn8);
-        btn8.setBackgroundResource(R.drawable.pink_spark);
+        //    btn8.setBackgroundResource(R.drawable.pink_spark);
         btn9 = (Button) this.findViewById(R.id.btn9);
-        btn9.setBackgroundResource(R.drawable.pink_spark);
+        //     btn9.setBackgroundResource(R.drawable.pink_spark);
         btn10 = (Button) this.findViewById(R.id.btn10);
-        btn10.setBackgroundResource(R.drawable.green_spark);
+        //     btn10.setBackgroundResource(R.drawable.green_spark);
         btn11 = (Button) this.findViewById(R.id.btn11);
-        btn11.setBackgroundResource(R.drawable.yellow_spark);
+        //      btn11.setBackgroundResource(R.drawable.yellow_spark);
         btn12 = (Button) this.findViewById(R.id.btn12);
-        btn12.setBackgroundResource(R.drawable.orange_spark);
+        //     btn12.setBackgroundResource(R.drawable.orange_spark);
         btn13 = (Button) this.findViewById(R.id.btn13);
-        btn13.setBackgroundResource(R.drawable.orange_spark);
+        //     btn13.setBackgroundResource(R.drawable.orange_spark);
         btn14 = (Button) this.findViewById(R.id.btn14);
-        btn14.setBackgroundResource(R.drawable.pink_spark);
+        //      btn14.setBackgroundResource(R.drawable.pink_spark);
         btn15 = (Button) this.findViewById(R.id.btn15);
-        btn15.setBackgroundResource(R.drawable.green_spark);
+        //       btn15.setBackgroundResource(R.drawable.green_spark);
         btn16 = (Button) this.findViewById(R.id.btn16);
-        btn16.setBackgroundResource(R.drawable.yellow_spark);
+        //      btn16.setBackgroundResource(R.drawable.yellow_spark);
+
 
         current = 100;
         initialiseGrid(1);
@@ -191,7 +190,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
         listener = currentGameDb.addValueEventListener(new ValueEventListener() {
@@ -202,7 +201,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
                 state = game.getState();
 
-                if(state.equals("ENDGAME")){
+                if (state.equals("ENDGAME")) {
                     currentGameDb.removeEventListener(listener);
                     Toast.makeText(MainDown.this, "Multiplayer game exited", Toast.LENGTH_SHORT).show();
                     backToMainMenu();
@@ -211,24 +210,23 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
                 UP = game.getUpDigit();
 
-                if(state.equals("PLAY1")) {
+                if (state.equals("PLAY1")) {
                     opponent_current = game.getCreator_current();
                     my_current = game.getJoiner_current();
 
                     int creatorScore = opponent_current - 1;
                     int joinerScore = 100 - my_current;
 
-                    if(my_current < opponent_current){
+                    if (my_current < opponent_current) {
                         currentGameDb.child("creator_score").setValue(creatorScore);
                         currentGameDb.child("joiner_score").setValue(joinerScore);
                         currentGameDb.child("state").setValue("END_ROUND1");
                     }
-                }
-                else{
+                } else {
                     opponent_current = game.getJoiner_current();
                     my_current = game.getCreator_current();
 
-                    if(my_current < opponent_current){
+                    if (my_current < opponent_current) {
                         currentGameDb.child("state").setValue("END_ROUND2");
                     }
                 }
@@ -246,6 +244,27 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
             }
         });
 
+        upBtn.setBackgroundResource(R.drawable.up_bear);
+        btn1.setBackgroundResource(R.drawable.yellow_spark);
+        btn2.setBackgroundResource(R.drawable.orange_spark);
+        btn3.setBackgroundResource(R.drawable.pink_spark);
+        btn4.setBackgroundResource(R.drawable.green_spark);
+        btn5.setBackgroundResource(R.drawable.green_spark);
+        btn6.setBackgroundResource(R.drawable.yellow_spark);
+        btn7.setBackgroundResource(R.drawable.orange_spark);
+        btn8.setBackgroundResource(R.drawable.pink_spark);
+        btn9.setBackgroundResource(R.drawable.pink_spark);
+        btn10.setBackgroundResource(R.drawable.green_spark);
+        btn11.setBackgroundResource(R.drawable.yellow_spark);
+        btn12.setBackgroundResource(R.drawable.orange_spark);
+        btn13.setBackgroundResource(R.drawable.orange_spark);
+        btn14.setBackgroundResource(R.drawable.pink_spark);
+        btn15.setBackgroundResource(R.drawable.green_spark);
+        btn16.setBackgroundResource(R.drawable.yellow_spark);
+
+        bg.setBackgroundResource(R.drawable.background);
+
+
         /*
         Display display = getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
@@ -262,6 +281,31 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         Log.d("Background Height", height + "");
 */
 
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        upBtn.setBackgroundResource(0);
+        btn1.setBackgroundResource(0);
+        btn2.setBackgroundResource(0);
+        btn3.setBackgroundResource(0);
+        btn4.setBackgroundResource(0);
+        btn5.setBackgroundResource(0);
+        btn6.setBackgroundResource(0);
+        btn7.setBackgroundResource(0);
+        btn8.setBackgroundResource(0);
+        btn9.setBackgroundResource(0);
+        btn10.setBackgroundResource(0);
+        btn11.setBackgroundResource(0);
+        btn12.setBackgroundResource(0);
+        btn13.setBackgroundResource(0);
+        btn14.setBackgroundResource(0);
+        btn15.setBackgroundResource(0);
+        btn16.setBackgroundResource(0);
+
+        bg.setBackgroundResource(0);
     }
 
     @Override
@@ -297,7 +341,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         alertDialog.show();
     }
 
-    private void backToMainMenu(){
+    private void backToMainMenu() {
         Intent i = new Intent(this, MainMenu.class);
         this.startActivity(i);
     }
@@ -395,7 +439,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         pressedNum = savedInstanceState.getInt("pressedNum");
         //Log.d("checkstate","pressedNum restored as "+pressedNum);
         //Log.d("checkstate","score restored as "+score);
-     //   life = savedInstanceState.getInt("life");
+        //   life = savedInstanceState.getInt("life");
         //Log.d("checkstate","life restored as "+life);
         current = savedInstanceState.getInt("current");
         //Log.d("checkstate","current restored as "+current);
@@ -408,7 +452,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
     private void hintTimer() {
 
-        if(current != 99){
+        if (current != 99) {
             hint_handler.removeCallbacks(hint_counter);
         }
 
@@ -421,7 +465,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
         boolean isUp = checkUp();
 
-        if(isUp){
+        if (isUp) {
             upBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.hint_shake));
             return;
         }
@@ -498,7 +542,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
         isUp = checkUp();
         if (isUp) {   //UP num
             if (pressedID == R.id.up_button) {  //Correct
-
+/*
                 // Pass our animation drawable to our custom drawable class
                 CustomAnimationDrawableNew cad = new CustomAnimationDrawableNew(
                         (AnimationDrawable) getResources().getDrawable(
@@ -509,7 +553,7 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
                 // Start the animation
                 cad.start(cad);
-          /*
+*/
                 //Background animation
                 bg.setBackgroundResource(R.drawable.up_animation);
                 AnimationDrawable anim = (AnimationDrawable)bg.getBackground();
@@ -518,16 +562,24 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                     anim.stop();
                 }
                 anim.start();
-                anim.setCallback(null);
-*/
+
+                //Up bear animation
+                upBtn.setBackgroundResource(R.drawable.up_bear);
+                AnimationDrawable anim2 = (AnimationDrawable)upBtn.getBackground();
+
+                if (anim2.isRunning()) {
+                    anim2.stop();
+                }
+                anim2.start();
+
                 //Sound effect
-                if(playMusic) {
-              //      up_sound.start();
+                if (playMusic) {
+                    //      up_sound.start();
                     playSound(upId);
                 }
 
 
-                if(vibrationOn) {
+                if (vibrationOn) {
                     // Get instance of Vibrator from current Context
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     // Vibrate for 500 milliseconds
@@ -536,10 +588,9 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
                 findCurrent();
                 current--;
-                if(state.equals("PLAY1")) {
+                if (state.equals("PLAY1")) {
                     currentGameDb.child("joiner_current").setValue(current);
-                }
-                else{
+                } else {
                     currentGameDb.child("creator_current").setValue(current);
                 }
 
@@ -576,12 +627,12 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                 anim.setCallback(null);
 */
                 //Sound effect
-                if(playMusic){
-        //             explode_sound.start();
+                if (playMusic) {
+                    //             explode_sound.start();
                     playSound(explodeId);
                 }
 
-                if(vibrationOn) {
+                if (vibrationOn) {
                     // Get instance of Vibrator from current Context
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     // Vibrate for 500 milliseconds
@@ -603,22 +654,22 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
             if (pressedNum == current) {      //Correct
 
                 //Spark animation
-                AnimationDrawable anim = (AnimationDrawable)pressedButton.getBackground();
+                AnimationDrawable anim = (AnimationDrawable) pressedButton.getBackground();
 
                 if (anim.isRunning()) {
                     anim.stop();
                     anim.setCallback(null);
                 }
                 anim.start();
-     //           anim.setCallback(null);
+                //           anim.setCallback(null);
 
                 //Sound effect
-                if(playMusic) {
-        //            tap_sound.start();
+                if (playMusic) {
+                    //            tap_sound.start();
                     playSound(tapId);
                 }
 
-                if(vibrationOn) {
+                if (vibrationOn) {
                     // Get instance of Vibrator from current Context
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     // Vibrate for 500 milliseconds
@@ -627,10 +678,9 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
 
                 changeNo(pressedButton);
                 current--;
-                if(state.equals("PLAY1")) {
+                if (state.equals("PLAY1")) {
                     currentGameDb.child("joiner_current").setValue(current);
-                }
-                else{
+                } else {
                     currentGameDb.child("creator_current").setValue(current);
                 }
 
@@ -661,19 +711,19 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
                 anim.setCallback(null);
 */
                 //Sound effect
-                if(playMusic) {
-          //          explode_sound.start();
+                if (playMusic) {
+                    //          explode_sound.start();
                     playSound(explodeId);
                 }
 
-                if(vibrationOn) {
+                if (vibrationOn) {
                     // Get instance of Vibrator from current Context
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     // Vibrate for 500 milliseconds
                     v.vibrate(1000);
                 }
 
-               //Shake screen
+                //Shake screen
                 pressedButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_strong));
             }
         }
@@ -815,72 +865,70 @@ public class MainDown extends Activity implements OnClickListener, View.OnTouchL
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent)
-    {
-        switch (view.getId())
-        {
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (view.getId()) {
             case R.id.btn1:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn1.setBackgroundResource(R.drawable.yellow_btn_pressed);
-                    break;
+                break;
             case R.id.btn2:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn2.setBackgroundResource(R.drawable.orange_btn_pressed);
                 break;
             case R.id.btn3:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn3.setBackgroundResource(R.drawable.pink_btn_pressed);
                 break;
             case R.id.btn4:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn4.setBackgroundResource(R.drawable.green_btn_pressed);
                 break;
             case R.id.btn5:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn5.setBackgroundResource(R.drawable.green_btn_pressed);
                 break;
             case R.id.btn6:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn6.setBackgroundResource(R.drawable.yellow_btn_pressed);
                 break;
             case R.id.btn7:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn7.setBackgroundResource(R.drawable.orange_btn_pressed);
                 break;
             case R.id.btn8:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn8.setBackgroundResource(R.drawable.pink_btn_pressed);
                 break;
             case R.id.btn9:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn9.setBackgroundResource(R.drawable.pink_btn_pressed);
                 break;
             case R.id.btn10:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn10.setBackgroundResource(R.drawable.green_btn_pressed);
                 break;
             case R.id.btn11:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn11.setBackgroundResource(R.drawable.yellow_btn_pressed);
                 break;
             case R.id.btn12:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn12.setBackgroundResource(R.drawable.orange_btn_pressed);
                 break;
             case R.id.btn13:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn13.setBackgroundResource(R.drawable.orange_btn_pressed);
                 break;
             case R.id.btn14:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn14.setBackgroundResource(R.drawable.pink_btn_pressed);
                 break;
             case R.id.btn15:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn15.setBackgroundResource(R.drawable.green_btn_pressed);
                 break;
             case R.id.btn16:
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     btn16.setBackgroundResource(R.drawable.yellow_btn_pressed);
                 break;
         }

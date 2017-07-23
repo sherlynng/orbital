@@ -24,6 +24,10 @@
             android:name=".About"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"></activity>
 
+        <activity
+            android:name=".LevelInfo"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"></activity>
+
 
         <activity
             android:name=".ChooseMultiplayerGame"
@@ -72,6 +76,36 @@
 
         <activity
             android:name=".ChooseLevel"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipChooseLevel"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipLameGame"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipEasyGame"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipMediumGame"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipHardGame"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipExtremeGame"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
@@ -157,6 +191,12 @@
 
         <activity
             android:name=".Onetwothree"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".ChangeUpDigit"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>

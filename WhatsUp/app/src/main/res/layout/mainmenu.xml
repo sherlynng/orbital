@@ -95,11 +95,19 @@
             android:background="@drawable/user_default" />
 
         <Button
+            android:id="@+id/leadership_button"
+            android:layout_width="53dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/leadership_board_default" />
+
+        <Button
             android:id="@+id/settings_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="8dp"
             android:background="@drawable/settings_default" />
 
         <Button
@@ -107,7 +115,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="8dp"
             android:background="@drawable/howtoplay_default" />
 
         <Button
@@ -115,16 +123,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="8dp"
             android:background="@drawable/about_default" />
-
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="left"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/cancel_default" />
 
     </LinearLayout>
 
