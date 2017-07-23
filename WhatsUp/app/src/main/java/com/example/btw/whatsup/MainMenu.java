@@ -238,9 +238,16 @@ public class MainMenu extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.leadership_button:
+                gameID = getGameID();
                 if(isOnline()) {
-                    Intent leadership = new Intent(this, LeadershipChooseLevel.class);
-                    this.startActivity(leadership);
+                    if(gameID.equals("")){
+                        openGameIdDialog();
+                        openSetGameIdDialog();
+                    }
+                    else {
+                        Intent leadership = new Intent(this, LeadershipChooseLevel.class);
+                        this.startActivity(leadership);
+                    }
                 }
                 else{
                     openConnectInternetDialog();
