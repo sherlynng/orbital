@@ -23,7 +23,7 @@ import static com.firebase.ui.auth.ui.AcquireEmailHelper.RC_SIGN_IN;
  * Created by BTW on 6/11/2017.
  */
 
-public class ChooseMultiplayerGame extends Activity implements OnClickListener {
+public class ChooseMultiplayerGame extends Activity implements OnClickListener, View.OnLongClickListener {
     protected boolean continueMusic = true;
     FirebaseAuth auth;
     protected SharedPreferences settings;
@@ -42,12 +42,15 @@ public class ChooseMultiplayerGame extends Activity implements OnClickListener {
         View hurryUpBtn = this.findViewById(R.id.hurryUp_button);
         hurryUpBtn.setBackgroundResource(R.drawable.hurryup_btn_state);
         hurryUpBtn.setOnClickListener(this);
+        hurryUpBtn.setOnLongClickListener(this);
         View upAndDownBtn = this.findViewById(R.id.UpAndDown_button);
         upAndDownBtn.setBackgroundResource(R.drawable.updown_btn_state);
         upAndDownBtn.setOnClickListener(this);
+        upAndDownBtn.setOnLongClickListener(this);
         View teamUpBtn = this.findViewById(R.id.TeamUp_button);
         teamUpBtn.setBackgroundResource(R.drawable.teamup_btn_state);
         teamUpBtn.setOnClickListener(this);
+        teamUpBtn.setOnLongClickListener(this);
     }
 
     @Override
@@ -107,6 +110,28 @@ public class ChooseMultiplayerGame extends Activity implements OnClickListener {
                 this.startActivity(game3);
                 break;
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            case R.id.hurryUp_button:
+                Intent hurryUp = new Intent(this, LevelInfo.class);
+                hurryUp.putExtra(LevelInfo.DIFFICULTY, 6);
+                this.startActivity(hurryUp);
+                break;
+            case R.id.UpAndDown_button:
+                Intent upDown = new Intent(this, LevelInfo.class);
+                upDown.putExtra(LevelInfo.DIFFICULTY, 7);
+                this.startActivity(upDown);
+                break;
+            case R.id.TeamUp_button:
+                Intent teamUp = new Intent(this, LevelInfo.class);
+                teamUp.putExtra(LevelInfo.DIFFICULTY, 8);
+                this.startActivity(teamUp);
+                break;
+        }
+        return true;
     }
 
     public void openAuthDialog() {

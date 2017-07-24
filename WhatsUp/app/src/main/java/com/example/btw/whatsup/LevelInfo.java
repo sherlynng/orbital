@@ -41,6 +41,15 @@ public class LevelInfo extends Activity{
             case 5: //Extreme
                 info.setText("You have 3 lives. Grid freezes and increases in size. New UP digits will be added during game play.");
                 break;
+            case 6: //Hurry Up
+                info.setText("There is no time limit. Two players will play the same game at the same time. Challenge to see who reaches 100 first.");
+                break;
+            case 7: //Up Down
+                info.setText("There is no time limit. For the first round, player A starts from increasing numbers (1,2,3…) while player B starts from decreasing numbers (100,99, 98…). Depends on where they meet, the players will get corresponding scores. They then switch position (player A starts from decreasing numbers and player B starts from increasing numbers). Combine scores from two rounds of game and determine winner.");
+                break;
+            case 8: //Team Up
+                info.setText("There is a time timit of 2 minutes. The screen will display UP button on each end of the screen. Each player is in charge of half the grid and one UP button. Which UP button is to be pressed depends on the location of the UP number, for example, if the UP number appears on lower half of the screen, then the player in charge of the lower UP button must press it.");
+                break;
         }
     }
 
