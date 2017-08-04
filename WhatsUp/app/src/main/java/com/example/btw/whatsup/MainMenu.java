@@ -27,6 +27,14 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 /**
  * Created by BTW on 5/21/2017.
  */
@@ -57,6 +65,16 @@ public class MainMenu extends Activity implements OnClickListener {
     protected boolean continueMusic = true;
     private boolean isMoreButton;
     private String gameID;
+    private String check_sync_status;
+    private boolean IDExist;
+    private ArrayList<String> gameID_arr = new ArrayList<String>();
+    private ArrayList<User> leadership_arr1 = new ArrayList<User>();
+    private ArrayList<User> leadership_arr2 = new ArrayList<User>();
+    private ArrayList<User> leadership_arr3 = new ArrayList<User>();
+    private ArrayList<User> leadership_arr4 = new ArrayList<User>();
+    private ArrayList<User> leadership_arr5 = new ArrayList<User>();
+
+    DatabaseReference databaseGames, databaseGameIDList;
 
 //    boolean hasOldGameToContinue;
     //   int oldGameType;
@@ -79,15 +97,18 @@ public class MainMenu extends Activity implements OnClickListener {
         setContentView(R.layout.mainmenu);
 
         auth = FirebaseAuth.getInstance();
-
+        databaseGames = FirebaseDatabase.getInstance().getReference("leadership_board");
+        databaseGameIDList = FirebaseDatabase.getInstance().getReference("gameID_list");
         //prompt the user to login if first time running the app or not already logged in
+
+        check_sync_status = "not_syncing";
 
         final String PREFS_NAME = "MyPrefsFile";
         settings = getSharedPreferences(PREFS_NAME, 0);
 
         if (settings.getBoolean("my_first_time", true)) {
-            Intent i = new Intent(this, loginlogout.class);
-            this.startActivity(i);
+         //   Intent i = new Intent(this, loginlogout.class);
+         //   this.startActivity(i);
             openGameIdDialog();
         }
 
@@ -127,7 +148,7 @@ public class MainMenu extends Activity implements OnClickListener {
 
         //Continue button not visible if user not logged in or there's no old game
         continueButton = this.findViewById(R.id.continue_button);
-        if (auth.getCurrentUser() == null ||
+        if (//auth.getCurrentUser() == null ||
                 (!hasOldGameToContinueLame &&
                         !hasOldGameToContinueEasy &&
                         !hasOldGameToContinueMedium &&
@@ -176,9 +197,6 @@ public class MainMenu extends Activity implements OnClickListener {
             leadershipButton.setVisibility(View.VISIBLE);
         }
         moreButton.setOnClickListener(this);
-
-
-
 
         ImageView logo = (ImageView) findViewById(R.id.whatsup_logo);
         logo.setImageResource(R.mipmap.whatsup_logo);
@@ -329,7 +347,7 @@ public class MainMenu extends Activity implements OnClickListener {
                     openSetGameIdDialog();
                 }
                 else{
-                    if(auth.getCurrentUser() != null){
+                  //  if(auth.getCurrentUser() != null){
                         Intent new_Game = new Intent(this, ChoosePlayerMode.class);
                         editorLame.putBoolean("continuefromlastLame", false).commit();
                         editorEasy.putBoolean("continuefromlastEasy", false).commit();
@@ -338,10 +356,10 @@ public class MainMenu extends Activity implements OnClickListener {
                         editorExtreme.putBoolean("continuefromlastExtreme", false).commit();
                         editorTeamUp.putBoolean("continuefromlastTeamUp", false).commit();
                         this.startActivity(new_Game);
-                    }
-                    else{
-                        openAuthDialog();
-                    }
+               //     }
+               //     else{
+              //          openAuthDialog();
+              //      }
                 }
                 break;
         }
@@ -354,6 +372,51 @@ public class MainMenu extends Activity implements OnClickListener {
     private void openSetGameIdDialog(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Please set your Game ID.");
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void openSetGameIdDialogAgain(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Please set your Game ID.");
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        openGameIdDialog();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void openIDExistDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Sorry, Game ID is already taken. Please set a new Game ID.");
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        openGameIdDialog();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void openTryAgainLaterDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Sorry, other players are synchronising data. Please try again later.");
         alertDialogBuilder.setPositiveButton("Ok",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -388,12 +451,97 @@ public class MainMenu extends Activity implements OnClickListener {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
+                if(!isOnline()){
+                    openConnectInternetDialog();
+                }
+                else if(gameID_text.getText().toString().equals("")){ //never enter game ID
+                    openSetGameIdDialogAgain();
+                }
+                else {
+                    final String new_game_id = gameID_text.getText().toString();
+                    final String old_game_id;
+                    old_game_id = settings.getString("game_id", "");
 
-                String game_id = gameID_text.getText().toString();
-                settings.edit().putString("game_id", game_id).commit();
-                if (settings.getBoolean("my_first_time", true)){
-                    settings.edit().putBoolean("my_first_time", false).commit();
-                    startDemo();
+                    if(old_game_id != null && new_game_id.equals(old_game_id)){ //no change in game id
+                        return;
+                    }
+                    else{
+                    //    boolean ID_exists;
+                    //    ID_exists = checkIDExists(new_game_id);
+                        IDExist = false;
+                        databaseGameIDList.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    String ID = postSnapshot.getValue(String.class);
+                                    if(ID.equals(new_game_id)){
+                                        IDExist = true;
+                                    }
+                                }
+
+                                if(IDExist){
+                                    openIDExistDialog();
+                                }
+                                else{
+                                    databaseGames.child("sync_status").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            check_sync_status = dataSnapshot.getValue(String.class);
+
+                                            if(check_sync_status != null) {
+                                                if (check_sync_status.equals("syncing")) { //Other players syncing data
+                                                    openTryAgainLaterDialog();
+                                                } else { //change game id
+                                                    if (settings.getBoolean("my_first_time", true)){
+                                                        settings.edit().putBoolean("my_first_time", false).commit();
+                                                        addGameIDList(new_game_id);
+                                                    }
+                                                    else {
+                                                        Log.d("changing data", "hi");
+                                                        databaseGames.child("sync_status").setValue("syncing");
+                                                        updateLeadershipBoard(old_game_id, new_game_id);
+                                                        updateGameIDList(old_game_id, new_game_id);
+                                     //                   databaseGames.child("sync_status").setValue("not_syncing");
+                                                    }
+                                                    settings.edit().putString("game_id", new_game_id).commit();
+                                                }
+                                            }
+                                            else{
+                                                if (settings.getBoolean("my_first_time", true)){
+                                                    settings.edit().putBoolean("my_first_time", false).commit();
+                                                    addGameIDList(new_game_id);
+                                                }
+                                                else {
+                                                    databaseGames.child("sync_status").setValue("syncing");
+                                                    updateLeadershipBoard(old_game_id, new_game_id);
+                                                    updateGameIDList(old_game_id, new_game_id);
+                                        //            databaseGames.child("sync_status").setValue("not_syncing");
+                                                }
+                                                settings.edit().putString("game_id", new_game_id).commit();
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+                    if (settings.getBoolean("my_first_time", true)) {
+
+                        startDemo();
+                    }
                 }
             }
         });
@@ -401,6 +549,11 @@ public class MainMenu extends Activity implements OnClickListener {
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if(gameID_text.getText().toString().equals("")){
+                    openSetGameIdDialogAgain();
+                    return;
+                }
+
                 if (settings.getBoolean("my_first_time", true)){
                     settings.edit().putBoolean("my_first_time", false).commit();
                     startDemo();
@@ -410,6 +563,301 @@ public class MainMenu extends Activity implements OnClickListener {
 
         alertDialog.setView(view);
         alertDialog.show();
+    }
+
+    private boolean checkIDExists(final String new_game_id){
+        IDExist = false;
+        databaseGameIDList.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String ID = postSnapshot.getValue(String.class);
+                    if(ID.equals(new_game_id)){
+                        IDExist = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return IDExist;
+    }
+
+    private void addGameIDList(final String new_game_id){
+        Log.d("addGameID1", "hello");
+        gameID_arr.clear();
+
+        databaseGameIDList.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String ID = postSnapshot.getValue(String.class);
+                    gameID_arr.add(ID);
+                }
+                gameID_arr.add(new_game_id);
+                databaseGameIDList.setValue(gameID_arr);
+                Log.d("addGameID2", "hello");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void updateGameIDList(final String old_game_id, final String new_game_id){
+        Log.d("updateGameID1", "hello");
+        gameID_arr.clear();
+
+        databaseGameIDList.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String ID = postSnapshot.getValue(String.class);
+                    if(ID.equals(old_game_id)){
+                        gameID_arr.add(new_game_id);
+                    }
+                    else {
+                        gameID_arr.add(ID);
+                    }
+                }
+                databaseGameIDList.setValue(gameID_arr);
+                Log.d("updateGameID2", "hello");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private String checkSyncStatus(){
+        Log.d("check_sync_status", "hi");
+        databaseGames.child("sync_status").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                check_sync_status = dataSnapshot.getValue(String.class);
+                Log.d("check_sync_status1", check_sync_status);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        Log.d("check_sync_status2", check_sync_status);
+        return check_sync_status;
+    }
+
+    private void updateLeadershipBoard(final String old_game_id, final String new_game_id){
+        Log.d("updateMain(start)", "hi");
+   //     databaseGames.child("sync_status").setValue("syncing");
+
+        databaseGames.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                leadership_arr1.clear();
+
+                databaseGames.child("lame").child("sync_status").setValue("syncing");
+                databaseGames.child("lame").child("old_key").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String old_key = dataSnapshot.getValue(String.class);
+
+                        databaseGames.child("lame").child(old_key).child("list").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d("updateLame", "hi");
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    User user = postSnapshot.getValue(User.class);
+                                    if(user.getName().equals(old_game_id)){
+                                        user.setName(new_game_id);
+                                        leadership_arr1.add(user);
+                                    }
+                                    else{
+                                        leadership_arr1.add(user);
+                                    }
+                                }
+                                databaseGames.child("lame").child(old_key).child("list").setValue(leadership_arr1);
+                                databaseGames.child("lame").child("sync_status").setValue("not_syncing");
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                leadership_arr2.clear();
+
+                databaseGames.child("easy").child("sync_status").setValue("syncing");
+                databaseGames.child("easy").child("old_key").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String old_key = dataSnapshot.getValue(String.class);
+
+                        databaseGames.child("easy").child(old_key).child("list").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d("updateEasy", "hi");
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    User user = postSnapshot.getValue(User.class);
+                                    if(user.getName().equals(old_game_id)){
+                                        user.setName(new_game_id);
+                                        leadership_arr2.add(user);
+                                    }
+                                    else{
+                                        leadership_arr2.add(user);
+                                    }
+                                }
+                                databaseGames.child("easy").child(old_key).child("list").setValue(leadership_arr2);
+                                databaseGames.child("easy").child("sync_status").setValue("not_syncing");
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+                leadership_arr3.clear();
+
+                databaseGames.child("medium").child("sync_status").setValue("syncing");
+                databaseGames.child("medium").child("old_key").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String old_key = dataSnapshot.getValue(String.class);
+
+                        databaseGames.child("medium").child(old_key).child("list").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d("updateMedium", "hi");
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    User user = postSnapshot.getValue(User.class);
+                                    if(user.getName().equals(old_game_id)){
+                                        user.setName(new_game_id);
+                                        leadership_arr3.add(user);
+                                    }
+                                    else{
+                                        leadership_arr3.add(user);
+                                    }
+                                }
+                                databaseGames.child("medium").child(old_key).child("list").setValue(leadership_arr3);
+                                databaseGames.child("medium").child("sync_status").setValue("not_syncing");
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                leadership_arr4.clear();
+
+                databaseGames.child("hard").child("sync_status").setValue("syncing");
+                databaseGames.child("hard").child("old_key").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String old_key = dataSnapshot.getValue(String.class);
+
+                        databaseGames.child("hard").child(old_key).child("list").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d("updateHard", "hi");
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    User user = postSnapshot.getValue(User.class);
+                                    if(user.getName().equals(old_game_id)){
+                                        user.setName(new_game_id);
+                                        leadership_arr4.add(user);
+                                    }
+                                    else{
+                                        leadership_arr4.add(user);
+                                    }
+                                }
+                                databaseGames.child("hard").child(old_key).child("list").setValue(leadership_arr4);
+                                databaseGames.child("hard").child("sync_status").setValue("not_syncing");
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                leadership_arr5.clear();
+
+                databaseGames.child("extreme").child("sync_status").setValue("syncing");
+                databaseGames.child("extreme").child("old_key").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String old_key = dataSnapshot.getValue(String.class);
+
+                        databaseGames.child("extreme").child(old_key).child("list").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d("updateExtreme", "hi");
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    User user = postSnapshot.getValue(User.class);
+                                    if(user.getName().equals(old_game_id)){
+                                        user.setName(new_game_id);
+                                        leadership_arr5.add(user);
+                                    }
+                                    else{
+                                        leadership_arr5.add(user);
+                                    }
+                                }
+                                databaseGames.child("extreme").child(old_key).child("list").setValue(leadership_arr5);
+                                databaseGames.child("extreme").child("sync_status").setValue("not_syncing");
+
+                                databaseGames.child("sync_status").setValue("not_syncing");
+                                Log.d("updateMain(end)", "hi");
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void openConnectInternetDialog() {

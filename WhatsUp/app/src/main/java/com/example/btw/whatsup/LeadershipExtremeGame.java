@@ -175,8 +175,10 @@ public class LeadershipExtremeGame extends Activity implements View.OnClickListe
                 sync_status = dataSnapshot.getValue(String.class);
                 if(sync_status != null) {
                     if (sync_status.equals("not_syncing")) { //other players not syncing
-
                         if (setData) { //data is set on user's phone
+                            final DatabaseReference leaderboard = FirebaseDatabase.getInstance().getReference("leadership_board");
+                            leaderboard.child("sync_status").setValue("syncing");
+
                             databaseGames.child("sync_status").setValue("syncing");
                             setData = false;
                             databaseGames.child("old_key").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -206,6 +208,7 @@ public class LeadershipExtremeGame extends Activity implements View.OnClickListe
                                                 addNewData();
                                                 setData = true;
                                                 databaseGames.child("sync_status").setValue("not_syncing");
+                                                leaderboard.child("sync_status").setValue("not_syncing");
                                             }
 
                                             @Override
@@ -217,6 +220,7 @@ public class LeadershipExtremeGame extends Activity implements View.OnClickListe
                                         addNewData();
                                         setData = true;
                                         databaseGames.child("sync_status").setValue("not_syncing");
+                                        leaderboard.child("sync_status").setValue("not_syncing");
                                     }
                                 }
 
@@ -230,6 +234,9 @@ public class LeadershipExtremeGame extends Activity implements View.OnClickListe
                 }
                 else{
                     if (setData) { //data is set on user's phone
+                        final DatabaseReference leaderboard = FirebaseDatabase.getInstance().getReference("leadership_board");
+                        leaderboard.child("sync_status").setValue("syncing");
+
                         databaseGames.child("sync_status").setValue("syncing");
                         setData = false;
                         databaseGames.child("old_key").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -259,6 +266,7 @@ public class LeadershipExtremeGame extends Activity implements View.OnClickListe
                                             addNewData();
                                             setData = true;
                                             databaseGames.child("sync_status").setValue("not_syncing");
+                                            leaderboard.child("sync_status").setValue("not_syncing");
                                         }
 
                                         @Override
@@ -270,6 +278,7 @@ public class LeadershipExtremeGame extends Activity implements View.OnClickListe
                                     addNewData();
                                     setData = true;
                                     databaseGames.child("sync_status").setValue("not_syncing");
+                                    leaderboard.child("sync_status").setValue("not_syncing");
                                 }
                             }
 

@@ -33,6 +33,7 @@
         android:summary="%s"
         android:title="Choose UP Digit" />
 
+    <!--
     <PreferenceCategory android:title="Account">
 
     </PreferenceCategory>
@@ -42,7 +43,7 @@
         android:key="loginlogout"
        />
 
- <!--   <Preference
+   <Preference
         android:key="loginButtons"
         android:layout="@layout/loginlogoutbutton"></Preference>
         -->

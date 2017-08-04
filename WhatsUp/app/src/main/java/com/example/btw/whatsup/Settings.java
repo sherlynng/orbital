@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class Settings extends PreferenceActivity implements View.OnClickListener {
+public class Settings extends PreferenceActivity {
 
     FirebaseAuth auth;
     //option names and default values
@@ -51,7 +51,7 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
         Log.d("AUTH", "enter setting");
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
-        auth = FirebaseAuth.getInstance();
+    /*    auth = FirebaseAuth.getInstance();
 
         button = findPreference("loginlogout");
         if (auth.getCurrentUser() == null) {
@@ -76,7 +76,7 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
                 }
                 return true;
             }
-        });
+        }); */
 
     }
 
@@ -130,11 +130,11 @@ public class Settings extends PreferenceActivity implements View.OnClickListener
         continueMusic = false;
         MusicManager.start(this, MusicManager.MUSIC_MENU);
     }
-
+/*
     @Override
     public void onClick(View v) {
         Log.d("switch", "directed to login/out");
         Intent i = new Intent(this, loginlogout.class);
         this.startActivity(i);
-    }
+    } */
 }

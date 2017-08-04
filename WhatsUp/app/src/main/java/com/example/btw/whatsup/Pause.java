@@ -75,7 +75,7 @@ public class Pause extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pause);
 
-        auth = FirebaseAuth.getInstance();
+   //     auth = FirebaseAuth.getInstance();
 
         UP = getIntent().getIntExtra(UPDIGIT, UPD_DEFAULT);
         secondUP = getIntent().getIntExtra(UPDIGIT2, UPD2_DEFAULT);
@@ -136,12 +136,12 @@ public class Pause extends Activity implements View.OnClickListener {
                 this.finish();
                 break;
             case R.id.endgame_btn:
-                if (auth.getCurrentUser() == null){
-                    backToHomePage();
-                }
-                else {
+             //   if (auth.getCurrentUser() == null){
+             //       backToHomePage();
+             //   }
+             //   else {
                     openDialog();
-                }
+             //   }
                 break;
         }
     }
