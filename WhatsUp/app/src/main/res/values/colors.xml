@@ -12,4 +12,8 @@
     <color name="grey">#d1d1d1</color>
     <color name="hotpink">#ff10db</color>
     <color name="blueGreen">#f095f0d8</color>
+    <color name="colourless">#00ffffff</color>
+    <color name="gold">#d0ffd700</color>
+    <color name="silver">#d0c0c0c0</color>
+    <color name="bronze">#d0cd7f32</color>
 </resources>

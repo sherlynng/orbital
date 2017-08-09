@@ -49,8 +49,12 @@ public class GameOver extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
+
         super.onCreate(savedInstanceState);
         reason = getIntent().getIntExtra(REASON, REASON_DEFAULT);
+        callee = getIntent().getIntExtra(CALLEE,CALLEE_DEFAULT);
+
         setContentView(R.layout.gameover);
 
         gameDataLame = getSharedPreferences("gameDataLame", Context.MODE_PRIVATE);
@@ -75,31 +79,54 @@ public class GameOver extends Activity implements View.OnClickListener {
         hasOldGameToContinueExtreme = gameDataExtreme.getBoolean("hasoldgametocontinueExtreme", false);
         hasOldGameToContinueTeamUp = gameDataTeamUp.getBoolean("hasoldgametocontinueTeamUp", false);
 
-        callee=getIntent().getIntExtra(CALLEE,CALLEE_DEFAULT);
-
 
         TextView message = (TextView)findViewById(R.id.gameover_message);
         TextView yourScore = (TextView)findViewById(R.id.yourScore_text);
         TextView yourBestScore = (TextView)findViewById(R.id.yourBestScore_text);
+
         switch(callee){
             case 1:
                 yourScore.setText(gameDataLame.getInt("score", 0)+"");
                 yourBestScore.setText( gameDataLame.getInt("bestScore", 0)+"");
+                if(Integer.parseInt(yourBestScore.getText().toString())==Integer.valueOf(yourScore.getText().toString())) {
+                    shareScore();
+                }
+                break;
             case 2:
                 yourScore.setText(gameDataEasy.getInt("score", 0)+"");
                 yourBestScore.setText( gameDataEasy.getInt("bestScore", 0)+"");
+                if(Integer.parseInt(yourBestScore.getText().toString())==Integer.valueOf(yourScore.getText().toString())) {
+                    shareScore();
+                }
+                break;
             case 3:
                 yourScore.setText(gameDataMedium.getInt("score", 0)+"");
                 yourBestScore.setText( gameDataMedium.getInt("bestScore", 0)+"");
+                if(Integer.parseInt(yourBestScore.getText().toString())==Integer.valueOf(yourScore.getText().toString())) {
+                    shareScore();
+                }
+                break;
             case 4:
                 yourScore.setText(gameDataHard.getInt("score", 0)+"");
                 yourBestScore.setText( gameDataHard.getInt("bestScore", 0)+"");
+                if(Integer.parseInt(yourBestScore.getText().toString())==Integer.valueOf(yourScore.getText().toString())) {
+                    shareScore();
+                }
+                break;
             case 5:
                 yourScore.setText(gameDataExtreme.getInt("score", 0)+"");
                 yourBestScore.setText( gameDataExtreme.getInt("bestScore", 0)+"");
+                if(Integer.parseInt(yourBestScore.getText().toString())==Integer.valueOf(yourScore.getText().toString())) {
+                    shareScore();
+                }
+                break;
             case 6:
                 yourScore.setText(gameDataTeamUp.getInt("score", 0)+"");
                 yourBestScore.setText( gameDataTeamUp.getInt("bestScore", 0)+"");
+                if(Integer.parseInt(yourBestScore.getText().toString())==Integer.valueOf(yourScore.getText().toString())) {
+                    shareScore();
+                }
+
         }
 
         switch (reason) {
@@ -139,14 +166,22 @@ public class GameOver extends Activity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.restart_btn:
-                Intent i = new Intent(this, ChooseUpMode.class);
+                Intent i = new Intent(this, ChooseLevel.class);
                 this.startActivity(i);
                 break;
             case R.id.mainMenu_btn:
-                Intent j = new Intent(this, WhatsUp.class);
+                Intent j = new Intent(this, MainMenu.class);
                 this.startActivity(j);
-                break;
         }
+    }
+
+    protected void shareScore(){
+        TextView yourScore = (TextView)findViewById(R.id.yourScore_text);
+        Intent shareIntent=new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,"I just scored "+yourScore.getText()+" ! See if you can do better!");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Excellent!");
+        startActivity(Intent.createChooser(shareIntent, "Broke my own record! Share my score to"));
     }
 
     @Override

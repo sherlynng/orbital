@@ -7,6 +7,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -128,36 +131,37 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
 
         upBtn = (Button) this.findViewById(R.id.up_button);
         btn1 = (Button) this.findViewById(R.id.btn1);
+     //   btn1.setBackgroundResource(R.drawable.yellow_spark);
         btn2 = (Button) this.findViewById(R.id.btn2);
-        btn2.setBackgroundResource(R.drawable.orange_spark);
+    //    btn2.setBackgroundResource(R.drawable.orange_spark);
         btn3 = (Button) this.findViewById(R.id.btn3);
-        btn3.setBackgroundResource(R.drawable.pink_spark);
+    //    btn3.setBackgroundResource(R.drawable.pink_spark);
         btn4 = (Button) this.findViewById(R.id.btn4);
-        btn4.setBackgroundResource(R.drawable.green_spark);
+    //    btn4.setBackgroundResource(R.drawable.green_spark);
         btn5 = (Button) this.findViewById(R.id.btn5);
-        btn5.setBackgroundResource(R.drawable.green_spark);
+     //   btn5.setBackgroundResource(R.drawable.green_spark);
         btn6 = (Button) this.findViewById(R.id.btn6);
-        btn6.setBackgroundResource(R.drawable.yellow_spark);
+   //     btn6.setBackgroundResource(R.drawable.yellow_spark);
         btn7 = (Button) this.findViewById(R.id.btn7);
-        btn7.setBackgroundResource(R.drawable.orange_spark);
+   //     btn7.setBackgroundResource(R.drawable.orange_spark);
         btn8 = (Button) this.findViewById(R.id.btn8);
-        btn8.setBackgroundResource(R.drawable.pink_spark);
+    //    btn8.setBackgroundResource(R.drawable.pink_spark);
         btn9 = (Button) this.findViewById(R.id.btn9);
-        btn9.setBackgroundResource(R.drawable.pink_spark);
+   //     btn9.setBackgroundResource(R.drawable.pink_spark);
         btn10 = (Button) this.findViewById(R.id.btn10);
-        btn10.setBackgroundResource(R.drawable.green_spark);
+   //     btn10.setBackgroundResource(R.drawable.green_spark);
         btn11 = (Button) this.findViewById(R.id.btn11);
-        btn11.setBackgroundResource(R.drawable.yellow_spark);
+  //      btn11.setBackgroundResource(R.drawable.yellow_spark);
         btn12 = (Button) this.findViewById(R.id.btn12);
-        btn12.setBackgroundResource(R.drawable.orange_spark);
+   //     btn12.setBackgroundResource(R.drawable.orange_spark);
         btn13 = (Button) this.findViewById(R.id.btn13);
-        btn13.setBackgroundResource(R.drawable.orange_spark);
+   //     btn13.setBackgroundResource(R.drawable.orange_spark);
         btn14 = (Button) this.findViewById(R.id.btn14);
-        btn14.setBackgroundResource(R.drawable.pink_spark);
+  //      btn14.setBackgroundResource(R.drawable.pink_spark);
         btn15 = (Button) this.findViewById(R.id.btn15);
-        btn15.setBackgroundResource(R.drawable.green_spark);
+ //       btn15.setBackgroundResource(R.drawable.green_spark);
         btn16 = (Button) this.findViewById(R.id.btn16);
-        btn16.setBackgroundResource(R.drawable.yellow_spark);
+  //      btn16.setBackgroundResource(R.drawable.yellow_spark);
 
 
         gameDataEasy = getSharedPreferences("gameDataEasy", Context.MODE_PRIVATE);
@@ -172,11 +176,15 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
             current = gameDataEasy.getInt("current", 1);
             timeLeft = gameDataEasy.getLong("timeLeft", 120000);
             fillArrContent = gameDataEasy.getString("FILLARR_CONTENT", "");
-            String[] strArray = fillArrContent.split(",");
-            fillArr.clear();
-            for (int i = 0; i < strArray.length; i++) {
-                fillArr.add(0, Integer.parseInt(strArray[i]));
+            if (!fillArrContent.equals("")) {
+                String[] strArray = fillArrContent.split(",");
+                fillArr.clear();
+
+                for (int i = 0; i < strArray.length; i++) {
+                    fillArr.add(0, Integer.parseInt(strArray[i]));
+                }
             }
+
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
             t.setText(gameDataEasy.getString("btn1", ""));
@@ -210,7 +218,7 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
             t.setText(gameDataEasy.getString("btn15", ""));
             t = (TextView) findViewById(R.id.btn16);
             t.setText(gameDataEasy.getString("btn16", ""));
-            populateArr(current + 16);
+     //       populateArr(current + 16);
         } else {
             Log.d("SAVE", "new game of 4by4");
             UP = getIntent().getIntExtra("UPDIGIT", 1);
@@ -257,7 +265,6 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
             }
         };
 
-
         final Handler handler = new Handler();
         final Runnable counter = new Runnable() {
             @Override
@@ -278,7 +285,105 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        upBtn.setBackgroundResource(R.drawable.up_bear);
+        btn1.setBackgroundResource(R.drawable.yellow_spark);
+        btn2.setBackgroundResource(R.drawable.orange_spark);
+        btn3.setBackgroundResource(R.drawable.pink_spark);
+        btn4.setBackgroundResource(R.drawable.green_spark);
+        btn5.setBackgroundResource(R.drawable.green_spark);
+        btn6.setBackgroundResource(R.drawable.yellow_spark);
+        btn7.setBackgroundResource(R.drawable.orange_spark);
+        btn8.setBackgroundResource(R.drawable.pink_spark);
+        btn9.setBackgroundResource(R.drawable.pink_spark);
+        btn10.setBackgroundResource(R.drawable.green_spark);
+        btn11.setBackgroundResource(R.drawable.yellow_spark);
+        btn12.setBackgroundResource(R.drawable.orange_spark);
+        btn13.setBackgroundResource(R.drawable.orange_spark);
+        btn14.setBackgroundResource(R.drawable.pink_spark);
+        btn15.setBackgroundResource(R.drawable.green_spark);
+        btn16.setBackgroundResource(R.drawable.yellow_spark);
+
+        life3 = (ImageView) findViewById(R.id.life3);
+        life3.setImageResource(R.drawable.life3);
+        life2 = (ImageView) findViewById(R.id.life2);
+        life2.setImageResource(R.drawable.life2);
+        life1 = (ImageView) findViewById(R.id.life1);
+        life1.setImageResource(R.drawable.life1);
+
+        if (life == 2) {
+            life3.setVisibility(View.INVISIBLE);
+        }
+        else if(life == 1) {
+            life3.setVisibility(View.INVISIBLE);
+            life2.setVisibility(View.INVISIBLE);
+        }
+
+        bg.setBackgroundResource(R.drawable.background);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        upBtn.setBackgroundResource(0);
+        btn1.setBackgroundResource(0);
+        btn2.setBackgroundResource(0);
+        btn3.setBackgroundResource(0);
+        btn4.setBackgroundResource(0);
+        btn5.setBackgroundResource(0);
+        btn6.setBackgroundResource(0);
+        btn7.setBackgroundResource(0);
+        btn8.setBackgroundResource(0);
+        btn9.setBackgroundResource(0);
+        btn10.setBackgroundResource(0);
+        btn11.setBackgroundResource(0);
+        btn12.setBackgroundResource(0);
+        btn13.setBackgroundResource(0);
+        btn14.setBackgroundResource(0);
+        btn15.setBackgroundResource(0);
+        btn16.setBackgroundResource(0);
+
+        life3.setImageResource(0);
+        life2.setImageResource(0);
+        life1.setImageResource(0);
+
+        bg.setBackgroundResource(0);
+    }
+
+/*
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int displayWidth = display.getWidth();
+        int displayHeight = display.getHeight();
+        Log.d("Display Width", displayWidth + "");
+        Log.d("Display Height", displayHeight + "");
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.background, options);
+        int width = options.outWidth;
+        int height = options.outHeight;
+        Log.d("Background Width", width + "");
+        Log.d("Background Height", height + "");
+
+        if(width > displayWidth){
+            Log.d("Display width exceeded", "");
+            int widthRatio = Math.round((float)width / (float) displayWidth);
+            options.inSampleSize = widthRatio;
+        }
+        options.inJustDecodeBounds = false;
+        Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background, options);
+      //  bg.setBackgroundResource(scaledBitmap);
+
+    }
+*/
     private void startPause() {
         if (isApplicationSentToBackground(getApplicationContext())) {
             // Do what you want to do on detecting Home Key being Pressed
@@ -286,10 +391,11 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
             pause.putExtra(Pause.SCORE, score);
+            pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CALLEE, 2);
-            this.startActivity(pause);
+        //    this.startActivity(pause);
 
         }
     }
@@ -320,6 +426,7 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
             cdt.pause();
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
+            pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.SCORE, score);
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.CALLEE, 2);
@@ -371,6 +478,7 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
         editor.putInt("life", life).commit();
         editor.putInt("current", current).commit();
         editor.putLong("timeLeft", cdt.timeLeft()).commit();
+        fillArrContent = "";
         for (Integer i : fillArr) {
             fillArrContent += i + ",";
         }
@@ -379,6 +487,7 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
         i.putExtra(Pause.UPDIGIT, UP);
         i.putExtra(Pause.TIME, cdt.timeLeft());
         i.putExtra(Pause.SCORE, score);
+        i.putExtra(Pause.CURRENT, current);
         i.putExtra(Pause.CALLEE, 2);
         this.startActivity(i);
     }
@@ -393,8 +502,8 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
 
         cdt.resume();
 
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
+        Button pause = (Button) findViewById(R.id.pause_btn);
+        pause.setBackgroundResource(R.drawable.pause_btn_state);
         pause.setOnClickListener(this);
 
         life3 = (ImageView) findViewById(R.id.life3);
@@ -556,6 +665,15 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
                 }
                 anim.start();
 
+                //Up bear animation
+                upBtn.setBackgroundResource(R.drawable.up_bear);
+                AnimationDrawable anim2 = (AnimationDrawable)upBtn.getBackground();
+
+                if (anim2.isRunning()) {
+                    anim2.stop();
+                }
+                anim2.start();
+
                 //Sound effect
                 if(playMusic) {
                     playSound(upId);
@@ -600,17 +718,17 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
 
                 life--;
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
                 }
-                else if(life==1){
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
                 }
 
                 else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
                     editor.putInt("bestScore", Math.max(score, gameDataEasy.getInt("bestScore", -1))).commit();
@@ -701,17 +819,17 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
 
                 life--;
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
                 }
-                else if(life==1){
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
                 }
 
                 else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
                     editor.putInt("bestScore", Math.max(score, gameDataEasy.getInt("bestScore", -1))).commit();
@@ -831,7 +949,7 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
     public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
         i.putExtra(GameOver.REASON, r);
-        i.putExtra(Pause.CALLEE, 2);
+        i.putExtra(GameOver.CALLEE, 2);
         this.startActivity(i);
     }
 
@@ -1000,6 +1118,7 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
                 editor.putInt("life", life).commit();
                 editor.putInt("current", current).commit();
                 editor.putLong("timeLeft", cdt.timeLeft()).commit();
+                fillArrContent = "";
                 for (Integer i : fillArr) {
                     fillArrContent += i + ",";
                 }
@@ -1008,6 +1127,7 @@ public class MainEasy4 extends Activity implements OnClickListener, View.OnTouch
                 i.putExtra(Pause.UPDIGIT, UP);
                 i.putExtra(Pause.TIME, cdt.timeLeft());
                 i.putExtra(Pause.SCORE, score);
+                i.putExtra(Pause.CURRENT, current);
                 i.putExtra(Pause.CALLEE, 2);
                 this.startActivity(i);
                 break;

@@ -10,6 +10,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,6 +79,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
  //   private MediaPlayer tap_sound;
     public static boolean playMusic;
     public static boolean vibrationOn;
+    private boolean continueFromLastFirstNum;
 
     private SoundPoolHelper mSoundPoolHelper;
     private int explodeId, tapId, upId;
@@ -128,36 +130,38 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
         upBtn = (Button) this.findViewById(R.id.up_button);
         btn1 = (Button) this.findViewById(R.id.btn1);
+        //   btn1.setBackgroundResource(R.drawable.yellow_spark);
         btn2 = (Button) this.findViewById(R.id.btn2);
-        btn2.setBackgroundResource(R.drawable.orange_spark);
+        //    btn2.setBackgroundResource(R.drawable.orange_spark);
         btn3 = (Button) this.findViewById(R.id.btn3);
-        btn3.setBackgroundResource(R.drawable.pink_spark);
+        //    btn3.setBackgroundResource(R.drawable.pink_spark);
         btn4 = (Button) this.findViewById(R.id.btn4);
-        btn4.setBackgroundResource(R.drawable.green_spark);
+        //    btn4.setBackgroundResource(R.drawable.green_spark);
         btn5 = (Button) this.findViewById(R.id.btn5);
-        btn5.setBackgroundResource(R.drawable.green_spark);
+        //   btn5.setBackgroundResource(R.drawable.green_spark);
         btn6 = (Button) this.findViewById(R.id.btn6);
-        btn6.setBackgroundResource(R.drawable.yellow_spark);
+        //     btn6.setBackgroundResource(R.drawable.yellow_spark);
         btn7 = (Button) this.findViewById(R.id.btn7);
-        btn7.setBackgroundResource(R.drawable.orange_spark);
+        //     btn7.setBackgroundResource(R.drawable.orange_spark);
         btn8 = (Button) this.findViewById(R.id.btn8);
-        btn8.setBackgroundResource(R.drawable.pink_spark);
+        //    btn8.setBackgroundResource(R.drawable.pink_spark);
         btn9 = (Button) this.findViewById(R.id.btn9);
-        btn9.setBackgroundResource(R.drawable.pink_spark);
+        //     btn9.setBackgroundResource(R.drawable.pink_spark);
         btn10 = (Button) this.findViewById(R.id.btn10);
-        btn10.setBackgroundResource(R.drawable.green_spark);
+        //     btn10.setBackgroundResource(R.drawable.green_spark);
         btn11 = (Button) this.findViewById(R.id.btn11);
-        btn11.setBackgroundResource(R.drawable.yellow_spark);
+        //      btn11.setBackgroundResource(R.drawable.yellow_spark);
         btn12 = (Button) this.findViewById(R.id.btn12);
-        btn12.setBackgroundResource(R.drawable.orange_spark);
+        //     btn12.setBackgroundResource(R.drawable.orange_spark);
         btn13 = (Button) this.findViewById(R.id.btn13);
-        btn13.setBackgroundResource(R.drawable.orange_spark);
+        //     btn13.setBackgroundResource(R.drawable.orange_spark);
         btn14 = (Button) this.findViewById(R.id.btn14);
-        btn14.setBackgroundResource(R.drawable.pink_spark);
+        //      btn14.setBackgroundResource(R.drawable.pink_spark);
         btn15 = (Button) this.findViewById(R.id.btn15);
-        btn15.setBackgroundResource(R.drawable.green_spark);
+        //       btn15.setBackgroundResource(R.drawable.green_spark);
         btn16 = (Button) this.findViewById(R.id.btn16);
-        btn16.setBackgroundResource(R.drawable.yellow_spark);
+        //      btn16.setBackgroundResource(R.drawable.yellow_spark);
+
 
 
         gameDataLame = getSharedPreferences("gameDataLame", Context.MODE_PRIVATE);
@@ -166,17 +170,22 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
         continueFromLast = gameDataLame.getBoolean("continuefromlastLame", false);
         if (continueFromLast) {
             //   Log.d("Debug", "cotinue from last=true");
+            continueFromLastFirstNum = true;
             UP = gameDataLame.getInt("UPdigit", 1);
             score = gameDataLame.getInt("score", 0);
         //    life = gameDataLame.getInt("life", 3);
             current = gameDataLame.getInt("current", 1);
             timeLeft = gameDataLame.getLong("timeLeft", 120000);
             fillArrContent = gameDataLame.getString("FILLARR_CONTENT", "");
-            String[] strArray = fillArrContent.split(",");
-            fillArr.clear();
-            for (int i = 0; i < strArray.length; i++) {
-                fillArr.add(0, Integer.parseInt(strArray[i]));
+            if (!fillArrContent.equals("")) {
+                String[] strArray = fillArrContent.split(",");
+                fillArr.clear();
+
+                for (int i = 0; i < strArray.length; i++) {
+                    fillArr.add(0, Integer.parseInt(strArray[i]));
+                }
             }
+
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
             t.setText(gameDataLame.getString("btn1", ""));
@@ -210,9 +219,10 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
             t.setText(gameDataLame.getString("btn15", ""));
             t = (TextView) findViewById(R.id.btn16);
             t.setText(gameDataLame.getString("btn16", ""));
-            populateArr(current + 16);
+       //     populateArr(current + 16);
         } else {
             //   Log.d("Debug", "cotinue from last=false");
+            continueFromLastFirstNum = false;
             UP = getIntent().getIntExtra("UPDIGIT", 1);
             score = 0;
      //       life = 3;
@@ -323,6 +333,57 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        upBtn.setBackgroundResource(R.drawable.up_bear);
+        btn1.setBackgroundResource(R.drawable.yellow_spark);
+        btn2.setBackgroundResource(R.drawable.orange_spark);
+        btn3.setBackgroundResource(R.drawable.pink_spark);
+        btn4.setBackgroundResource(R.drawable.green_spark);
+        btn5.setBackgroundResource(R.drawable.green_spark);
+        btn6.setBackgroundResource(R.drawable.yellow_spark);
+        btn7.setBackgroundResource(R.drawable.orange_spark);
+        btn8.setBackgroundResource(R.drawable.pink_spark);
+        btn9.setBackgroundResource(R.drawable.pink_spark);
+        btn10.setBackgroundResource(R.drawable.green_spark);
+        btn11.setBackgroundResource(R.drawable.yellow_spark);
+        btn12.setBackgroundResource(R.drawable.orange_spark);
+        btn13.setBackgroundResource(R.drawable.orange_spark);
+        btn14.setBackgroundResource(R.drawable.pink_spark);
+        btn15.setBackgroundResource(R.drawable.green_spark);
+        btn16.setBackgroundResource(R.drawable.yellow_spark);
+
+        bg.setBackgroundResource(R.drawable.background);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        upBtn.setBackgroundResource(0);
+        btn1.setBackgroundResource(0);
+        btn2.setBackgroundResource(0);
+        btn3.setBackgroundResource(0);
+        btn4.setBackgroundResource(0);
+        btn5.setBackgroundResource(0);
+        btn6.setBackgroundResource(0);
+        btn7.setBackgroundResource(0);
+        btn8.setBackgroundResource(0);
+        btn9.setBackgroundResource(0);
+        btn10.setBackgroundResource(0);
+        btn11.setBackgroundResource(0);
+        btn12.setBackgroundResource(0);
+        btn13.setBackgroundResource(0);
+        btn14.setBackgroundResource(0);
+        btn15.setBackgroundResource(0);
+        btn16.setBackgroundResource(0);
+
+        bg.setBackgroundResource(0);
+    }
+
+
 
     private void startPause() {
         if (isApplicationSentToBackground(getApplicationContext())) {
@@ -331,10 +392,11 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
             pause.putExtra(Pause.SCORE, score);
+            pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CALLEE, 1);
-            this.startActivity(pause);
+        //    this.startActivity(pause);
 
         }
     }
@@ -366,6 +428,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
             Intent pause = new Intent(this, Pause.class);
             pause.putExtra(Pause.UPDIGIT, UP);
             pause.putExtra(Pause.SCORE, score);
+            pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.TIME, cdt.timeLeft());
             pause.putExtra(Pause.CALLEE, 1);
         //    this.startActivity(pause);
@@ -417,6 +480,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
      //   editor.putInt("life", life).commit();
         editor.putInt("current", current).commit();
         editor.putLong("timeLeft", cdt.timeLeft()).commit();
+        fillArrContent = "";
         for (Integer i : fillArr) {
             fillArrContent += i + ",";
         }
@@ -425,6 +489,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
         i.putExtra(Pause.UPDIGIT, UP);
         i.putExtra(Pause.TIME, cdt.timeLeft());
         i.putExtra(Pause.SCORE, score);
+        i.putExtra(Pause.CURRENT, current);
         i.putExtra(Pause.CALLEE, 1);
         this.startActivity(i);
     }
@@ -439,8 +504,8 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
         cdt.resume();
 
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
+        Button pause = (Button) findViewById(R.id.pause_btn);
+        pause.setBackgroundResource(R.drawable.pause_btn_state);
         pause.setOnClickListener(this);
 
         //set onClickListeners for all buttons
@@ -592,13 +657,18 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
 
     private void hintTimer() {
 
-        if(current != 2){
+        if(current != 2 && !continueFromLastFirstNum){
+            Log.d("remove callback", "yes");
             hint_handler.removeCallbacks(hint_counter);
+        }
+
+        if(continueFromLastFirstNum){
+            continueFromLastFirstNum = false;
         }
 
         hint_handler = new Handler();
 
-        hint_handler.postDelayed(hint_counter, 5000);
+        hint_handler.postDelayed(hint_counter, 3000);
     }
 
     private void shakeHintTile() {
@@ -691,6 +761,16 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
                     anim.stop();
                 }
                 anim.start();
+
+                //Up bear animation
+                upBtn.setBackgroundResource(R.drawable.up_bear);
+                AnimationDrawable anim2 = (AnimationDrawable)upBtn.getBackground();
+
+                if (anim2.isRunning()) {
+                    anim2.stop();
+                }
+                anim2.start();
+
 
                 //Sound effect
                 if(playMusic) {
@@ -958,7 +1038,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
     public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
         i.putExtra(GameOver.REASON, r);
-        i.putExtra(Pause.CALLEE, 1);
+        i.putExtra(GameOver.CALLEE, 1);
         this.startActivity(i);
     }
 
@@ -1128,6 +1208,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
          //       editor.putInt("life", life).commit();
                 editor.putInt("current", current).commit();
                 editor.putLong("timeLeft", cdt.timeLeft()).commit();
+                fillArrContent = "";
                 for (Integer i : fillArr) {
                     fillArrContent += i + ",";
                 }
@@ -1136,6 +1217,7 @@ public class MainLame4 extends Activity implements OnClickListener, View.OnTouch
                 i.putExtra(Pause.UPDIGIT, UP);
                 i.putExtra(Pause.TIME, cdt.timeLeft());
                 i.putExtra(Pause.SCORE, score);
+                i.putExtra(Pause.CURRENT, current);
                 i.putExtra(Pause.CALLEE, 1);
                 this.startActivity(i);
                 break;

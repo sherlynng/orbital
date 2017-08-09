@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -82,6 +83,8 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     private boolean hasRotated1;
     private boolean hasRotated2;
     private boolean hasChangedUp;
+    private boolean gameSaved;
+    private boolean isOpposite;
 
     protected TextView currentScore;
     //   protected TextView best;
@@ -144,6 +147,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         hasRotated2 = false;
         hasChangedUp= false;
         secondUP_start = false;
+        isOpposite = false;
         secondUP = -1;
 
         /* First initialisation of frozen grids.
@@ -169,47 +173,50 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
 
         upBtn = (Button) this.findViewById(R.id.up_button);
         btn1 = (Button) this.findViewById(R.id.btn1);
+        //   btn1.setBackgroundResource(R.drawable.yellow_spark);
         btn2 = (Button) this.findViewById(R.id.btn2);
-        btn2.setBackgroundResource(R.drawable.orange_spark);
+        //    btn2.setBackgroundResource(R.drawable.orange_spark);
         btn3 = (Button) this.findViewById(R.id.btn3);
-        btn3.setBackgroundResource(R.drawable.pink_spark);
+        //    btn3.setBackgroundResource(R.drawable.pink_spark);
         btn4 = (Button) this.findViewById(R.id.btn4);
-        btn4.setBackgroundResource(R.drawable.green_spark);
+        //    btn4.setBackgroundResource(R.drawable.green_spark);
         btn5 = (Button) this.findViewById(R.id.btn5);
-        btn5.setBackgroundResource(R.drawable.green_spark);
+        //   btn5.setBackgroundResource(R.drawable.green_spark);
         btn6 = (Button) this.findViewById(R.id.btn6);
-        btn6.setBackgroundResource(R.drawable.yellow_spark);
+        //     btn6.setBackgroundResource(R.drawable.yellow_spark);
         btn7 = (Button) this.findViewById(R.id.btn7);
-        btn7.setBackgroundResource(R.drawable.orange_spark);
+        //     btn7.setBackgroundResource(R.drawable.orange_spark);
         btn8 = (Button) this.findViewById(R.id.btn8);
-        btn8.setBackgroundResource(R.drawable.pink_spark);
+        //    btn8.setBackgroundResource(R.drawable.pink_spark);
         btn9 = (Button) this.findViewById(R.id.btn9);
-        btn9.setBackgroundResource(R.drawable.pink_spark);
+        //     btn9.setBackgroundResource(R.drawable.pink_spark);
         btn10 = (Button) this.findViewById(R.id.btn10);
-        btn10.setBackgroundResource(R.drawable.green_spark);
+        //     btn10.setBackgroundResource(R.drawable.green_spark);
         btn11 = (Button) this.findViewById(R.id.btn11);
-        btn11.setBackgroundResource(R.drawable.yellow_spark);
+        //      btn11.setBackgroundResource(R.drawable.yellow_spark);
         btn12 = (Button) this.findViewById(R.id.btn12);
-        btn12.setBackgroundResource(R.drawable.orange_spark);
+        //     btn12.setBackgroundResource(R.drawable.orange_spark);
         btn13 = (Button) this.findViewById(R.id.btn13);
-        btn13.setBackgroundResource(R.drawable.orange_spark);
+        //     btn13.setBackgroundResource(R.drawable.orange_spark);
         btn14 = (Button) this.findViewById(R.id.btn14);
-        btn14.setBackgroundResource(R.drawable.pink_spark);
+        //      btn14.setBackgroundResource(R.drawable.pink_spark);
         btn15 = (Button) this.findViewById(R.id.btn15);
-        btn15.setBackgroundResource(R.drawable.green_spark);
+        //       btn15.setBackgroundResource(R.drawable.green_spark);
         btn16 = (Button) this.findViewById(R.id.btn16);
-        btn16.setBackgroundResource(R.drawable.yellow_spark);
-
+        //      btn16.setBackgroundResource(R.drawable.yellow_spark);
 
         gameDataHard = getSharedPreferences("gameDataHard", Context.MODE_PRIVATE);
         editor = gameDataHard.edit();
 
         continueFromLast = gameDataHard.getBoolean("continuefromlastHard", false);
         if (continueFromLast) {
+            gameSaved = true;
+
             //   Log.d("Debug", "cotinue from last=true");
             UP = gameDataHard.getInt("UPdigit", 1);
             secondUP = gameDataHard.getInt("UPdigit2", -1);
             secondUP_start = gameDataHard.getBoolean("UPdigit2_start", false);
+            hasRotated = gameDataHard.getBoolean("hasRotated", false);
             hasRotated1 = gameDataHard.getBoolean("hasRotated1", false);
             hasRotated2 = gameDataHard.getBoolean("hasRotated2", false);
             hasChangedUp = gameDataHard.getBoolean("hasChangedUp", false);
@@ -225,10 +232,50 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
             freezeTimeLeft3 = gameDataHard.getLong("freezetimeLeft3", 75000);
             freezeTimeLeft4 = gameDataHard.getLong("freezetimeLeft4", 105000);
             fillArrContent = gameDataHard.getString("FILLARR_CONTENT", "");
-            String[] strArray = fillArrContent.split(",");
-            fillArr.clear();
-            for (int i = 0; i < strArray.length; i++) {
-                fillArr.add(0, Integer.parseInt(strArray[i]));
+            if (!fillArrContent.equals("")) {
+                String[] strArray = fillArrContent.split(",");
+                fillArr.clear();
+
+                for (int i = 0; i < strArray.length; i++) {
+                    fillArr.add(0, Integer.parseInt(strArray[i]));
+                }
+            }
+
+            life3 = (ImageView) findViewById(R.id.life3);
+            life3.setImageResource(R.drawable.life3);
+            life2 = (ImageView) findViewById(R.id.life2);
+            life2.setImageResource(R.drawable.life2);
+            life1 = (ImageView) findViewById(R.id.life1);
+            life1.setImageResource(R.drawable.life1);
+
+            if (life == 2) {
+                life3.setVisibility(View.INVISIBLE);
+            }
+            else if(life == 1) {
+                life3.setVisibility(View.INVISIBLE);
+                life2.setVisibility(View.INVISIBLE);
+            }
+
+            if(hasRotated){
+                isOpposite = true;
+                LinearLayout grid = (LinearLayout) this.findViewById(R.id.mainGrid);
+                grid.setRotation(180F);
+                btn1.setRotation(180F);
+                btn2.setRotation(180F);
+                btn3.setRotation(180F);
+                btn4.setRotation(180F);
+                btn5.setRotation(180F);
+                btn6.setRotation(180F);
+                btn7.setRotation(180F);
+                btn8.setRotation(180F);
+                btn9.setRotation(180F);
+                btn10.setRotation(180F);
+                btn11.setRotation(180F);
+                btn12.setRotation(180F);
+                btn13.setRotation(180F);
+                btn14.setRotation(180F);
+                btn15.setRotation(180F);
+                btn16.setRotation(180F);
             }
             TextView t;
             t = (TextView) findViewById(R.id.btn1);
@@ -263,9 +310,11 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
             t.setText(gameDataHard.getString("btn15", ""));
             t = (TextView) findViewById(R.id.btn16);
             t.setText(gameDataHard.getString("btn16", ""));
-            populateArr(current + 16);
+            Log.d("rotate", "(continue) hasRotated = " + hasRotated);
+      //      populateArr(current + 16);
         } else {
             //   Log.d("Debug", "cotinue from last=false");
+            gameSaved = false;
             UP = getIntent().getIntExtra("UPDIGIT", 1);
             score = 0;
             life = 3;
@@ -639,6 +688,75 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
  */
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        upBtn.setBackgroundResource(R.drawable.up_bear);
+        btn1.setBackgroundResource(R.drawable.yellow_spark);
+        btn2.setBackgroundResource(R.drawable.orange_spark);
+        btn3.setBackgroundResource(R.drawable.pink_spark);
+        btn4.setBackgroundResource(R.drawable.green_spark);
+        btn5.setBackgroundResource(R.drawable.green_spark);
+        btn6.setBackgroundResource(R.drawable.yellow_spark);
+        btn7.setBackgroundResource(R.drawable.orange_spark);
+        btn8.setBackgroundResource(R.drawable.pink_spark);
+        btn9.setBackgroundResource(R.drawable.pink_spark);
+        btn10.setBackgroundResource(R.drawable.green_spark);
+        btn11.setBackgroundResource(R.drawable.yellow_spark);
+        btn12.setBackgroundResource(R.drawable.orange_spark);
+        btn13.setBackgroundResource(R.drawable.orange_spark);
+        btn14.setBackgroundResource(R.drawable.pink_spark);
+        btn15.setBackgroundResource(R.drawable.green_spark);
+        btn16.setBackgroundResource(R.drawable.yellow_spark);
+
+        life3 = (ImageView) findViewById(R.id.life3);
+        life3.setImageResource(R.drawable.life3);
+        life2 = (ImageView) findViewById(R.id.life2);
+        life2.setImageResource(R.drawable.life2);
+        life1 = (ImageView) findViewById(R.id.life1);
+        life1.setImageResource(R.drawable.life1);
+
+        if (life == 2) {
+            life3.setVisibility(View.INVISIBLE);
+        }
+        else if(life == 1) {
+            life3.setVisibility(View.INVISIBLE);
+            life2.setVisibility(View.INVISIBLE);
+        }
+
+        bg.setBackgroundResource(R.drawable.background);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        upBtn.setBackgroundResource(0);
+        btn1.setBackgroundResource(0);
+        btn2.setBackgroundResource(0);
+        btn3.setBackgroundResource(0);
+        btn4.setBackgroundResource(0);
+        btn5.setBackgroundResource(0);
+        btn6.setBackgroundResource(0);
+        btn7.setBackgroundResource(0);
+        btn8.setBackgroundResource(0);
+        btn9.setBackgroundResource(0);
+        btn10.setBackgroundResource(0);
+        btn11.setBackgroundResource(0);
+        btn12.setBackgroundResource(0);
+        btn13.setBackgroundResource(0);
+        btn14.setBackgroundResource(0);
+        btn15.setBackgroundResource(0);
+        btn16.setBackgroundResource(0);
+
+        life3.setImageResource(0);
+        life2.setImageResource(0);
+        life1.setImageResource(0);
+
+        bg.setBackgroundResource(0);
+    }
+
     private void startFreeze(){
 
         if(playMusic) {
@@ -949,12 +1067,25 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
 
         //Grid rotate
         LinearLayout grid = (LinearLayout) this.findViewById(R.id.mainGrid);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_secondhalf);
+        Animation animation;
+        if(gameSaved){
+            animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_firsthalf);
+        }
+        else {
+            animation = AnimationUtils.loadAnimation(this, R.anim.rotate180_secondhalf);
+        }
         grid.startAnimation(animation);
 
+        RotateAnimation rotateAnimation;
         //Button rotate
-        RotateAnimation rotateAnimation = new RotateAnimation(180f, 360f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        if(gameSaved) {
+            rotateAnimation = new RotateAnimation(0f, 180f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        }
+        else{
+            rotateAnimation = new RotateAnimation(180f, 360f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        }
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setDuration(2500);
         rotateAnimation.setFillAfter(true);
@@ -1026,7 +1157,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
             pause.putExtra(Pause.ONETWOTHREE_PAUSED, true);
             pause.putExtra(Pause.CURRENT, current);
             pause.putExtra(Pause.CALLEE, 4);
-            this.startActivity(pause);
+         //   this.startActivity(pause);
 
         }
     }
@@ -1136,6 +1267,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
         editor.putInt("life", life).commit();
         editor.putInt("current", current).commit();
+        editor.putBoolean("hasRotated", hasRotated).commit();
         editor.putBoolean("hasRotated1", hasRotated1).commit();
         editor.putBoolean("hasRotated2", hasRotated2).commit();
         editor.putBoolean("hasChangedUp", hasChangedUp).commit();
@@ -1153,6 +1285,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         editor.putLong("freezetimeLeft2", freezeTimer2.timeLeft()).commit();
         editor.putLong("freezetimeLeft3", freezeTimer3.timeLeft()).commit();
         editor.putLong("freezetimeLeft4", freezeTimer4.timeLeft()).commit();
+        fillArrContent = "";
         for (Integer i : fillArr) {
             fillArrContent += i + ",";
         }
@@ -1190,8 +1323,8 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
         freezeTimer3.resume();
         freezeTimer4.resume();
 
-        ImageButton pause = (ImageButton) findViewById(R.id.pause_btn);
-        pause.setImageResource(R.drawable.pause_button);
+        Button pause = (Button) findViewById(R.id.pause_btn);
+        pause.setBackgroundResource(R.drawable.pause_btn_state);
         pause.setOnClickListener(this);
 
         life3 = (ImageView) findViewById(R.id.life3);
@@ -1378,6 +1511,15 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                 }
                 anim.start();
 
+                //Up bear animation
+                upBtn.setBackgroundResource(R.drawable.up_bear);
+                AnimationDrawable anim2 = (AnimationDrawable)upBtn.getBackground();
+
+                if (anim2.isRunning()) {
+                    anim2.stop();
+                }
+                anim2.start();
+
                 //Sound effect
                 if(playMusic) {
         //            up_sound.start();
@@ -1430,17 +1572,17 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                 life--;
 
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
                 }
-                else if(life==1){
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
                 }
 
                 else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
                     changeUpTimer.cancel();
@@ -1541,17 +1683,17 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                 life--;
 
                 if (life == 2) {
-                    life3.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
                 }
-                else if(life==1){
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
+                else if(life == 1){
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
                 }
 
                 else if (life <= 0) {
-                    life3.setVisibility(View.GONE);
-                    life2.setVisibility(View.GONE);
-                    life1.setVisibility(View.GONE);
+                    life3.setVisibility(View.INVISIBLE);
+                    life2.setVisibility(View.INVISIBLE);
+                    life1.setVisibility(View.INVISIBLE);
 
                     cdt.cancel();
                     changeUpTimer.cancel();
@@ -1689,7 +1831,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     public void GameOver(int r) {
         Intent i = new Intent(this, GameOver.class);
         i.putExtra(GameOver.REASON, r);
-        i.putExtra(Pause.CALLEE, 4);
+        i.putExtra(GameOver.CALLEE, 4);
         this.startActivity(i);
     }
 
@@ -1743,7 +1885,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent)
     {
-        if(hasRotated){
+        if((!hasRotated && isOpposite) || (hasRotated && !isOpposite)){
             switch (view.getId())
             {
                 case R.id.btn1:
@@ -1933,8 +2075,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
     public void onClick(View v) {
 
         Button temp;
-
-        if(hasRotated){
+        if((!hasRotated && isOpposite) || (hasRotated && !isOpposite)){
             switch (v.getId()) {
 
                 case R.id.pause_btn:
@@ -1993,6 +2134,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
                     editor.putInt("life", life).commit();
                     editor.putInt("current", current).commit();
+                    editor.putBoolean("hasRotated", hasRotated).commit();
                     editor.putBoolean("hasRotated1", hasRotated1).commit();
                     editor.putBoolean("hasRotated2", hasRotated2).commit();
                     editor.putBoolean("hasChangedUp", hasChangedUp).commit();
@@ -2010,6 +2152,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     editor.putLong("freezetimeLeft2", freezeTimer2.timeLeft()).commit();
                     editor.putLong("freezetimeLeft3", freezeTimer3.timeLeft()).commit();
                     editor.putLong("freezetimeLeft4", freezeTimer4.timeLeft()).commit();
+                    fillArrContent = "";
                     for (Integer i : fillArr) {
                         fillArrContent += i + ",";
                     }
@@ -2426,6 +2569,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     editor.putInt("bestScore", Math.max(score, gameDataHard.getInt("bestScore", -1))).commit();
                     editor.putInt("life", life).commit();
                     editor.putInt("current", current).commit();
+                    editor.putBoolean("hasRotated", hasRotated).commit();
                     editor.putBoolean("hasRotated1", hasRotated1).commit();
                     editor.putBoolean("hasRotated2", hasRotated2).commit();
                     editor.putBoolean("hasChangedUp", hasChangedUp).commit();
@@ -2443,6 +2587,7 @@ public class MainHard4 extends Activity implements OnClickListener, View.OnTouch
                     editor.putLong("freezetimeLeft2", freezeTimer2.timeLeft()).commit();
                     editor.putLong("freezetimeLeft3", freezeTimer3.timeLeft()).commit();
                     editor.putLong("freezetimeLeft4", freezeTimer4.timeLeft()).commit();
+                    fillArrContent = "";
                     for (Integer i : fillArr) {
                         fillArrContent += i + ",";
                     }

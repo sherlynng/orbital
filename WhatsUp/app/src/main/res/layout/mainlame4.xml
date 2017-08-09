@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Current"
+                    android:text="Next"
                     android:textColor="@color/black" />
                 <TextView
                     android:id="@+id/currentNumText"
@@ -159,6 +159,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="5"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
         android:background="@color/transparent"
         android:orientation="vertical"
         android:padding="5dp">
@@ -355,36 +357,68 @@
 
 
         </LinearLayout>
-
+</LinearLayout>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
             <Button
                 android:id="@+id/up_button"
-                android:layout_width="100dp"
+                android:layout_width="160dp"
                 android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:background="@mipmap/up_box2"
+                android:layout_toRightOf="@+id/life3"
+                android:layout_marginLeft="35dp"
+                android:background="@drawable/up_bear0"
                 android:scaleType="centerCrop" />
-            <!-- TODO: UP button should change color when pressed-->
 
-            <ImageButton
+            <Button
                 android:id="@+id/pause_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="45dp"
                 android:layout_alignBottom="@+id/up_button"
                 android:layout_alignParentEnd="true"
                 android:adjustViewBounds="true"
+                android:background="@drawable/pause_default"/>
+
+            <ImageView
+                android:id="@+id/life1"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:visibility="invisible"
+                android:layout_alignBottom="@+id/up_button"
+                android:adjustViewBounds="true"
                 android:background="@color/transparent"
                 android:scaleType="centerCrop"
-                app:srcCompat="@mipmap/pause_button2" />
+                app:srcCompat="@drawable/life1" />
+            <ImageView
+                android:id="@+id/life2"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:visibility="invisible"
+                android:layout_alignBottom="@+id/up_button"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="30dp"
+                android:background="@color/transparent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/life2" />
+            <ImageView
+                android:id="@+id/life3"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:visibility="invisible"
+                android:layout_alignBottom="@+id/up_button"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="60dp"
+                android:background="@color/transparent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/life3" />
         </RelativeLayout>
     </LinearLayout>
 
-</LinearLayout>
 
 
     <!--        android:background="@drawable/circle_button"

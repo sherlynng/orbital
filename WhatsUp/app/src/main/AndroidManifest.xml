@@ -3,14 +3,17 @@
     package="com.example.btw.whatsup">
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/coloured_bear"
         android:label="@string/app_name"
         android:roundIcon="@drawable/coloured_bear"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".WhatsUp">
+        <activity android:name=".MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,33 +24,88 @@
             android:name=".About"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"></activity>
 
+        <activity
+            android:name=".LevelInfo"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"></activity>
+
 
         <activity
-            android:name=".ChooseUpMode"
-
+            android:name=".ChooseMultiplayerGame"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
         <activity
-            android:name=".ChooseGameMode"
+            android:name=".ChoosePlayerMode"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
         <activity
-            android:name=".ChooseUpManual"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
+            android:name=".MultiplayerGameStates"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
 
         <activity
-            android:name=".ChooseUpRandom"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
+            android:name=".UpDownGameStates"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
 
         <activity
-            android:name=".ChooseGridSize"
+            android:name=".HurryUpGameStates"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".WaitingForPlayer"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".WaitingForPlayerHurryUp"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".PlayerVsPlayer"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".PlayerVsPlayerHurryUp"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
         <activity
             android:name=".ChooseLevel"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipChooseLevel"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipLameGame"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipEasyGame"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipMediumGame"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipHardGame"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
+        </activity>
+
+        <activity
+            android:name=".LeadershipExtremeGame"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
@@ -94,11 +152,47 @@
             android:label="@string/main_title"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
+
+        <activity
+            android:name=".MainUp"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
+
+        <activity
+            android:name=".MainDown"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
+
+        <activity
+            android:name=".MainHurryUp"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
+
+        <activity
+            android:name=".EndRoundOne"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".EndRoundTwo"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".EndRoundHurryUp"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
         <activity
             android:name=".Onetwothree"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
-
         </activity>
 
         <activity
@@ -116,20 +210,21 @@
         <activity
             android:name=".Pause"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+
+        <activity
+            android:name=".ContinueScreen"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+
         <activity
             android:name=".PlayDemo"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
         </activity>
 
         <activity
-            android:name=".MyPlayerProfile"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">  <!--@android means reference to android resource file-->
-        </activity>
-        <activity
             android:name=".Settings"
             android:label="@string/settings_title"
             android:theme="@style/Theme.SettingsBackground">
-            </activity>
+        </activity>
 
         <activity
         android:name=".GameOver"
@@ -149,7 +244,7 @@
         </activity>
 
         <activity
-            android:name=".SignIn"
+            android:name=".loginlogout"
             android:theme="@style/Theme.AppCompat.Light">  <!--@android means reference to android resource file-->
         </activity>
 
