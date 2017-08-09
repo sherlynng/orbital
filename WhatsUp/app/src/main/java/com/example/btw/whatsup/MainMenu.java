@@ -107,8 +107,8 @@ public class MainMenu extends Activity implements OnClickListener {
         settings = getSharedPreferences(PREFS_NAME, 0);
 
         if (settings.getBoolean("my_first_time", true)) {
-         //   Intent i = new Intent(this, loginlogout.class);
-         //   this.startActivity(i);
+            //   Intent i = new Intent(this, loginlogout.class);
+            //   this.startActivity(i);
             openGameIdDialog();
         }
 
@@ -235,7 +235,7 @@ public class MainMenu extends Activity implements OnClickListener {
                 if(isMoreButton){
                     isMoreButton = false;
                     settings.edit().putBoolean("isMoreButton", isMoreButton).commit();
-                //    moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+                    //    moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
                     moreButton.setBackgroundResource(R.drawable.cancel_btn_state);
                     userButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
                     aboutButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
@@ -246,7 +246,7 @@ public class MainMenu extends Activity implements OnClickListener {
                 else{
                     isMoreButton = true;
                     settings.edit().putBoolean("isMoreButton", isMoreButton).commit();
-             //       moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+                    //       moreButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
                     moreButton.setBackgroundResource(R.drawable.more_btn_state);
                     userButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
                     aboutButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
@@ -347,26 +347,26 @@ public class MainMenu extends Activity implements OnClickListener {
                     openSetGameIdDialog();
                 }
                 else{
-                  //  if(auth.getCurrentUser() != null){
-                        Intent new_Game = new Intent(this, ChoosePlayerMode.class);
-                        editorLame.putBoolean("continuefromlastLame", false).commit();
-                        editorEasy.putBoolean("continuefromlastEasy", false).commit();
-                        editorMedium.putBoolean("continuefromlastMedium", false).commit();
-                        editorHard.putBoolean("continuefromlastHard", false).commit();
-                        editorExtreme.putBoolean("continuefromlastExtreme", false).commit();
-                        editorTeamUp.putBoolean("continuefromlastTeamUp", false).commit();
-                        this.startActivity(new_Game);
-               //     }
-               //     else{
-              //          openAuthDialog();
-              //      }
+                    //  if(auth.getCurrentUser() != null){
+                    Intent new_Game = new Intent(this, ChoosePlayerMode.class);
+                    editorLame.putBoolean("continuefromlastLame", false).commit();
+                    editorEasy.putBoolean("continuefromlastEasy", false).commit();
+                    editorMedium.putBoolean("continuefromlastMedium", false).commit();
+                    editorHard.putBoolean("continuefromlastHard", false).commit();
+                    editorExtreme.putBoolean("continuefromlastExtreme", false).commit();
+                    editorTeamUp.putBoolean("continuefromlastTeamUp", false).commit();
+                    this.startActivity(new_Game);
+                    //     }
+                    //     else{
+                    //          openAuthDialog();
+                    //      }
                 }
                 break;
         }
     }
 
     private String getGameID(){
-       return settings.getString("game_id", "");
+        return settings.getString("game_id", "");
     }
 
     private void openSetGameIdDialog(){
@@ -430,17 +430,17 @@ public class MainMenu extends Activity implements OnClickListener {
     }
 
     private void openGameIdDialog(){
-    //    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-     //   LayoutInflater inflater = this.getLayoutInflater();
-     //   final AlertDialog.Builder builder1 = builder.setView(inflater.inflate(game_id), null);
+        //    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //   LayoutInflater inflater = this.getLayoutInflater();
+        //   final AlertDialog.Builder builder1 = builder.setView(inflater.inflate(game_id), null);
 
         final LayoutInflater layoutInflater = this.getLayoutInflater();
         final View view = layoutInflater.inflate(R.layout.game_id, null);
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Game ID");
-     //   alertDialog.setIcon("Icon id here");
+        //   alertDialog.setIcon("Icon id here");
         alertDialog.setCancelable(false);
-     //   Constant.alertDialog.setMessage("Your Message Here");
+        //   Constant.alertDialog.setMessage("Your Message Here");
 
         final EditText gameID_text = (EditText) view.findViewById(R.id.game_id);
         String prev_game_id = settings.getString("game_id", null);
@@ -466,8 +466,8 @@ public class MainMenu extends Activity implements OnClickListener {
                         return;
                     }
                     else{
-                    //    boolean ID_exists;
-                    //    ID_exists = checkIDExists(new_game_id);
+                        //    boolean ID_exists;
+                        //    ID_exists = checkIDExists(new_game_id);
                         IDExist = false;
                         databaseGameIDList.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -495,13 +495,14 @@ public class MainMenu extends Activity implements OnClickListener {
                                                     if (settings.getBoolean("my_first_time", true)){
                                                         settings.edit().putBoolean("my_first_time", false).commit();
                                                         addGameIDList(new_game_id);
+                                                        startDemo();
                                                     }
                                                     else {
                                                         Log.d("changing data", "hi");
                                                         databaseGames.child("sync_status").setValue("syncing");
                                                         updateLeadershipBoard(old_game_id, new_game_id);
                                                         updateGameIDList(old_game_id, new_game_id);
-                                     //                   databaseGames.child("sync_status").setValue("not_syncing");
+                                                        //                   databaseGames.child("sync_status").setValue("not_syncing");
                                                     }
                                                     settings.edit().putString("game_id", new_game_id).commit();
                                                 }
@@ -510,12 +511,13 @@ public class MainMenu extends Activity implements OnClickListener {
                                                 if (settings.getBoolean("my_first_time", true)){
                                                     settings.edit().putBoolean("my_first_time", false).commit();
                                                     addGameIDList(new_game_id);
+                                                    startDemo();
                                                 }
                                                 else {
                                                     databaseGames.child("sync_status").setValue("syncing");
                                                     updateLeadershipBoard(old_game_id, new_game_id);
                                                     updateGameIDList(old_game_id, new_game_id);
-                                        //            databaseGames.child("sync_status").setValue("not_syncing");
+                                                    //            databaseGames.child("sync_status").setValue("not_syncing");
                                                 }
                                                 settings.edit().putString("game_id", new_game_id).commit();
                                             }
@@ -540,7 +542,7 @@ public class MainMenu extends Activity implements OnClickListener {
 
                     if (settings.getBoolean("my_first_time", true)) {
 
-                        startDemo();
+                        //          startDemo();
                     }
                 }
             }
@@ -657,7 +659,7 @@ public class MainMenu extends Activity implements OnClickListener {
 
     private void updateLeadershipBoard(final String old_game_id, final String new_game_id){
         Log.d("updateMain(start)", "hi");
-   //     databaseGames.child("sync_status").setValue("syncing");
+        //     databaseGames.child("sync_status").setValue("syncing");
 
         databaseGames.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
