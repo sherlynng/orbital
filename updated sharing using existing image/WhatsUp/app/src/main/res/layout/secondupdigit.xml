@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucentDarker"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewChangeUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:textSize="42sp"
+        android:text="UP digits are now"
+        android:textColor="@color/black"
+        android:layout_marginTop="124dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/newUpDigit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="7, 8"
+        android:textSize="130sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/textViewChangeUp"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

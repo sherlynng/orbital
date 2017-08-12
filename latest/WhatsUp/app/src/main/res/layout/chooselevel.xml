@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose Level:"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
+        />
+
+    <Button
+        android:id="@+id/lame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lame"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/easy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Easy"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Medium"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/hard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hard"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/extreme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Extreme"
+        android:layout_marginBottom="10dp"/>
+</LinearLayout>

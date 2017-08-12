@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/gameover_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="74dp"
+        android:ems="10"
+        android:gravity="center"
+        android:text="Game Over!"
+        android:textSize="50sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/gameover_message"
+        android:layout_alignParentStart="true">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:id="@+id/linearLayout">
+           <RelativeLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1">
+               <TextView
+                   android:id="@+id/yourScore"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Your Score"
+                   android:textSize="25dp"
+
+                   />
+               <TextView
+                   android:id="@+id/yourScore_text"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/yourScore"
+                   android:gravity="center"
+                   android:text="score"
+                   android:textSize="25dp"
+
+                   />
+
+           </RelativeLayout>
+           <RelativeLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1">
+               <TextView
+                   android:id="@+id/yourBestScore"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Best Score"
+                   android:textSize="25dp"
+
+                   />
+               <TextView
+                   android:id="@+id/yourBestScore_text"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/yourBestScore"
+                   android:gravity="center"
+                   android:text="best"
+                   android:textSize="25dp"
+
+                   />
+
+           </RelativeLayout>
+
+       </LinearLayout>
+
+        <Button
+            android:id="@+id/restart_btn"
+            android:layout_width="130dp"
+            android:layout_height="90dp"
+            android:background="@drawable/circle_button"
+            android:text="Restart"
+            android:textColor="#fff"
+            android:textSize="25dp"
+            android:layout_marginTop="24dp"
+            android:layout_below="@+id/linearLayout"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/mainMenu_btn"
+            android:layout_width="130dp"
+            android:layout_height="90dp"
+            android:background="@drawable/circle_button_blue"
+            android:text="Main Menu"
+            android:textColor="#fff"
+            android:textSize="25dp"
+            android:layout_marginTop="23dp"
+            android:layout_below="@+id/restart_btn"
+            android:layout_alignStart="@+id/restart_btn" />
+
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
