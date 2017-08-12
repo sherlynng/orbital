@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/home_screen4"
+
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/whatsup_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@mipmap/whatsup_logo" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_weight="20"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="190dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/continue_default"
+            android:paddingRight="200dp" />
+
+        <Button
+            android:id="@+id/new_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/newgame_default" />
+
+
+     <!--   <Button
+            android:id="@+id/auth_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+           android:text="Log in" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="600dp"
+                android:layout_height="190dp"
+                android:layout_gravity="center_horizontal"
+                app:srcCompat="@mipmap/brickwall_withBear_transparent" />
+           -->
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/about_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/about_default" />
+
+        <Button
+            android:id="@+id/howtoplay_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/howtoplay_default" />
+
+        <Button
+            android:id="@+id/settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/settings_default" />
+
+        <Button
+            android:id="@+id/leadership_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/leadership_board_default" />
+
+
+        <Button
+            android:id="@+id/user_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/user_default" />
+
+        <Button
+            android:id="@+id/more_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/more_default" />
+
+    </LinearLayout>
+
+
+
+</android.widget.LinearLayout>

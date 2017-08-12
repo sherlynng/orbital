@@ -17,4 +17,9 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="Theme.SettingsBackground" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@mipmap/background</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+
 </resources>

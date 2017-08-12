@@ -29,6 +29,7 @@ public class Onetwothree extends Activity {
     public static final String UPDIGIT = "UPDIGIT";
     public static final int UPDIGIT_DEFAULT = 7;
     int UP;
+    protected boolean continueMusic = true;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,27 +61,24 @@ public class Onetwothree extends Activity {
         };
         handler.postDelayed(counter, 1000);
     }
-/*
-    public boolean isApplicationSentToBackground(final Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
-        if (!tasks.isEmpty()) {
-            ComponentName topActivity = tasks.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                return true;
-            }
-        }
-        return false;
+
+    @Override
+    public void onBackPressed(){
+
     }
 
     @Override
-    public void onPause() {
-        if (isApplicationSentToBackground(this)){
-            // Do what you want to do on detecting Home Key being Pressed
-            Intent i = new Intent(this, ChooseUpMode.class);
-            this.startActivity(i);
-        }
+    protected void onPause() {
         super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
     }
-*/
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_GAME);
+    }
+
 }
