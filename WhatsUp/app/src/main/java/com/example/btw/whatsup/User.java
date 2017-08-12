@@ -20,7 +20,7 @@ public class User extends FirebaseUser {
     private int score;
     private String uid;
 
-    public User(String providerId, String uid, String name, String email){
+    public User(){
 
     }
 
